@@ -46,7 +46,6 @@ Imports:
     magrittr,
     purrr,
     RefManageR,
-    remake,
     rlang,
     rmarkdown,
     rprojroot,
@@ -54,7 +53,8 @@ Imports:
     styler,
     tibble,
     whisker,
-    yaml
+    yaml,
+    targets
 Suggests:
     austraits,
     bibtex,
@@ -66,10 +66,9 @@ Suggests:
     pkgdown,
     rcrossref,
     zip,
-    covr
+    covr,
 Remotes:
-    traitecoevo/austraits,
-    richfitz/remake
+    traitecoevo/austraits
 Encoding: UTF-8
 VignetteBuilder: knitr
 RoxygenNote: 7.2.0
