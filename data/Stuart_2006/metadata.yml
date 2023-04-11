@@ -1,0 +1,40 @@
+source:
+  primary:
+    key: Stuart_2006
+    bibtype: Article
+    year: 2006
+    author: Stephanie A. Stuart, Brendan Choat, Katherine C. Martin, N. Michele Holbrook
+      and Marilyn C. Ball
+    title: The role of freezing in setting the latitudinal limits of mangrove forests
+    journal: New Phytologist
+    volume: 173
+    pages: 576--583
+    doi: 10.1111/j.1469-8137.2006.01938.x
+contributors:
+  data_collectors:
+  - last_name: Stuart
+    given_name: Stephanie
+    ORCID: 0000-0002-1645-8775
+    affiliation: Department of Planning and Environment
+    additional_role: .na
+  austraits_curators: Sophie Yang
+dataset:
+  data_is_long_format: no
+  custom_R_code: .na
+  collection_date: '2003'
+  taxon_name: Species
+  location_name: location_name
+  description: Study investigating the vulnerability of mangrove species to freeze-induced
+    xylem embolism, with reference to vessel diameter.
+  basis_of_record: field
+  life_stage: adult
+  sampling_strategy: unknown
+  original_file: Original article archived in Google Drive
+  notes: .na
+locations: .na
+contexts: .na
+traits: .na
+substitutions: .na
+taxonomic_updates: .na
+exclude_observations: .na
+questions: .na
