@@ -4863,6 +4863,25 @@ targets:
                   taxon_list
                  )
 
+  Stuart_2006_config:
+    command: >
+      dataset_configure("data/Stuart_2006/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Stuart_2006_raw:
+    command: >
+      dataset_process("data/Stuart_2006/data.csv",
+                  Stuart_2006_config,
+                  schema,
+                  resource_metadata
+                 )
+  Stuart_2006:
+    command: >
+      build_update_taxonomy(Stuart_2006_raw,
+                  taxon_list
+                 )
+
   Taseski_2017_config:
     command: >
       dataset_configure("data/Taseski_2017/metadata.yml",
@@ -6071,6 +6090,7 @@ targets:
         Stephens_2021,
         Stephens_2023,
         Stewart_1995,
+        Stuart_2006,
         Taseski_2017,
         Taylor_2008,
         Thomas_2017,
