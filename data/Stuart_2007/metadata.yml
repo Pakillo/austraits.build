@@ -15,7 +15,7 @@ contributors:
   - last_name: Stuart
     given_name: Stephanie
     ORCID: 0000-0002-1645-8775
-    affiliation: Department of Planning and Environment
+    affiliation: NSW Department of Planning Industry and Environment, Australia
     additional_role: contact
   austraits_curators: Sophie Yang
 dataset:
@@ -40,7 +40,7 @@ dataset:
     very early spring at the Jacobs Well site. It can be difficult to determine the
     age of mangrove wood in all species (Tomlinson, 1994) because of their generally
     aseasonal habitats (but see Verheyden et al., 2005); however, all measurements
-    were made on mature branches at least 1 yr old and 2.5–7.7 mm in diameter; most
+    were made on mature branches at least 1 yr old and 2.5-7.7 mm in diameter; most
     of the variation in diameter was the result of differences between species. ^p
     Occurrence of freezing at collection sites ^p In southern Australia, mild frosts
     are common - minimums of 0°C, -0.61°C and -3°C were recorded in mangrove communities
@@ -49,10 +49,10 @@ dataset:
     in excised branches ^p Terminal, leaf-bearing branches c. 1 m in length were collected
     during periods of minimal transpiration and xylem tension between 20:00 and 22:00
     h for all species except R. stylosa, which was harvested between 05:00 and 07:00
-    h. For each species, 23–15 individuals were sampled; this was reduced to 10 in
+    h. For each species, 23-15 individuals were sampled; this was reduced to 10 in
     R. mangle, where only one experiment was conducted. Branches were cut in pairs,
     with one branch assigned to the freezing treatment and the other to the coldstorage
-    control. ‘Tension’ and ‘tension relieved’ samples were gathered on successive
+    control. 'Tension' and 'tension relieved' samples were gathered on successive
     days. ^p Vessel diameter measurements ^p Vessel diameters were measured on sections
     taken from segments used for hydraulic measurements in both the US and Australia.
   original_file: Original article archived in Google Drive
@@ -78,7 +78,7 @@ traits:
     cross-section in each stem, accounting for approx. three-quarters of the total
     area of the section. For each species, two stems each from five individuals were
     used. In Australia, segments preserved in ethanol were hand-sectioned, stained
-    with toluidine blue, and photographed at 100× magnification on an Axioskop light
+    with toluidine blue, and photographed at 100x magnification on an Axioskop light
     microscope (Carl Zeiss) with a Spot Camera (Diagnostic Instruments, Sterling Heights,
     MI, USA). All images were analyzed using thresholding and particle analysis utilities
     in analySIS 3.2 (Soft Imaging System, Gulfview Heights, South Australia, Australia).
@@ -94,7 +94,7 @@ traits:
     cross-section in each stem, accounting for approx. three-quarters of the total
     area of the section. For each species, two stems each from five individuals were
     used. In Australia, segments preserved in ethanol were hand-sectioned, stained
-    with toluidine blue, and photographed at 100× magnification on an Axioskop light
+    with toluidine blue, and photographed at 100x magnification on an Axioskop light
     microscope (Carl Zeiss) with a Spot Camera (Diagnostic Instruments, Sterling Heights,
     MI, USA). All images were analyzed using thresholding and particle analysis utilities
     in analySIS 3.2 (Soft Imaging System, Gulfview Heights, South Australia, Australia).
