@@ -5908,6 +5908,25 @@ targets:
                   taxon_list
                  )
 
+  Zolfaghar_2015_config:
+    command: >
+      dataset_configure("data/Zolfaghar_2015/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Zolfaghar_2015_raw:
+    command: >
+      dataset_process("data/Zolfaghar_2015/data.csv",
+                  Zolfaghar_2015_config,
+                  schema,
+                  resource_metadata
+                 )
+  Zolfaghar_2015:
+    command: >
+      build_update_taxonomy(Zolfaghar_2015_raw,
+                  taxon_list
+                 )
+
 
   austraits_raw:
     command: >
@@ -6221,6 +6240,7 @@ targets:
         Zanne_2009,
         Zieminska_2013,
         Zieminska_2015,
+        Zolfaghar_2015,
         NULL)
     
   austraits:

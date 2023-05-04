@@ -3914,7 +3914,7 @@ traits:
       units: MPa
       label: Leaf turgor loss point
       allowed_values_min: -100.0
-      allowed_values_max: 0.0
+      allowed_values_max: -0.01
     leaf_relative_water_content_at_turgor_loss_point:
       description: A parameter [STATO:0000034] calculated from a pressure-volume curve
         [APD:glossary/40124], which is, for a leaf [PO:0025034], the ratio [PATO:0001470]
