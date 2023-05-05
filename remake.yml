@@ -303,6 +303,25 @@ targets:
                   taxon_list
                  )
 
+  Bourne_2017_config:
+    command: >
+      dataset_configure("data/Bourne_2017/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Bourne_2017_raw:
+    command: >
+      dataset_process("data/Bourne_2017/data.csv",
+                  Bourne_2017_config,
+                  schema,
+                  resource_metadata
+                 )
+  Bourne_2017:
+    command: >
+      build_update_taxonomy(Bourne_2017_raw,
+                  taxon_list
+                 )
+
   Bradshaw_2022_config:
     command: >
       dataset_configure("data/Bradshaw_2022/metadata.yml",
@@ -5926,6 +5945,7 @@ targets:
         Bean_1997,
         Blackman_2010,
         Bloomfield_2018,
+        Bourne_2017,
         Bradshaw_2022,
         Bragg_2002,
         BRAIN_2007,
