@@ -3894,6 +3894,25 @@ targets:
                   taxon_list
                  )
 
+  Oyanoghafo_2021_config:
+    command: >
+      dataset_configure("data/Oyanoghafo_2021/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Oyanoghafo_2021_raw:
+    command: >
+      dataset_process("data/Oyanoghafo_2021/data.csv",
+                  Oyanoghafo_2021_config,
+                  schema,
+                  resource_metadata
+                 )
+  Oyanoghafo_2021:
+    command: >
+      build_update_taxonomy(Oyanoghafo_2021_raw,
+                  taxon_list
+                 )
+
   Peeters_2002_config:
     command: >
       dataset_configure("data/Peeters_2002/metadata.yml",
@@ -6115,6 +6134,7 @@ targets:
         Ooi_2018,
         OReillyNugent_2018,
         Osborne_2014,
+        Oyanoghafo_2021,
         Peeters_2002,
         Pekin_2011,
         Pickering_2014,
