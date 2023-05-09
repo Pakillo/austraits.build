@@ -2317,6 +2317,25 @@ targets:
                   taxon_list
                  )
 
+  Jiang_2021_config:
+    command: >
+      dataset_configure("data/Jiang_2021/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Jiang_2021_raw:
+    command: >
+      dataset_process("data/Jiang_2021/data.csv",
+                  Jiang_2021_config,
+                  schema,
+                  resource_metadata
+                 )
+  Jiang_2021:
+    command: >
+      build_update_taxonomy(Jiang_2021_raw,
+                  taxon_list
+                 )
+
   Jin_2019_config:
     command: >
       dataset_configure("data/Jin_2019/metadata.yml",
@@ -6032,6 +6051,7 @@ targets:
         Islam_1999_1,
         Islam_1999_2,
         Jagdish_2020,
+        Jiang_2021,
         Jin_2019,
         Jordan_2001,
         Jordan_2007,
