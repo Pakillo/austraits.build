@@ -24,10 +24,10 @@ contributors:
     ORCID: 0000-0003-0988-4351
     affiliation: Hawkesbury Institute for the Environment, Western Sydney University,
       Australia
-  austraits_curators: unknown
+  austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code:     '
+  custom_R_code:         '
     data %>%
       mutate(
         location = "Mount Annan"
@@ -38,7 +38,7 @@ dataset:
   location_name: location
   description: A study comparing the cavitation resistance of Hakea species that differ
     in life history and climatic niches to investigate what attributes are predictive
-    of aridity
+    of aridity.
   basis_of_record: captive/cultivated
   life_stage: adult
   sampling_strategy: Experimental design and species selection ^p All samples were
@@ -122,7 +122,28 @@ traits:
   value_type: mean
   basis_of_value: measurement
   replicates: 3
-  methods: Cavitation resistance was determined by inducing embolism in the xylem using the centrifuge method and according to Cochard et al. (2013, 2005). This advanced centrifuge technique creates centrifugal force that generates tension in the branch xylem vessels to induce cavitation in a branch segment, thereby allowing measurement of xylem percentage loss of conductivity at set points of tension. Straight stems, 27 cm in length and with 6 mm basal diameter, were sampled and cut under water from the remaining 40 cm long branch segments, placed on the custom-built 27cm rotor and spun at different velocities. To control for the artefact associated with the centrifuge, initial measurements were obtained at lower pressures (-0.5 MPa = 2378 rpm) that did not induce cavitation (López et al., 2019). While there are methods for correcting for longer vessel lengths using the CAVITOPEN model (Lopez et al., 2019), we have been conservative in only including species with xylem vessels <25 cm (noting our 27 cm rotor size). The vessel length ranged from 25 cm for species from the arid biome (H. leucoptera) to 10 cm for species in the humid biome (H. dactyloides) (López et al., 2019). The percentage loss of conductance (PLC) at negative xylem pressure (tension) was automatically recorded through a step-wise increase (1000 rpm each) at approx. 2 min stabilization time (Zhang et al., 2017) until 90-95 % loss of conductivity was attained. At each new xylem pressure (tension), hydraulic conductance (Kh) was measured from 30 repeated measures. A fifty per cent loss of conductance (P50) and the slope were obtained from the vulnerability curve using the 'fitplc' R package (Duursma and Choat, 2017).
+  methods: Cavitation resistance was determined by inducing embolism in the xylem
+    using the centrifuge method and according to Cochard et al. (2013, 2005). This
+    advanced centrifuge technique creates centrifugal force that generates tension
+    in the branch xylem vessels to induce cavitation in a branch segment, thereby
+    allowing measurement of xylem percentage loss of conductivity at set points of
+    tension. Straight stems, 27 cm in length and with 6 mm basal diameter, were sampled
+    and cut under water from the remaining 40 cm long branch segments, placed on the
+    custom-built 27cm rotor and spun at different velocities. To control for the artefact
+    associated with the centrifuge, initial measurements were obtained at lower pressures
+    (-0.5 MPa = 2378 rpm) that did not induce cavitation (López et al., 2019). While
+    there are methods for correcting for longer vessel lengths using the CAVITOPEN
+    model (Lopez et al., 2019), we have been conservative in only including species
+    with xylem vessels <25 cm (noting our 27 cm rotor size). The vessel length ranged
+    from 25 cm for species from the arid biome (H. leucoptera) to 10 cm for species
+    in the humid biome (H. dactyloides) (López et al., 2019). The percentage loss
+    of conductance (PLC) at negative xylem pressure (tension) was automatically recorded
+    through a step-wise increase (1000 rpm each) at approx. 2 min stabilization time
+    (Zhang et al., 2017) until 90-95 % loss of conductivity was attained. At each
+    new xylem pressure (tension), hydraulic conductance (Kh) was measured from 30
+    repeated measures. A fifty per cent loss of conductance (P50) and the slope were
+    obtained from the vulnerability curve using the 'fitplc' R package (Duursma and
+    Choat, 2017).
 - var_in: Wood density (mg mm-3)
   unit_in: mg/mm3
   trait_name: wood_density
@@ -130,7 +151,19 @@ traits:
   value_type: mean
   basis_of_value: measurement
   replicates: 3
-  methods: Three individuals for each species were sampled from the above-ground biomass. Terminal full sunlight, north-facing branches that were approx. 90 cm long were sampled and placed into a black plastic bag with wet tissue paper and transported immediately to the laboratory (<90 min). Samples were stored in a cold room at 4 °C until they were processed (within 10 d). A standardized 50 cm branch was cut under water from the terminal end of the collected samples, from which the bottom 10 cm was excised, bark removed to estimate the sap flow area and then oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for 48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to leaf area was described as the HV.
+  methods: Three individuals for each species were sampled from the above-ground biomass.
+    Terminal full sunlight, north-facing branches that were approx. 90 cm long were
+    sampled and placed into a black plastic bag with wet tissue paper and transported
+    immediately to the laboratory (<90 min). Samples were stored in a cold room at
+    4 °C until they were processed (within 10 d). A standardized 50 cm branch was
+    cut under water from the terminal end of the collected samples, from which the
+    bottom 10 cm was excised, bark removed to estimate the sap flow area and then
+    oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from
+    the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf
+    area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for
+    48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing
+    the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to
+    leaf area was described as the HV.
 - var_in: SLA (mm2 mg-1)
   unit_in: mm2/mg
   trait_name: leaf_mass_per_area
@@ -138,24 +171,95 @@ traits:
   value_type: mean
   basis_of_value: measurement
   replicates: 3
-  methods: Three individuals for each species were sampled from the above-ground biomass. Terminal full sunlight, north-facing branches that were approx. 90 cm long were sampled and placed into a black plastic bag with wet tissue paper and transported immediately to the laboratory (<90 min). Samples were stored in a cold room at 4 °C until they were processed (within 10 d). A standardized 50 cm branch was cut under water from the terminal end of the collected samples, from which the bottom 10 cm was excised, bark removed to estimate the sap flow area and then oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for 48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to leaf area was described as the HV.
+  methods: Three individuals for each species were sampled from the above-ground biomass.
+    Terminal full sunlight, north-facing branches that were approx. 90 cm long were
+    sampled and placed into a black plastic bag with wet tissue paper and transported
+    immediately to the laboratory (<90 min). Samples were stored in a cold room at
+    4 °C until they were processed (within 10 d). A standardized 50 cm branch was
+    cut under water from the terminal end of the collected samples, from which the
+    bottom 10 cm was excised, bark removed to estimate the sap flow area and then
+    oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from
+    the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf
+    area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for
+    48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing
+    the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to
+    leaf area was described as the HV.
 - var_in: HV (x10-4)
-  unit_in: 10^4.kg/m/MPa/s
+  unit_in: 10^4.mm2{sapwood}/mm2{leaf}
   trait_name: huber_value
   entity_type: species
   value_type: mean
   basis_of_value: measurement
   replicates: 3
-  methods: Three individuals for each species were sampled from the above-ground biomass. Terminal full sunlight, north-facing branches that were approx. 90 cm long were sampled and placed into a black plastic bag with wet tissue paper and transported immediately to the laboratory (<90 min). Samples were stored in a cold room at 4 °C until they were processed (within 10 d). A standardized 50 cm branch was cut under water from the terminal end of the collected samples, from which the bottom 10 cm was excised, bark removed to estimate the sap flow area and then oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for 48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to leaf area was described as the HV.
+  methods: Three individuals for each species were sampled from the above-ground biomass.
+    Terminal full sunlight, north-facing branches that were approx. 90 cm long were
+    sampled and placed into a black plastic bag with wet tissue paper and transported
+    immediately to the laboratory (<90 min). Samples were stored in a cold room at
+    4 °C until they were processed (within 10 d). A standardized 50 cm branch was
+    cut under water from the terminal end of the collected samples, from which the
+    bottom 10 cm was excised, bark removed to estimate the sap flow area and then
+    oven-dried to obtain the WD (oven-dry mass/volume). All leaves were removed from
+    the remaining 40 cm branch, and leaf area was measured using the Li-Cor 3100 leaf
+    area meter (LI-COR, Lincoln, NE, USA). Leaf material was oven-dried at 70 °C for
+    48 h prior to obtaining the dry mass. The SLA (mm2 mg-1) was obtained by dividing
+    the total leaf area by the leaf oven-dry mass. The ratio of the sapwood area to
+    leaf area was described as the HV.
 - var_in: P88 (-MPa)
-  unit_in: .na
-  trait_name: neg_MPa
+  unit_in: neg_MPa
+  trait_name: water_potential_88percent_lost_conductivity
   entity_type: species
   value_type: mean
   basis_of_value: measurement
   replicates: 3
-  methods: water_potential_88percent_lost_conductivity; Cavitation resistance was determined by inducing embolism in the xylem using the centrifuge method and according to Cochard et al. (2013, 2005). This advanced centrifuge technique creates centrifugal force that generates tension in the branch xylem vessels to induce cavitation in a branch segment, thereby allowing measurement of xylem percentage loss of conductivity at set points of tension. Straight stems, 27 cm in length and with 6 mm basal diameter, were sampled and cut under water from the remaining 40 cm long branch segments, placed on the custom-built 27cm rotor and spun at different velocities. To control for the artefact associated with the centrifuge, initial measurements were obtained at lower pressures (-0.5 MPa = 2378 rpm) that did not induce cavitation (López et al., 2019). While there are methods for correcting for longer vessel lengths using the CAVITOPEN model (Lopez et al., 2019), we have been conservative in only including species with xylem vessels <25 cm (noting our 27 cm rotor size). The vessel length ranged from 25 cm for species from the arid biome (H. leucoptera) to 10 cm for species in the humid biome (H. dactyloides) (López et al., 2019). The percentage loss of conductance (PLC) at negative xylem pressure (tension) was automatically recorded through a step-wise increase (1000 rpm each) at approx. 2 min stabilization time (Zhang et al., 2017) until 90-95 % loss of conductivity was attained. At each new xylem pressure (tension), hydraulic conductance (Kh) was measured from 30 repeated measures. A fifty per cent loss of conductance (P50) and the slope were obtained from the vulnerability curve using the 'fitplc' R package (Duursma and Choat, 2017).
-substitutions: .na
-taxonomic_updates: .na
+  methods: water_potential_88percent_lost_conductivity; Cavitation resistance was
+    determined by inducing embolism in the xylem using the centrifuge method and according
+    to Cochard et al. (2013, 2005). This advanced centrifuge technique creates centrifugal
+    force that generates tension in the branch xylem vessels to induce cavitation
+    in a branch segment, thereby allowing measurement of xylem percentage loss of
+    conductivity at set points of tension. Straight stems, 27 cm in length and with
+    6 mm basal diameter, were sampled and cut under water from the remaining 40 cm
+    long branch segments, placed on the custom-built 27cm rotor and spun at different
+    velocities. To control for the artefact associated with the centrifuge, initial
+    measurements were obtained at lower pressures (-0.5 MPa = 2378 rpm) that did not
+    induce cavitation (López et al., 2019). While there are methods for correcting
+    for longer vessel lengths using the CAVITOPEN model (Lopez et al., 2019), we have
+    been conservative in only including species with xylem vessels <25 cm (noting
+    our 27 cm rotor size). The vessel length ranged from 25 cm for species from the
+    arid biome (H. leucoptera) to 10 cm for species in the humid biome (H. dactyloides)
+    (López et al., 2019). The percentage loss of conductance (PLC) at negative xylem
+    pressure (tension) was automatically recorded through a step-wise increase (1000
+    rpm each) at approx. 2 min stabilization time (Zhang et al., 2017) until 90-95
+    % loss of conductivity was attained. At each new xylem pressure (tension), hydraulic
+    conductance (Kh) was measured from 30 repeated measures. A fifty per cent loss
+    of conductance (P50) and the slope were obtained from the vulnerability curve
+    using the 'fitplc' R package (Duursma and Choat, 2017).
+substitutions:
+- trait_name: fire_response
+  find: Resprouter
+  replace: resprouts
+- trait_name: fire_response
+  find: Non-sprouter
+  replace: fire_killed
+- trait_name: leaf_type
+  find: Terete
+  replace: needle
+- trait_name: leaf_type
+  find: Broad-leaved
+  replace: broadleaf
+- trait_name: leaf_type
+  find: Broadleaved
+  replace: broadleaf
+taxonomic_updates:
+- find: Hakea tephrospermum
+  replace: Hakea tephrosperma
+  reason: Align to accepted APC name (E. Wenk, 2023-05-09)
+  taxonomic_resolution: Species
 exclude_observations: .na
-questions: .na
+questions:
+  question1: Prior to adding this dataset the highest wood density was 1.26 mg/mm3
+    (out of 10,000+ entries). Given that some of your values are 3-4 times larger
+    than this I am wondering if there is something unusual about the method you used?
+    Hakea species of course have dense wood, but these values are really very high
+    - and most of your data is filtered out of AusTraits because we've set the maximum
+    allowed value at 1.4 mg/mm3.
+  question2: Could you also provide data for P88?
