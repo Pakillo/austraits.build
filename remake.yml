@@ -284,6 +284,25 @@ targets:
                   taxon_list
                  )
 
+  Blackman_2019_config:
+    command: >
+      dataset_configure("data/Blackman_2019/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Blackman_2019_raw:
+    command: >
+      dataset_process("data/Blackman_2019/data.csv",
+                  Blackman_2019_config,
+                  schema,
+                  resource_metadata
+                 )
+  Blackman_2019:
+    command: >
+      build_update_taxonomy(Blackman_2019_raw,
+                  taxon_list
+                 )
+
   Bloomfield_2018_config:
     command: >
       dataset_configure("data/Bloomfield_2018/metadata.yml",
@@ -5982,6 +6001,7 @@ targets:
         Baker_2019,
         Bean_1997,
         Blackman_2010,
+        Blackman_2019,
         Bloomfield_2018,
         Bradshaw_2022,
         Bragg_2002,
