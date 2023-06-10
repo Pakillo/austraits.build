@@ -218,7 +218,7 @@ traits:
       units: mm
       label: Bark thickness
       allowed_values_min: 0.01
-      allowed_values_max: 50.0
+      allowed_values_max: 200.0
       comments: The corresponding stem diameter should also be recorded so that a
         scaled measure, the bark thickness to stem diameter ratio, can also be calculated.
     bark_thickness_index:

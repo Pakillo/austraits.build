@@ -5870,6 +5870,25 @@ targets:
                   taxon_list
                  )
 
+  Vesk_2023_config:
+    command: >
+      dataset_configure("data/Vesk_2023/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Vesk_2023_raw:
+    command: >
+      dataset_process("data/Vesk_2023/data.csv",
+                  Vesk_2023_config,
+                  schema,
+                  resource_metadata
+                 )
+  Vesk_2023:
+    command: >
+      build_update_taxonomy(Vesk_2023_raw,
+                  taxon_list
+                 )
+
   Vlasveld_2018_config:
     command: >
       dataset_configure("data/Vlasveld_2018/metadata.yml",
@@ -6884,6 +6903,7 @@ targets:
         Vesk_2004,
         Vesk_2007,
         Vesk_2019,
+        Vesk_2023,
         Vlasveld_2018,
         WAH_1998,
         WAH_2016,
