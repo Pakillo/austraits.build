@@ -4103,6 +4103,25 @@ targets:
                   taxon_list
                  )
 
+  OGrady_2009_config:
+    command: >
+      dataset_configure("data/OGrady_2009/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  OGrady_2009_raw:
+    command: >
+      dataset_process("data/OGrady_2009/data.csv",
+                  OGrady_2009_config,
+                  schema,
+                  resource_metadata
+                 )
+  OGrady_2009:
+    command: >
+      build_update_taxonomy(OGrady_2009_raw,
+                  taxon_list
+                 )
+
   Onoda_2010_config:
     command: >
       dataset_configure("data/Onoda_2010/metadata.yml",
@@ -6791,6 +6810,7 @@ targets:
         NTH_2014,
         NTH_2022,
         NTH_2023,
+        OGrady_2009,
         Onoda_2010,
         Ooi_2007,
         Ooi_2018,
