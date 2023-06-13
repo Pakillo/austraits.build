@@ -4103,6 +4103,44 @@ targets:
                   taxon_list
                  )
 
+  OGrady_1999_config:
+    command: >
+      dataset_configure("data/OGrady_1999/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  OGrady_1999_raw:
+    command: >
+      dataset_process("data/OGrady_1999/data.csv",
+                  OGrady_1999_config,
+                  schema,
+                  resource_metadata
+                 )
+  OGrady_1999:
+    command: >
+      build_update_taxonomy(OGrady_1999_raw,
+                  taxon_list
+                 )
+
+  OGrady_2005_config:
+    command: >
+      dataset_configure("data/OGrady_2005/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  OGrady_2005_raw:
+    command: >
+      dataset_process("data/OGrady_2005/data.csv",
+                  OGrady_2005_config,
+                  schema,
+                  resource_metadata
+                 )
+  OGrady_2005:
+    command: >
+      build_update_taxonomy(OGrady_2005_raw,
+                  taxon_list
+                 )
+
   OGrady_2009_config:
     command: >
       dataset_configure("data/OGrady_2009/metadata.yml",
@@ -6810,6 +6848,8 @@ targets:
         NTH_2014,
         NTH_2022,
         NTH_2023,
+        OGrady_1999,
+        OGrady_2005,
         OGrady_2009,
         Onoda_2010,
         Ooi_2007,
