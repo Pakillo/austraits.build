@@ -3837,6 +3837,25 @@ targets:
                   taxon_list
                  )
 
+  Myers_1997_config:
+    command: >
+      dataset_configure("data/Myers_1997/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Myers_1997_raw:
+    command: >
+      dataset_process("data/Myers_1997/data.csv",
+                  Myers_1997_config,
+                  schema,
+                  resource_metadata
+                 )
+  Myers_1997:
+    command: >
+      build_update_taxonomy(Myers_1997_raw,
+                  taxon_list
+                 )
+
   Nano_2011_config:
     command: >
       dataset_configure("data/Nano_2011/metadata.yml",
@@ -6834,6 +6853,7 @@ targets:
         Morgan_2021,
         Muir_2014,
         Munroe_2019,
+        Myers_1997,
         Nano_2011,
         NHNSW_2014,
         NHNSW_2014_2,
