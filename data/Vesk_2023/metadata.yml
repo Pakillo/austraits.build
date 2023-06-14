@@ -2,14 +2,16 @@ source:
   primary:
     key: Vesk_2023
     bibtype: Article
-    year: unknown
-    author: unknown
-    title: unknown
-    journal: unknown
-    volume: unknown
-    number: unknown
-    pages: unknown
-    doi: unknown
+    year: 2023
+    author: Antoinette Portelli, Saras Windecker, Laura Pollock, Will Neal, Will Morris,
+      Rohan Khot, and Peter Vesk
+    title: Relationships among functional traits and with phylogeny in 164 southern
+      Australian eucalypts
+    journal: Australian Journal of Botany
+    volume: .na
+    number: .na
+    pages: .na
+    doi: .na
 contributors:
   data_collectors:
   - last_name: Vesk
@@ -21,20 +23,36 @@ contributors:
     given_name: Saras
     ORCID: 0000-0002-4870-8353
     affiliation: University of Melbourne, Australia
+  - last_name: Portelli
+    given_name: Antoinette
+    ORCID: 0000-0002-3876-5530
+    affiliation: University of Melbourne, Australia
+  - last_name: Neal
+    given_name: Will
+    ORCID: .na
+    affiliation: University of Melbourne, Australia
+  - last_name: Morris
+    given_name: William
+    ORCID: 0000-0002-8686-4154
+    affiliation: University of Melbourne, Australia
+  - last_name: Khot
+    given_name: Rohan
+    ORCID: .na
+    affiliation: University of Melbourne, Australia
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: yes
-  custom_R_code:             '
+  custom_R_code: '
     bark <- data %>%
-      filter(trait %in% c("bark_thickness_mm", "dbh_cm")) %>%
+      filter(trait %in% c("bark_thickness_mm", "girth_cm")) %>%
       pivot_wider(names_from = trait, values_from = value) %>%
-      filter(!is.na(dbh_cm)) %>%
+      filter(!is.na(girth_cm)) %>%
       mutate(
-        value = (2*bark_thickness_mm)/(10*dbh_cm),
+        value = (2*3.14159*bark_thickness_mm)/(10*girth_cm),
         trait = "relative_bark_thickness"
         ) %>%
-      select(-bark_thickness_mm, -dbh_cm);
-    
+      select(-bark_thickness_mm, -girth_cm);
+
     bark2 <- data %>%
       filter(trait == "bark_thickness_mm");
 
@@ -47,7 +65,25 @@ dataset:
         value = max(value),
         replicates = sum(replicates)
         ) %>%
-      ungroup();
+      ungroup() %>%
+      distinct(value, replicates, taxon, locality, trait, .keep_all = TRUE) %>%
+      mutate(value = ifelse(tree_id == "BRG06", value/10, value));
+
+    diameter <- data %>%
+      filter(trait == "girth_cm") %>%
+      filter(collector != "L.J. Pollock") %>%
+      mutate(
+        value = value/3.14149,
+        replicates = 1,
+        trait = "diameter_cm"
+      ) %>%
+      group_by(taxon, locality) %>%
+      mutate(
+        value = max(value),
+        replicates = sum(replicates)
+        ) %>%
+      ungroup() %>%
+      distinct(value, replicates, taxon, locality, trait, .keep_all = TRUE);
 
     data %>%
       filter(collector != "L.J. Pollock") %>%
@@ -59,977 +95,1366 @@ dataset:
       bind_rows(bark) %>%
       bind_rows(bark2) %>%
       bind_rows(height) %>%
+      bind_rows(diameter) %>%
       mutate(
         life_stage = ifelse(stringr::str_detect(trait, "seedling"), "seedling", "adult"),
         life_stage = ifelse(stringr::str_detect(trait, "juv"), "sapling", life_stage),
-        locality = ifelse(is.na(locality), paste0(dataset,"_lat_",latitude,"_lon_",longitude), locality)
+        locality = ifelse(is.na(locality), paste0(dataset,"_lat_",latitude,"_lon_",longitude), locality),
+        location_name = locality
       )
   '
   collection_date: date_time
   taxon_name: taxon
   trait_name: trait
   value: value
-  location_name: locality
+  location_name: location_name
   individual_id: tree_id
-  description: unknown
+  description: To collect a trait dataset on southern Australian eucalypt trees to
+    support study of the correlations among traits and to support statistical modelling
+    of trait-environment relationships.
   basis_of_record: field
   life_stage: life_stage
-  sampling_strategy: unknown
-  original_file: unknown
-  notes: unknown
+  sampling_strategy: We sought to maximise coverage across taxa of eucalypts in our
+    study regions. These were collected predominantly around the southern Great Dividing
+    Range in south-eastern Australia, but also included smaller collections in the
+    Gariwerd Grampians, Millewa Mallee region, and Koi Kyenunu-ruff Stirling National
+    Park in Western Australia. We chose locations to maximise cross-species coverge
+    within our study regions. We aimed to collect from at least 3 individuals in (Stirling
+    Range, WA) and at least 5 individuals elsewhere. We attempted to sample leaf traits,
+    stem traits, fruit and seed traits on the same individuals, but this was not always
+    possible owing to access to the canopy on tall individuals. We sampled mostly
+    mature individuals, but covered a range of sizes including saplings.
+  original_file: The continuous trait dataset was prepared and is contained within
+    the R package eucdata (Windecker et al. 2021).
+  notes: All trait data in this dataset were collected and processed anew by this
+    project.
 locations:
   1 km off Princes Highway along Western Boundary road, near Tuross Head.:
+    locality: 1 km off Princes Highway along Western Boundary road, near Tuross Head.
     latitude (deg): -36.040091
     longitude (deg): 150.072714
   180 m west of curve in Bogong High Plains Road, in between the turnoffs to Big River Firetrail and Langford Gap car park.:
+    locality: 180 m west of curve in Bogong High Plains Road, in between the turnoffs
+      to Big River Firetrail and Langford Gap car park.
     latitude (deg): -36.87978
     longitude (deg): 147.31955
   2.3 km along Royal Standard Spur track, from Mt Selma road.:
+    locality: 2.3 km along Royal Standard Spur track, from Mt Selma road.
     latitude (deg): -37.59164
     longitude (deg): 146.37194
   2.5 km along Royal Standard Spur track, from Mt Selma road.:
+    locality: 2.5 km along Royal Standard Spur track, from Mt Selma road.
     latitude (deg): -37.59024
     longitude (deg): 146.37079
   300 m off Princes Highway along Western Boundary road, near Tuross Head.:
+    locality: 300 m off Princes Highway along Western Boundary road, near Tuross Head.
     latitude (deg): -36.040983
     longitude (deg): 150.079494
   900 m along Sennis track from Moe-Walhalla road.:
+    locality: 900 m along Sennis track from Moe-Walhalla road.
     latitude (deg): -38.0231
     longitude (deg): 146.34221
   Agnes Falls.:
+    locality: Agnes Falls.
     latitude (deg): -38.64256
     longitude (deg): 146.37203
   Aireys Inlet-Anglesea road, just west of Acacia track intersection.:
+    locality: Aireys Inlet-Anglesea road, just west of Acacia track intersection.
     latitude (deg): -38.41218
     longitude (deg): 144.15662
   Along Donna Buang Road, just west of turnoff to summit, Yarra Ranges National Park.:
+    locality: Along Donna Buang Road, just west of turnoff to summit, Yarra Ranges
+      National Park.
     latitude (deg): -37.71181
     longitude (deg): 145.66707
   Along Donna Buang Road, Yarra Ranges National Park.:
+    locality: Along Donna Buang Road, Yarra Ranges National Park.
     latitude (deg): -37.71668
     longitude (deg): 145.62589
   Along Park Road, Mount Martha Nature Conservation Reserve.:
+    locality: Along Park Road, Mount Martha Nature Conservation Reserve.
     latitude (deg): -38.29451
     longitude (deg): 145.00486
   Along Stirling Range Drive, Stirling Range National Park.:
+    locality: Along Stirling Range Drive, Stirling Range National Park.
     latitude (deg): -34.35252
     longitude (deg): 118.07035
   Araluen Road, north-west of Araluen.:
+    locality: Araluen Road, north-west of Araluen.
     latitude (deg): -35.60818
     longitude (deg): 149.79286
   Badger Avenue, eastern boundary of Coranderrk Nature Reserve, Badger Creek.:
+    locality: Badger Avenue, eastern boundary of Coranderrk Nature Reserve, Badger
+      Creek.
     latitude (deg): -37.68843
     longitude (deg): 145.53163
   Badja Firetrail, south of Pikes Saddle.:
+    locality: Badja Firetrail, south of Pikes Saddle.
     latitude (deg): -36.0104
     longitude (deg): 149.5682
   Badja Road, Badja area.:
+    locality: Badja Road, Badja area.
     latitude (deg): -36.06132
     longitude (deg): 149.5424
   Badja Road, near Pikes Saddle.:
+    locality: Badja Road, near Pikes Saddle.
     latitude (deg): -35.98692
     longitude (deg): 149.55626
   Bemm River, Club terrace Loop Rd, Princes Hwy, E Gippsland, Vic:
+    locality: Bemm River, Club terrace Loop Rd, Princes Hwy, E Gippsland, Vic
     latitude (deg): -37.60721
     longitude (deg): 148.90111
   Bengworden road, Perry Bridge.:
+    locality: Bengworden road, Perry Bridge.
     latitude (deg): -38.00485
     longitude (deg): 147.26789
   Bingie Dreaming track, 300 m south of Mullimburra Point road.:
+    locality: Bingie Dreaming track, 300 m south of Mullimburra Point road.
     latitude (deg): -35.9997
     longitude (deg): 150.156018
   Bingie Dreaming track, 500 m south of Congo.:
+    locality: Bingie Dreaming track, 500 m south of Congo.
     latitude (deg): -35.965492
     longitude (deg): 150.152467
   Bingie Dreaming track, 70 m south of Mullimburra Point road.:
+    locality: Bingie Dreaming track, 70 m south of Mullimburra Point road.
     latitude (deg): -35.997356
     longitude (deg): 150.156798
   Bingie road, 3.5 km east from Princes Highway.:
+    locality: Bingie road, 3.5 km east from Princes Highway.
     latitude (deg): -35.99725
     longitude (deg): 150.13168
   Bodalla State Forest, 1 km along C-Ridge road off Princes Highway.:
+    locality: Bodalla State Forest, 1 km along C-Ridge road off Princes Highway.
     latitude (deg): -36.1305138
     longitude (deg): 150.0640288
   Bodalla State Forest, Big Rock road, just off Princes Highway.:
+    locality: Bodalla State Forest, Big Rock road, just off Princes Highway.
     latitude (deg): -36.116125
     longitude (deg): 150.060776
   Bodalla State Forest, Brou Lake road, 1.6 km east of Princes Highway.:
+    locality: Bodalla State Forest, Brou Lake road, 1.6 km east of Princes Highway.
     latitude (deg): -36.145688
     longitude (deg): 150.108346
   Bodalla State Forest, on unnamed road 2.7 km along Brou Lake road, near beach.:
+    locality: Bodalla State Forest, on unnamed road 2.7 km along Brou Lake road, near
+      beach.
     latitude (deg): -36.14859
     longitude (deg): 150.123758
   Bogong High Plains Road, 1.5 km east of Falls Creek pay station.:
+    locality: Bogong High Plains Road, 1.5 km east of Falls Creek pay station.
     latitude (deg): -36.84649
     longitude (deg): 147.26708
   Bogong High Plains Road, 1.5 km uphill from Fainter Falls carpark.:
+    locality: Bogong High Plains Road, 1.5 km uphill from Fainter Falls carpark.
     latitude (deg): -36.81352
     longitude (deg): 147.23153
   Bogong High Plains Road, 2.5 km uphill from Fainter Falls carpark.:
+    locality: Bogong High Plains Road, 2.5 km uphill from Fainter Falls carpark.
     latitude (deg): -36.8215
     longitude (deg): 147.22778
   Bogong High Plains Road, just east of Fainter Falls carpark.:
+    locality: Bogong High Plains Road, just east of Fainter Falls carpark.
     latitude (deg): -36.81671
     longitude (deg): 147.22512
   Bogong High Plains Road, just east of Falls Creek pay station.:
+    locality: Bogong High Plains Road, just east of Falls Creek pay station.
     latitude (deg): -36.84363
     longitude (deg): 147.25432
   Bogong High Plains Road, just east of Mount Beauty.:
+    locality: Bogong High Plains Road, just east of Mount Beauty.
     latitude (deg): -36.73892
     longitude (deg): 147.18929
   Box Forest, in N part of Fawkner Cemetary, Fawkner, 100m N of Bass Avenue, from mid way between the two roundabouts.:
+    locality: Box Forest, in N part of Fawkner Cemetary, Fawkner, 100m N of Bass Avenue,
+      from mid way between the two roundabouts.
     latitude (deg): -37.696529
     longitude (deg): 144.95259
   Braidwood Road, north-east of Nerriga.:
+    locality: Braidwood Road, north-east of Nerriga.
     latitude (deg): -35.08868
     longitude (deg): 150.12954
   Braidwood Road, South of Nowra.:
+    locality: Braidwood Road, South of Nowra.
     latitude (deg): -34.94112
     longitude (deg): 150.51854
   Braidwood Road, Turpentine Road. South of Nowra.:
+    locality: Braidwood Road, Turpentine Road. South of Nowra.
     latitude (deg): -35.03283
     longitude (deg): 150.44934
   Brisbane Ranges NP, 1 km along Savannah Track off Lease Rd.:
+    locality: Brisbane Ranges NP, 1 km along Savannah Track off Lease Rd.
     latitude (deg): -37.82439
     longitude (deg): 144.17577
   Brisbane Ranges NP, 100 m along Savannah Track off Lease Rd.:
+    locality: Brisbane Ranges NP, 100 m along Savannah Track off Lease Rd.
     latitude (deg): -37.83011
     longitude (deg): 144.18314
   Brisbane Ranges NP, 800m along S Steiglitz Rd of Steiglitz Rd.:
+    locality: Brisbane Ranges NP, 800m along S Steiglitz Rd of Steiglitz Rd.
     latitude (deg): -37.88398
     longitude (deg): 144.17301
   Brisbane Ranges NP, Bert Boardman Recreation Reserve.:
+    locality: Brisbane Ranges NP, Bert Boardman Recreation Reserve.
     latitude (deg): -37.88128
     longitude (deg): 144.18135
   Brisbane Ranges NP, near corner Butcher's Rd and Geelong-Ballan Rd.:
+    locality: Brisbane Ranges NP, near corner Butcher's Rd and Geelong-Ballan Rd.
     latitude (deg): -37.86639
     longitude (deg): 144.23336
   Bruses road, 800 m north of Bengworden road.:
+    locality: Bruses road, 800 m north of Bengworden road.
     latitude (deg): -37.9966
     longitude (deg): 147.2498
   Bruthen-Buchan rd:
+    locality: Bruthen-Buchan rd
     latitude (deg): -37.60284
     longitude (deg): 148.12036
   Bulee Gap area, Braidwood Road, north-east of Nerriga.:
+    locality: Bulee Gap area, Braidwood Road, north-east of Nerriga.
     latitude (deg): -35.08832
     longitude (deg): 150.1396
   Bungywarr Rd, Combienbar, E Gippsland:
+    locality: Bungywarr Rd, Combienbar, E Gippsland
     latitude (deg): -37.43792
     longitude (deg): 148.97365
   Bunyip-Tonimbuk road, just south of McConnell road intersection, Bunyip North.:
+    locality: Bunyip-Tonimbuk road, just south of McConnell road intersection, Bunyip
+      North.
     latitude (deg): -38.06291
     longitude (deg): 145.7143
   Burragate road, western edge of Egan Peaks Nature Reserve.:
+    locality: Burragate road, western edge of Egan Peaks Nature Reserve.
     latitude (deg): -36.95072
     longitude (deg): 149.6717
   Burrier Rd 500m E of Barrigella Ck, Barringella 2540,  waterpipe easement.:
+    locality: Burrier Rd 500m E of Barrigella Ck, Barringella 2540,  waterpipe easement.
     latitude (deg): -34.88898
     longitude (deg): 150.46768
   By caprpark near Kianinny boat ramp, Tathra.:
+    locality: By caprpark near Kianinny boat ramp, Tathra.
     latitude (deg): -36.7366573
     longitude (deg): 149.9814007
   C107, Cabbage Tree-Conran Rd, Cape Conran, E Gippsland:
+    locality: C107, Cabbage Tree-Conran Rd, Cape Conran, E Gippsland
     latitude (deg): -37.732626
     longitude (deg): 148.721922
   Cabbage Tree Creek, Shoalhaven State Forest,West Nowra.:
+    locality: Cabbage Tree Creek, Shoalhaven State Forest,West Nowra.
     latitude (deg): -34.89327
     longitude (deg): 150.55894
   Camp road, just off Gembrook-Tonimbuk road, Bunyip State Park.:
+    locality: Camp road, just off Gembrook-Tonimbuk road, Bunyip State Park.
     latitude (deg): -37.98425
     longitude (deg): 145.6422
   Camp road, just off Tynong North road, Bunyip State Park.:
+    locality: Camp road, just off Tynong North road, Bunyip State Park.
     latitude (deg): -37.99644
     longitude (deg): 145.61797
   Cape Conran Rd, nr W Cape Rd, Cape Conran, E Gippsland, Vic:
+    locality: Cape Conran Rd, nr W Cape Rd, Cape Conran, E Gippsland, Vic
     latitude (deg): -37.80139
     longitude (deg): 148.72324
   Cardinia Reservoir Park, Ab Road.:
+    locality: Cardinia Reservoir Park, Ab Road.
     latitude (deg): -37.96494
     longitude (deg): 145.39347
   Cardinia Reservoir Park, just inside northern boundary, on Cardinia Reservoir access Road.:
+    locality: Cardinia Reservoir Park, just inside northern boundary, on Cardinia
+      Reservoir access Road.
     latitude (deg): -37.95824
     longitude (deg): 145.39011
   Chivers road, 3.5 km south-east of Hume Freeway, near Glenrowan.:
+    locality: Chivers road, 3.5 km south-east of Hume Freeway, near Glenrowan.
     latitude (deg): -36.49649
     longitude (deg): 146.20046
   Churchill National Park, near Bayview Track carpark.:
+    locality: Churchill National Park, near Bayview Track carpark.
     latitude (deg): -37.95203
     longitude (deg): 145.2522
   Club Terrace Loop RD, Combienbar, E Gippsland, Vic:
+    locality: Club Terrace Loop RD, Combienbar, E Gippsland, Vic
     latitude (deg): -37.59328
     longitude (deg): 148.90073
   Combienbar Rd, Combienbar, E Gippsland Vic:
+    locality: Combienbar Rd, Combienbar, E Gippsland Vic
     latitude (deg): -37.44202
     longitude (deg): 148.95128
   Comerang Forest Road, west side of Tuross River, riverside tree bank.:
+    locality: Comerang Forest Road, west side of Tuross River, riverside tree bank.
     latitude (deg): -36.0982432
     longitude (deg): 150.0209547
   Comerang road, Dampier State Forest.:
+    locality: Comerang road, Dampier State Forest.
     latitude (deg): -36.05132
     longitude (deg): 149.85434
   Comerang Road, Dampier State Forest.:
+    locality: Comerang Road, Dampier State Forest.
     latitude (deg): -36.103426
     longitude (deg): 149.97743
   Congo road, Congo.:
+    locality: Congo road, Congo.
     latitude (deg): -35.961054
     longitude (deg): 150.152333
   Conifers Picnic Ground, Mount Martha.:
+    locality: Conifers Picnic Ground, Mount Martha.
     latitude (deg): -38.29401
     longitude (deg): 145.00852
   Cooks Nose, Barren Grounds Nature Reserve, Jamberoo.:
+    locality: Cooks Nose, Barren Grounds Nature Reserve, Jamberoo.
     latitude (deg): -34.690588
     longitude (deg): 150.696099
   Cooma North Reserve, Cooma.:
+    locality: Cooma North Reserve, Cooma.
     latitude (deg): -36.21411
     longitude (deg): 149.12585
   Corner Garfield North road and Wright road, Garfield North.:
+    locality: Corner Garfield North road and Wright road, Garfield North.
     latitude (deg): -38.04583
     longitude (deg): 145.67648
   Corner Lima E Road and Evans Road, Lima East.:
+    locality: Corner Lima E Road and Evans Road, Lima East.
     latitude (deg): -36.79334
     longitude (deg): 145.9628
   Corner McFeeters and Woolshed falls road, Beechworth.:
+    locality: Corner McFeeters and Woolshed falls road, Beechworth.
     latitude (deg): -36.32177
     longitude (deg): 146.66759
   Corner Salt River road and Formby Road South, Formby Nature Reserve.:
+    locality: Corner Salt River road and Formby Road South, Formby Nature Reserve.
     latitude (deg): -34.29704
     longitude (deg): 118.07387
   Dapto Farm Road, West Nowra.:
+    locality: Dapto Farm Road, West Nowra.
     latitude (deg): -34.87753
     longitude (deg): 150.58647
   Darby Saddle Car Park, Wilson's Promontory.:
+    locality: Darby Saddle Car Park, Wilson's Promontory.
     latitude (deg): -39.00089
     longitude (deg): 146.30163
   Deans Gap Road, Jerawangala National Park.:
+    locality: Deans Gap Road, Jerawangala National Park.
     latitude (deg): -35.02912
     longitude (deg): 150.44427
   Distilley Creek road, between Whites Track and No. 2 road.:
+    locality: Distilley Creek road, between Whites Track and No. 2 road.
     latitude (deg): -38.41426
     longitude (deg): 144.13425
   Don road, horseshoe bend just below Malleson's Lookout, just west of Yarra Ranges National Park.:
+    locality: Don road, horseshoe bend just below Malleson's Lookout, just west of
+      Yarra Ranges National Park.
     latitude (deg): -37.69799
     longitude (deg): 145.55941
   Don road, Malleson's Lookout, just west of Yarra ranges National Park.:
+    locality: Don road, Malleson's Lookout, just west of Yarra ranges National Park.
     latitude (deg): -37.69661
     longitude (deg): 145.55952
   Donna Buang road, 550 m south of Ben Cairn car park, Yarra Ranges National Park.:
+    locality: Donna Buang road, 550 m south of Ben Cairn car park, Yarra Ranges National
+      Park.
     latitude (deg): -37.72308
     longitude (deg): 145.61691
   Donna Buang road, just inside west boundary of Yarra Ranges National Park.:
+    locality: Donna Buang road, just inside west boundary of Yarra Ranges National
+      Park.
     latitude (deg): -37.69544
     longitude (deg): 145.58032
   East Track & Nolans Track, Lerderderg River, Lerderderg State Park.:
+    locality: East Track & Nolans Track, Lerderderg River, Lerderderg State Park.
     latitude (deg): -37.5029
     longitude (deg): 144.36516
   East Track, Lerderderg River, Lerderderg State Park.:
+    locality: East Track, Lerderderg River, Lerderderg State Park.
     latitude (deg): -37.5029
     longitude (deg): 144.36516
   Edge of Deua National Park, 0.75 km past Wamban Creek along Little Sugarloaf road.:
+    locality: Edge of Deua National Park, 0.75 km past Wamban Creek along Little Sugarloaf
+      road.
     latitude (deg): -35.957322
     longitude (deg): 150.018626
   Edge of Deua National Park, 1.1 km past Wamban Creek along Little Sugarloaf road.:
+    locality: Edge of Deua National Park, 1.1 km past Wamban Creek along Little Sugarloaf
+      road.
     latitude (deg): -35.9598843
     longitude (deg): 150.0161165
   Edge of Deua National Park, 1.4 km past Wamban Creek along Little Sugarloaf road.:
+    locality: Edge of Deua National Park, 1.4 km past Wamban Creek along Little Sugarloaf
+      road.
     latitude (deg): -35.960421
     longitude (deg): 150.012974
   Edge of Deua National Park, 1.9 km past Wamban Creek along Little Sugarloaf road.:
+    locality: Edge of Deua National Park, 1.9 km past Wamban Creek along Little Sugarloaf
+      road.
     latitude (deg): -35.963114
     longitude (deg): 150.008471
   Edge of Deua National Park, 2.2 km past Wamban Creek along Little Sugarloaf road.:
+    locality: Edge of Deua National Park, 2.2 km past Wamban Creek along Little Sugarloaf
+      road.
     latitude (deg): -35.965312
     longitude (deg): 150.007712
   Euroa-Strathbogie road, Strathbogie.:
+    locality: Euroa-Strathbogie road, Strathbogie.
     latitude (deg): -36.8275
     longitude (deg): 145.6767
   Eurobodalla Road, 1 km from Princes Highway, Bodalla.:
+    locality: Eurobodalla Road, 1 km from Princes Highway, Bodalla.
     latitude (deg): -36.09615
     longitude (deg): 150.043862
   Eynesbury grey box forest, just off maintenance track on east side of Eynesbury road.:
+    locality: Eynesbury grey box forest, just off maintenance track on east side of
+      Eynesbury road.
     latitude (deg): -37.78447
     longitude (deg): 144.56956
   Field along Mount Budawang Road, just west of Budawang National Park Boundary.:
+    locality: Field along Mount Budawang Road, just west of Budawang National Park
+      Boundary.
     latitude (deg): -35.45
     longitude (deg): 149.97
   Fish Creek-Walkerville road, northern edge of Cape Liptrap Coastal Park.:
+    locality: Fish Creek-Walkerville road, northern edge of Cape Liptrap Coastal Park.
     latitude (deg): -38.79186
     longitude (deg): 146.01362
   Forest between Trafalgar Road and Tuross River, Tuross Head.:
+    locality: Forest between Trafalgar Road and Tuross River, Tuross Head.
     latitude (deg): -36.0573435
     longitude (deg): 150.1283509
   Forest off Drake St, Tuross Head.:
+    locality: Forest off Drake St, Tuross Head.
     latitude (deg): -36.0599369
     longitude (deg): 150.1292145
   Forest off Trafalgar road, Tuross Head.:
+    locality: Forest off Trafalgar road, Tuross Head.
     latitude (deg): -36.0604833
     longitude (deg): 150.1280317
   Forest south side of Seawinds Gardens, Arthur's Seat.:
+    locality: Forest south side of Seawinds Gardens, Arthur's Seat.
     latitude (deg): -38.36022
     longitude (deg): 144.95071
   Formby Road South, near Chester Pass road intersection, Stirling Range National Park.:
+    locality: Formby Road South, near Chester Pass road intersection, Stirling Range
+      National Park.
     latitude (deg): -34.36218
     longitude (deg): 118.1368
   Formby Road South, Stirling Range National Park.:
+    locality: Formby Road South, Stirling Range National Park.
     latitude (deg): -34.3501
     longitude (deg): 118.13111
   Gembrook-Tonimbuk road, 1 km north of Jinks Creek winery.:
+    locality: Gembrook-Tonimbuk road, 1 km north of Jinks Creek winery.
     latitude (deg): -37.99247
     longitude (deg): 145.69956
   Gembrook-Tonimbuk road, 1.4 km east of Jarvies Track, Bunyip State Park.:
+    locality: Gembrook-Tonimbuk road, 1.4 km east of Jarvies Track, Bunyip State Park.
     latitude (deg): -37.98666
     longitude (deg): 145.6867
   Gembrook-Tonimbuk Road, 850 m east of Camp road, Bunyip State Park.:
+    locality: Gembrook-Tonimbuk Road, 850 m east of Camp road, Bunyip State Park.
     latitude (deg): -37.98623
     longitude (deg): 145.65113
   Gembrook-Tonimbuk road, 850 m west of camp road, Bunyip State Park.:
+    locality: Gembrook-Tonimbuk road, 850 m west of camp road, Bunyip State Park.
     latitude (deg): -37.98144
     longitude (deg): 145.6332
   Gembrook-Tonimbuk Road, Bunyip State Park.:
+    locality: Gembrook-Tonimbuk Road, Bunyip State Park.
     latitude (deg): -37.98196
     longitude (deg): 145.62035
   George Bass drive, Broulee.:
+    locality: George Bass drive, Broulee.
     latitude (deg): -35.84689
     longitude (deg): 150.16661
   Glengarry West road, 2kn west of Glengarry.:
+    locality: Glengarry West road, 2kn west of Glengarry.
     latitude (deg): -38.13557
     longitude (deg): 146.54454
   Gordon St, just east of Wyndham town.:
+    locality: Gordon St, just east of Wyndham town.
     latitude (deg): -36.92716
     longitude (deg): 149.65689
   grampians_lat_-36.88732_lon_142.37291:
+    locality: grampians_lat_-36.88732_lon_142.37291
     latitude (deg): -36.88732
     longitude (deg): 142.37291
   grampians_lat_-36.921894_lon_142.431953:
+    locality: grampians_lat_-36.921894_lon_142.431953
     latitude (deg): -36.921894
     longitude (deg): 142.431953
   grampians_lat_-36.92716_lon_142.44103:
+    locality: grampians_lat_-36.92716_lon_142.44103
     latitude (deg): -36.92716
     longitude (deg): 142.44103
   grampians_lat_-36.95887_lon_NA:
+    locality: grampians_lat_-36.95887_lon_NA
     latitude (deg): -36.95887
     longitude (deg): .na.real
   grampians_lat_-37.011926_lon_142.487231:
+    locality: grampians_lat_-37.011926_lon_142.487231
     latitude (deg): -37.011926
     longitude (deg): 142.487231
   grampians_lat_-37.0815974_lon_142.744441:
+    locality: grampians_lat_-37.0815974_lon_142.744441
     latitude (deg): -37.0815974
     longitude (deg): 142.744441
   grampians_lat_-37.152731_lon_142.5012742:
+    locality: grampians_lat_-37.152731_lon_142.5012742
     latitude (deg): -37.152731
     longitude (deg): 142.5012742
   grampians_lat_-37.17495_lon_142.36174:
+    locality: grampians_lat_-37.17495_lon_142.36174
     latitude (deg): -37.17495
     longitude (deg): 142.36174
   grampians_lat_-37.18096_lon_142.41234:
+    locality: grampians_lat_-37.18096_lon_142.41234
     latitude (deg): -37.18096
     longitude (deg): 142.41234
   grampians_lat_-37.1981044_lon_142.5448934:
+    locality: grampians_lat_-37.1981044_lon_142.5448934
     latitude (deg): -37.1981044
     longitude (deg): 142.5448934
   grampians_lat_-37.2003418_lon_142.4785721:
+    locality: grampians_lat_-37.2003418_lon_142.4785721
     latitude (deg): -37.2003418
     longitude (deg): 142.4785721
   grampians_lat_-37.280194_lon_142.493111:
+    locality: grampians_lat_-37.280194_lon_142.493111
     latitude (deg): -37.280194
     longitude (deg): 142.493111
   grampians_lat_-37.291006_lon_142.329449:
+    locality: grampians_lat_-37.291006_lon_142.329449
     latitude (deg): -37.291006
     longitude (deg): 142.329449
   grampians_lat_-37.294894_lon_142.602636:
+    locality: grampians_lat_-37.294894_lon_142.602636
     latitude (deg): -37.294894
     longitude (deg): 142.602636
   grampians_lat_-37.300001_lon_142.482889:
+    locality: grampians_lat_-37.300001_lon_142.482889
     latitude (deg): -37.300001
     longitude (deg): 142.482889
   grampians_lat_-37.328111_lon_142.518306:
+    locality: grampians_lat_-37.328111_lon_142.518306
     latitude (deg): -37.328111
     longitude (deg): 142.518306
   grampians_lat_-37.346374_lon_142.5093095:
+    locality: grampians_lat_-37.346374_lon_142.5093095
     latitude (deg): -37.346374
     longitude (deg): 142.5093095
   grampians_lat_-37.3475259_lon_142.5030247:
+    locality: grampians_lat_-37.3475259_lon_142.5030247
     latitude (deg): -37.3475259
     longitude (deg): 142.5030247
   grampians_lat_-37.3477213_lon_142.4841738:
+    locality: grampians_lat_-37.3477213_lon_142.4841738
     latitude (deg): -37.3477213
     longitude (deg): 142.4841738
   grampians_lat_-37.3478141_lon_142.5011455:
+    locality: grampians_lat_-37.3478141_lon_142.5011455
     latitude (deg): -37.3478141
     longitude (deg): 142.5011455
   grampians_lat_-37.3725747_lon_142.5165018:
+    locality: grampians_lat_-37.3725747_lon_142.5165018
     latitude (deg): -37.3725747
     longitude (deg): 142.5165018
   grampians_lat_-37.3785631_lon_142.4677249:
+    locality: grampians_lat_-37.3785631_lon_142.4677249
     latitude (deg): -37.3785631
     longitude (deg): 142.4677249
   grampians_lat_-37.3978396_lon_142.4524343:
+    locality: grampians_lat_-37.3978396_lon_142.4524343
     latitude (deg): -37.3978396
     longitude (deg): 142.4524343
   grampians_lat_-37.433388_lon_NA:
+    locality: grampians_lat_-37.433388_lon_NA
     latitude (deg): -37.433388
     longitude (deg): .na.real
   grampians_lat_-37.491346_lon_142.400007:
+    locality: grampians_lat_-37.491346_lon_142.400007
     latitude (deg): -37.491346
     longitude (deg): 142.400007
   grampians_lat_-37.5264657_lon_142.4120549:
+    locality: grampians_lat_-37.5264657_lon_142.4120549
     latitude (deg): -37.5264657
     longitude (deg): 142.4120549
   grampians_lat_-37.5734832_lon_142.3773596:
+    locality: grampians_lat_-37.5734832_lon_142.3773596
     latitude (deg): -37.5734832
     longitude (deg): 142.3773596
   grampians_lat_-37.591085_lon_142.36302:
+    locality: grampians_lat_-37.591085_lon_142.36302
     latitude (deg): -37.591085
     longitude (deg): 142.36302
   Grantville Nature Conservation Reserve.:
+    locality: Grantville Nature Conservation Reserve.
     latitude (deg): -38.42589
     longitude (deg): 145.51664
   Great Ocean Road, Godfrey Track:
+    locality: Great Ocean Road, Godfrey Track
     latitude (deg): -38.607331
     longitude (deg): 143.918278
   Green Wattle Road and Alma Road, Beechworth.:
+    locality: Green Wattle Road and Alma Road, Beechworth.
     latitude (deg): -36.33763
     longitude (deg): 146.70851
   Greens Rd, Whroo, 400 m south from Nagambie Rushworth Rd.:
+    locality: Greens Rd, Whroo, 400 m south from Nagambie Rushworth Rd.
     latitude (deg): -36.6348
     longitude (deg): 145.0313
   Greens Rd, Whroo, 500 m north from Reedy Ck Rd.:
+    locality: Greens Rd, Whroo, 500 m north from Reedy Ck Rd.
     latitude (deg): -36.6431
     longitude (deg): 145.0319
   Groves Weir Road and Bendigo-Murchison road (C345) Wanalta, VIC:
+    locality: Groves Weir Road and Bendigo-Murchison road (C345) Wanalta, VIC
     latitude (deg): -36.597254
     longitude (deg): 144.868094
   Hazeldean Road, Yarragon.:
+    locality: Hazeldean Road, Yarragon.
     latitude (deg): -38.21095
     longitude (deg): 146.05428
   Hiking trail to Bluff Knoll summit, Stirling Range National Park.:
+    locality: Hiking trail to Bluff Knoll summit, Stirling Range National Park.
     latitude (deg): -34.37308
     longitude (deg): 118.25136
   Hiking trail to Mt Hassell summit, Stirling Range National Park.:
+    locality: Hiking trail to Mt Hassell summit, Stirling Range National Park.
     latitude (deg): -34.37791
     longitude (deg): 118.07392
   Hill 300m West of Old Currango trail, 1km South of Mosquito Crrek Trail, Currango Plain, NSW.:
+    locality: Hill 300m West of Old Currango trail, 1km South of Mosquito Crrek Trail,
+      Currango Plain, NSW.
     latitude (deg): -35.685
     longitude (deg): 148.666667
   Hill E of Old Currango Trail, 650m N of Old Currango Hut, Currango Plain, NSW.:
+    locality: Hill E of Old Currango Trail, 650m N of Old Currango Hut, Currango Plain,
+      NSW.
     latitude (deg): -35.68581
     longitude (deg): 148.66606
   Hill East of Sally Tree Creek, 1.5km ESE from junction of Mosquito Creek trail and Old Currango trail, Currango Plain, NSW.:
+    locality: Hill East of Sally Tree Creek, 1.5km ESE from junction of Mosquito Creek
+      trail and Old Currango trail, Currango Plain, NSW.
     latitude (deg): -35.681389
     longitude (deg): 148.683333
   Hill West of Old Currango Hut, Currango Plain NSW.:
+    locality: Hill West of Old Currango Hut, Currango Plain NSW.
     latitude (deg): -35.690556
     longitude (deg): 148.6625
   Hill West of Sally Tree Creek, 1.2km ENE from Old Currango hut on Old Currango trail, Currango Plain, NSW.:
+    locality: Hill West of Sally Tree Creek, 1.2km ENE from Old Currango hut on Old
+      Currango trail, Currango Plain, NSW.
     latitude (deg): -35.685833
     longitude (deg): 148.677222
   Hopetoun Norfolk Flora and Fauna Reserve, Mount Martha.:
+    locality: Hopetoun Norfolk Flora and Fauna Reserve, Mount Martha.
     latitude (deg): -38.27724
     longitude (deg): 145.02601
   Horse Hill Car Park Road, Mount Buller.:
+    locality: Horse Hill Car Park Road, Mount Buller.
     latitude (deg): -37.138605
     longitude (deg): 146.45447
   In clearing 1.4 km off Princes Highway along Western Boundary road, near Tuross Head.:
+    locality: In clearing 1.4 km off Princes Highway along Western Boundary road,
+      near Tuross Head.
     latitude (deg): -36.039279
     longitude (deg): 150.068266
   Intersection Beards and Mill tracks, Sweetwater Creek Nature Conservation Reserve.:
+    locality: Intersection Beards and Mill tracks, Sweetwater Creek Nature Conservation
+      Reserve.
     latitude (deg): -38.04376
     longitude (deg): 146.07475
   Intersection of Seninis track and Moe-Walhalla road, Moondarra.:
+    locality: Intersection of Seninis track and Moe-Walhalla road, Moondarra.
     latitude (deg): -38.02599
     longitude (deg): 146.35155
   Jamieson-Licola road, north-west of Licola.:
+    locality: Jamieson-Licola road, north-west of Licola.
     latitude (deg): -37.58598
     longitude (deg): 146.57316
   Jaspers Brush, Shoalhaven.:
+    locality: Jaspers Brush, Shoalhaven.
     latitude (deg): -35.02912
     longitude (deg): 150.44427
   Just east of intersection of Budawang and Northangera roads, Mongarlowe.:
+    locality: Just east of intersection of Budawang and Northangera roads, Mongarlowe.
     latitude (deg): -35.42499
     longitude (deg): 149.94409
   Just east of Langford Gap carpark.:
+    locality: Just east of Langford Gap carpark.
     latitude (deg): -36.8845
     longitude (deg): 147.32209
   Just north of old Currango Hut, Kusciuszko National Park.:
+    locality: Just north of old Currango Hut, Kusciuszko National Park.
     latitude (deg): -35.68498
     longitude (deg): 148.6651
   Just west of Bamarang and Longreach road intersection, Bamarang Nature Reserve.:
+    locality: Just west of Bamarang and Longreach road intersection, Bamarang Nature
+      Reserve.
     latitude (deg): -34.89077
     longitude (deg): 150.5334
   Just west of Bogong High Plains road, north of Cope Hut Track turnoff.:
+    locality: Just west of Bogong High Plains road, north of Cope Hut Track turnoff.
     latitude (deg): -36.90337
     longitude (deg): 147.28963
   K-Ridge road and Cpt 582/1 road intersection, Wandera State Forest.:
+    locality: K-Ridge road and Cpt 582/1 road intersection, Wandera State Forest.
     latitude (deg): -35.84617
     longitude (deg): 150.00982
   K-Ridge road just south of Heffernans road intersection, Wandera State Forest.:
+    locality: K-Ridge road just south of Heffernans road intersection, Wandera State
+      Forest.
     latitude (deg): -35.81503
     longitude (deg): 150.00599
   Kangaroo Valley Road, west of Berry.:
+    locality: Kangaroo Valley Road, west of Berry.
     latitude (deg): -34.76404
     longitude (deg): 150.67077
   Kiata Campground, Little Desert National Park:
+    locality: Kiata Campground, Little Desert National Park
     latitude (deg): -36.446397
     longitude (deg): 141.796888
   Kojaneerup Spring Road, Stirling Range National Park.:
+    locality: Kojaneerup Spring Road, Stirling Range National Park.
     latitude (deg): -34.4685
     longitude (deg): 118.3439
   Langford West Aquaduct road, just south of Langford Gap carpark.:
+    locality: Langford West Aquaduct road, just south of Langford Gap carpark.
     latitude (deg): -36.88739
     longitude (deg): 147.32132
   Larry's Mountain road and Clouts road intersection, Wandera State Forest.:
+    locality: Larry's Mountain road and Clouts road intersection, Wandera State Forest.
     latitude (deg): -35.85571
     longitude (deg): 150.03154
   Larry's Mountain road, just west of Clouts road intersection, Wandera State Forest.:
+    locality: Larry's Mountain road, just west of Clouts road intersection, Wandera
+      State Forest.
     latitude (deg): -35.85747
     longitude (deg): 150.02783
   Leebold Hill Road, just east of Red Rocks Nature Reserve.:
+    locality: Leebold Hill Road, just east of Red Rocks Nature Reserve.
     latitude (deg): -34.78815
     longitude (deg): 150.55477
   Leebold Hill Road, Red Rocks Nature Reserve.:
+    locality: Leebold Hill Road, Red Rocks Nature Reserve.
     latitude (deg): -34.78138
     longitude (deg): 150.54002
   Lind National Park:
+    locality: Lind National Park
     latitude (deg): -37.58439
     longitude (deg): 148.98987
   Little Desert Nature Lodge, Nhill Rd C206, Nhill.:
+    locality: Little Desert Nature Lodge, Nhill Rd C206, Nhill.
     latitude (deg): -36.45668
     longitude (deg): 141.6694
   Long Forest, Djerriwarrh Track.:
+    locality: Long Forest, Djerriwarrh Track.
     latitude (deg): -37.66928
     longitude (deg): 144.51224
   Long Forest, downhill from Djerriwarrh Track on the bank of Djerriwarrh Creek.:
+    locality: Long Forest, downhill from Djerriwarrh Track on the bank of Djerriwarrh
+      Creek.
     latitude (deg): -37.67131
     longitude (deg): 144.51632
   Long Forest, downhill from Djerriwarrh Track towards Djerriwarrh Creek.:
+    locality: Long Forest, downhill from Djerriwarrh Track towards Djerriwarrh Creek.
     latitude (deg): -37.67107
     longitude (deg): 144.51608
   Longford- Loch Sport road, 1.8 km from Longford-Golden Beach road, Track 1.:
+    locality: Longford- Loch Sport road, 1.8 km from Longford-Golden Beach road, Track
+      1.
     latitude (deg): -38.18701
     longitude (deg): 147.3723
   Longford- Loch Sport road, 2.15 km from Longford-Golden Beach road.:
+    locality: Longford- Loch Sport road, 2.15 km from Longford-Golden Beach road.
     latitude (deg): -38.18351
     longitude (deg): 147.37328
   Longford- Loch Sport road, 200 m from Longford-Golden Beach road.:
+    locality: Longford- Loch Sport road, 200 m from Longford-Golden Beach road.
     latitude (deg): -38.19735
     longitude (deg): 147.35997
   Lysterfield National Park, near corner of Wellington and Logan Park Road car park.:
+    locality: Lysterfield National Park, near corner of Wellington and Logan Park
+      Road car park.
     latitude (deg): -37.93774
     longitude (deg): 145.3119
   Management track off Bluff Knoll road, Stirling Range National Park.:
+    locality: Management track off Bluff Knoll road, Stirling Range National Park.
     latitude (deg): -34.3269
     longitude (deg): 118.19391
   Management track off Chester Pass road, Stirling Range National Park.:
+    locality: Management track off Chester Pass road, Stirling Range National Park.
     latitude (deg): -34.35347
     longitude (deg): 118.14874
   Management track, north-east Stirling Range National Park.:
+    locality: Management track, north-east Stirling Range National Park.
     latitude (deg): -34.32688
     longitude (deg): 118.35985
   Marengo Flora Reserve, Otways, Great Ocean Road, Victoria:
+    locality: Marengo Flora Reserve, Otways, Great Ocean Road, Victoria
     latitude (deg): -38.775086
     longitude (deg): 143.6506
   Marlo-Cabbage Tree Rd:
+    locality: Marlo-Cabbage Tree Rd
     latitude (deg): -37.75552
     longitude (deg): 148.65559
   McKenzie River Track, 200m from Princes Hwy, E Gippsland:
+    locality: McKenzie River Track, 200m from Princes Hwy, E Gippsland
     latitude (deg): -37.63259
     longitude (deg): 148.87509
   McKenzie River Track, 500m from Princes Hwy, E Gippsland:
+    locality: McKenzie River Track, 500m from Princes Hwy, E Gippsland
     latitude (deg): -37.62902
     longitude (deg): 148.8781
   Moe-Walhalla road, 400 m west of Red's Beach camping ground, Moondarra.:
+    locality: Moe-Walhalla road, 400 m west of Red's Beach camping ground, Moondarra.
     latitude (deg): -38.0372
     longitude (deg): 146.32729
   Moe-Walhalla road, just north of Purvis road.:
+    locality: Moe-Walhalla road, just north of Purvis road.
     latitude (deg): -38.13147
     longitude (deg): 146.27565
   Monda carpark, Toolangi State Forest:
+    locality: Monda carpark, Toolangi State Forest
     latitude (deg): -37.557125
     longitude (deg): 145.532778
   Mount Agony road, near North Durras road intersection, Murramarang National Park.:
+    locality: Mount Agony road, near North Durras road intersection, Murramarang National
+      Park.
     latitude (deg): -35.61643
     longitude (deg): 150.29779
   Mount Budawang Road, just west of Budawang National Park Boundary.:
+    locality: Mount Budawang Road, just west of Budawang National Park Boundary.
     latitude (deg): -35.45148
     longitude (deg): 149.97613
   Mount Darragh road, 4 km east of Wyndham Town.:
+    locality: Mount Darragh road, 4 km east of Wyndham Town.
     latitude (deg): -36.93816
     longitude (deg): 149.68563
   Mount Donna Buang summit area, Yarra Ranges National Park.:
+    locality: Mount Donna Buang summit area, Yarra Ranges National Park.
     latitude (deg): -37.70715
     longitude (deg): 145.68187
   Mount Oberon Carpark and Wilson's Promontory Road intersection.:
+    locality: Mount Oberon Carpark and Wilson's Promontory Road intersection.
     latitude (deg): -39.02722
     longitude (deg): 146.33408
   Mount Wombat Conservation Reserve.:
+    locality: Mount Wombat Conservation Reserve.
     latitude (deg): -36.84774
     longitude (deg): 145.682
   Mt Baw Baw tourist road, approaching village.:
+    locality: Mt Baw Baw tourist road, approaching village.
     latitude (deg): -37.74789
     longitude (deg): 146.21875
   Mt Buller Conservation Reserve, Corn Hill Trail.:
+    locality: Mt Buller Conservation Reserve, Corn Hill Trail.
     latitude (deg): -37.1575
     longitude (deg): 146.4779
   Mt St Leonards viewing platform, Toolangi State Forest.:
+    locality: Mt St Leonards viewing platform, Toolangi State Forest.
     latitude (deg): -37.567813
     longitude (deg): 145.525528
   Mt Trio carpark, Stirling Range National Park.:
+    locality: Mt Trio carpark, Stirling Range National Park.
     latitude (deg): -34.34253
     longitude (deg): 118.10959
   Mt Trio road, Stirling Range National Park.:
+    locality: Mt Trio road, Stirling Range National Park.
     latitude (deg): -34.34063
     longitude (deg): 118.11284
   Mt Victoria trail, Mt Donna Buang.:
+    locality: Mt Victoria trail, Mt Donna Buang.
     latitude (deg): -37.717317
     longitude (deg): 145.696455
   Murmungee Lookout, Lady Newton Drive, Murmungee.:
+    locality: Murmungee Lookout, Lady Newton Drive, Murmungee.
     latitude (deg): -36.41884
     longitude (deg): 146.712025
   Murray to Mountains Rail Trail, Bowmans Forest.:
+    locality: Murray to Mountains Rail Trail, Bowmans Forest.
     latitude (deg): -36.4884
     longitude (deg): 146.641
   Murrungower Rest Area, E Gippsland, Vic:
+    locality: Murrungower Rest Area, E Gippsland, Vic
     latitude (deg): -37.68825
     longitude (deg): 148.61809
   Nature Reserve on Giffard Road, just off South Gippsland Highway, just outside Woodside.:
+    locality: Nature Reserve on Giffard Road, just off South Gippsland Highway, just
+      outside Woodside.
     latitude (deg): -38.46499
     longitude (deg): 146.93453
   Near corner Kangaroo Valley Road and Thomas Close, Berry.:
+    locality: Near corner Kangaroo Valley Road and Thomas Close, Berry.
     latitude (deg): -34.7694
     longitude (deg): 150.68094
   Near corner of Weir and Ostbergs roads, Tinamba West.:
+    locality: Near corner of Weir and Ostbergs roads, Tinamba West.
     latitude (deg): -37.91032
     longitude (deg): 146.80415
   Near corner of Weir and Tinamba-Glenmaggie roads, Glenmaggie Regional Park.:
+    locality: Near corner of Weir and Tinamba-Glenmaggie roads, Glenmaggie Regional
+      Park.
     latitude (deg): -37.93628
     longitude (deg): 146.80278
   North border management track, just off Formby Road South, Stirling Range National Park.:
+    locality: North border management track, just off Formby Road South, Stirling
+      Range National Park.
     latitude (deg): -34.3175
     longitude (deg): 118.0783
   O'Shannessy Aqueduct Trail, Warburton.:
+    locality: O'Shannessy Aqueduct Trail, Warburton.
     latitude (deg): -37.743606
     longitude (deg): 145.720726
   off Brogers Ck Rd:
+    locality: off Brogers Ck Rd
     latitude (deg): -34.720837
     longitude (deg): 150.691778
   Off Burraneer Road, Coomba Park.:
+    locality: Off Burraneer Road, Coomba Park.
     latitude (deg): -32.22375
     longitude (deg): 152.4517
   Off Jerangle Road, base of Mount Dowling area.:
+    locality: Off Jerangle Road, base of Mount Dowling area.
     latitude (deg): -35.92585
     longitude (deg): 149.30199
   Off Princes Highway, end of unnamed road immediately to the west on the north side of Tuross River, north of Bodalla.:
+    locality: Off Princes Highway, end of unnamed road immediately to the west on
+      the north side of Tuross River, north of Bodalla.
     latitude (deg): -36.061393
     longitude (deg): 150.04548
   Old Corop Rd, Rushworth, 500 m south-east from Waranga western Channel.:
+    locality: Old Corop Rd, Rushworth, 500 m south-east from Waranga western Channel.
     latitude (deg): -36.5686
     longitude (deg): 144.9671
   Old Currango Hut, Kusciuszko National Park.:
+    locality: Old Currango Hut, Kusciuszko National Park.
     latitude (deg): -35.69003
     longitude (deg): 148.66374
   Old Mill road, 1.4 km west of Princes Highway, near Tuross Head.:
+    locality: Old Mill road, 1.4 km west of Princes Highway, near Tuross Head.
     latitude (deg): -36.022626
     longitude (deg): 150.084147
   Old Mill road, 900 m west of Princes Highway, near Tuross Head.:
+    locality: Old Mill road, 900 m west of Princes Highway, near Tuross Head.
     latitude (deg): -36.024137
     longitude (deg): 150.089531
   Old Mill road, Moruya State Forest.:
+    locality: Old Mill road, Moruya State Forest.
     latitude (deg): -36.0177
     longitude (deg): 150.06521
   Old Warburton Rd:
+    locality: Old Warburton Rd
     latitude (deg): -37.768847
     longitude (deg): 145.678353
   Ortons Lane, Murmungee.:
+    locality: Ortons Lane, Murmungee.
     latitude (deg): -36.4637
     longitude (deg): 146.689
   Ostbergs road, Tinamba West.:
+    locality: Ostbergs road, Tinamba West.
     latitude (deg): -37.9108
     longitude (deg): 146.80943
   Outtrim Cemetery Nature Conservation Reserve.:
+    locality: Outtrim Cemetery Nature Conservation Reserve.
     latitude (deg): -38.51262
     longitude (deg): 145.77822
   Paddy's River road, west side of Cotter Reserve, Stromlo.:
+    locality: Paddy's River road, west side of Cotter Reserve, Stromlo.
     latitude (deg): -35.32445
     longitude (deg): 148.94001
   Parallel Street, Falls Creek.:
+    locality: Parallel Street, Falls Creek.
     latitude (deg): -36.8659
     longitude (deg): 147.28113
   Path leading off Frith Road, Black Mountain Nature Reserve, Canberra.:
+    locality: Path leading off Frith Road, Black Mountain Nature Reserve, Canberra.
     latitude (deg): -35.26784
     longitude (deg): 149.10888
   Polly McQuinns Rd, Strathbogie.:
+    locality: Polly McQuinns Rd, Strathbogie.
     latitude (deg): -36.86194
     longitude (deg): 145.7323
   Potato Point road, 2.2 km from Princes Highway towards Potato Point.:
+    locality: Potato Point road, 2.2 km from Princes Highway towards Potato Point.
     latitude (deg): -36.091304
     longitude (deg): 150.075118
   Potato Point road, 2.3 km from Potato Point.:
+    locality: Potato Point road, 2.3 km from Potato Point.
     latitude (deg): -36.099048
     longitude (deg): 150.111211
   Potato Point road, 2.5 km from Potato Point.:
+    locality: Potato Point road, 2.5 km from Potato Point.
     latitude (deg): -36.098115
     longitude (deg): 150.109259
   Potato Point road, 3.5 km from Potato Point.:
+    locality: Potato Point road, 3.5 km from Potato Point.
     latitude (deg): -36.093531
     longitude (deg): 150.100495
   Potato Point road, 500 m from Potato Point.:
+    locality: Potato Point road, 500 m from Potato Point.
     latitude (deg): -36.0957334
     longitude (deg): 150.1280123
   Princes Highway, 450 m north-east of Coopers Island road Tuross Head.:
+    locality: Princes Highway, 450 m north-east of Coopers Island road Tuross Head.
     latitude (deg): -36.0460021
     longitude (deg): 150.0758305
   Private Lot, Burraneer Road, Coomba Park.:
+    locality: Private Lot, Burraneer Road, Coomba Park.
     latitude (deg): -32.22498
     longitude (deg): 152.45172
   Private property, Spraggs Rd and Healesvill-Kinglake Rd Toolangi.:
+    locality: Private property, Spraggs Rd and Healesvill-Kinglake Rd Toolangi.
     latitude (deg): -37.530405
     longitude (deg): 145.460312
   Providence Ponds Nature Reserve, Corner of Western Boundary, Zieria and Bell tracks.:
+    locality: Providence Ponds Nature Reserve, Corner of Western Boundary, Zieria
+      and Bell tracks.
     latitude (deg): -37.92622
     longitude (deg): 147.27852
   Quarry Rd-Tanglefoot Track, Toolangi StateForest:
+    locality: Quarry Rd-Tanglefoot Track, Toolangi StateForest
     latitude (deg): -37.544444
     longitude (deg): 145.526667
   Red Gum Hill, Stirling Range National Park.:
+    locality: Red Gum Hill, Stirling Range National Park.
     latitude (deg): -34.37412
     longitude (deg): 117.78768
   Red Gum Pass road, Stirling Range National Park.:
+    locality: Red Gum Pass road, Stirling Range National Park.
     latitude (deg): -34.37725
     longitude (deg): 117.78225
   Red Rocks Trig Trail, just north of Leebold Hill Road, Red Rocks Nature Reserve.:
+    locality: Red Rocks Trig Trail, just north of Leebold Hill Road, Red Rocks Nature
+      Reserve.
     latitude (deg): -34.77015
     longitude (deg): 150.51563
   Reed Bed Creek Rd:
+    locality: Reed Bed Creek Rd
     latitude (deg): -37.51168
     longitude (deg): 149.14558
   Reed Bed Creek Rd, 100m from bridge over river and  W Cann Rd:
+    locality: Reed Bed Creek Rd, 100m from bridge over river and  W Cann Rd
     latitude (deg): -37.49944
     longitude (deg): 149.15207
   Reed Bed Rd junction with Princes Hwy, E Gippsland:
+    locality: Reed Bed Rd junction with Princes Hwy, E Gippsland
     latitude (deg): -37.5649
     longitude (deg): 149.08432
   Reed Bed Rd off Princes Hwy, E Gippsland:
+    locality: Reed Bed Rd off Princes Hwy, E Gippsland
     latitude (deg): -37.55893
     longitude (deg): 149.093
   Reef Hills State Park, just inside southern boundary on Reef Hills road.:
+    locality: Reef Hills State Park, just inside southern boundary on Reef Hills road.
     latitude (deg): -36.62814
     longitude (deg): 145.92422
   Reid's Way, north of Beechworth.:
+    locality: Reid's Way, north of Beechworth.
     latitude (deg): -36.29904
     longitude (deg): 146.68994
   Rifle Range Track, off Ortons Lane, Murmungee.:
+    locality: Rifle Range Track, off Ortons Lane, Murmungee.
     latitude (deg): -36.46805
     longitude (deg): 146.703
   Road 24, just off Bogong High Plains road, near Falls Creek pay station.:
+    locality: Road 24, just off Bogong High Plains road, near Falls Creek pay station.
     latitude (deg): -36.84443
     longitude (deg): 147.2494
   Running Creek Rd, C534, Kancoona.:
+    locality: Running Creek Rd, C534, Kancoona.
     latitude (deg): -36.562797
     longitude (deg): 146.978562
   Salt lake Walking Track 1km south of Kiata campground, Little Desert National Park:
+    locality: Salt lake Walking Track 1km south of Kiata campground, Little Desert
+      National Park
     latitude (deg): -36.45538
     longitude (deg): 141.793105
   Salt River Road northern boundary Stirling Range National Park.:
+    locality: Salt River Road northern boundary Stirling Range National Park.
     latitude (deg): -34.30402
     longitude (deg): 118.04702
   Sandhills farm, Wanalta-Corop Rd, Wanalta, VIC:
+    locality: Sandhills farm, Wanalta-Corop Rd, Wanalta, VIC
     latitude (deg): -36.504637
     longitude (deg): 144.858907
   Seninis track near Moe-Walhalla road, Moondarra State Park.:
+    locality: Seninis track near Moe-Walhalla road, Moondarra State Park.
     latitude (deg): -38.02534
     longitude (deg): 146.34964
   Seven Creeks, Strathbogie.:
+    locality: Seven Creeks, Strathbogie.
     latitude (deg): -36.85557
     longitude (deg): 145.7349
   Shoalhaven Heads wastewater treamtent plant.:
+    locality: Shoalhaven Heads wastewater treamtent plant.
     latitude (deg): -34.83767
     longitude (deg): 150.7394
   Ski run just east of Falls Creek village.:
+    locality: Ski run just east of Falls Creek village.
     latitude (deg): -36.86599
     longitude (deg): 147.28317
   Snowy drive, Buchan-orbost RD:
+    locality: Snowy drive, Buchan-orbost RD
     latitude (deg): -37.67869
     longitude (deg): 148.36647
   South-east corner of Old Mill and Italian Mine road intersection, eastern Dampier State Forest.:
+    locality: South-east corner of Old Mill and Italian Mine road intersection, eastern
+      Dampier State Forest.
     latitude (deg): -36.0243516
     longitude (deg): 150.0725072
   South Gippsland Highway, 1.8 km north-east of Woodside Beach Road turnoff.:
+    locality: South Gippsland Highway, 1.8 km north-east of Woodside Beach Road turnoff.
     latitude (deg): -38.51193
     longitude (deg): 146.88663
   South Gippsland Highway, 4.25 km south-west of Woodside Beach Road turnoff.:
+    locality: South Gippsland Highway, 4.25 km south-west of Woodside Beach Road turnoff.
     latitude (deg): -38.54498
     longitude (deg): 146.83234
   South road, 1 km south of Mt Selma road intersection, Mt Useful Natural Features and Scenic Reserve.:
+    locality: South road, 1 km south of Mt Selma road intersection, Mt Useful Natural
+      Features and Scenic Reserve.
     latitude (deg): -37.62879
     longitude (deg): 146.4617
   South road, 5.5km south-west of Jamieson-Licola road, Mt Useful Natural Features and Scenic Reserve.:
+    locality: South road, 5.5km south-west of Jamieson-Licola road, Mt Useful Natural
+      Features and Scenic Reserve.
     latitude (deg): -37.59833
     longitude (deg): 146.46943
   southeast_lat_-36.133439_lon_150.091648:
+    locality: southeast_lat_-36.133439_lon_150.091648
     latitude (deg): -36.133439
     longitude (deg): 150.091648
   Spotted Gum road, just north-west of intersection with Mount Agony road, Murramarang National Park.:
+    locality: Spotted Gum road, just north-west of intersection with Mount Agony road,
+      Murramarang National Park.
     latitude (deg): -35.61608
     longitude (deg): 150.28538
   Spotted Gum road, north-west of intersection with Mount Agony road, Murramarang National Park.:
+    locality: Spotted Gum road, north-west of intersection with Mount Agony road,
+      Murramarang National Park.
     latitude (deg): -35.61195
     longitude (deg): 150.28248
   Spring Road, Alberton Forest.:
+    locality: Spring Road, Alberton Forest.
     latitude (deg): -38.60535
     longitude (deg): 146.51177
   Stanton Rock road, just west of Burragate road, Burragte.:
+    locality: Stanton Rock road, just west of Burragate road, Burragte.
     latitude (deg): -36.9687
     longitude (deg): 149.65458
   Swanpool-Lima road, 575 m west of Midland Highway intersection.:
+    locality: Swanpool-Lima road, 575 m west of Midland Highway intersection.
     latitude (deg): -36.74931
     longitude (deg): 145.99538
   Swanpool-Lima road, 865 m west of Midland Highway intersection.:
+    locality: Swanpool-Lima road, 865 m west of Midland Highway intersection.
     latitude (deg): -36.74897
     longitude (deg): 145.99219
   Tawonga Gap road, 1 km west of Sullivan's Lookout.:
+    locality: Tawonga Gap road, 1 km west of Sullivan's Lookout.
     latitude (deg): -36.71229
     longitude (deg): 147.11998
   Tawonga Gap road, 1.5 km west of Sullivan's Lookout.:
+    locality: Tawonga Gap road, 1.5 km west of Sullivan's Lookout.
     latitude (deg): -36.71496
     longitude (deg): 147.11759
   Tawonga Gap road, 850 m along road eastwards of German Creek Track turnoff.:
+    locality: Tawonga Gap road, 850 m along road eastwards of German Creek Track turnoff.
     latitude (deg): -36.7139
     longitude (deg): 147.10048
   TeachersTrack, Combienbar, E Gippsland:
+    locality: TeachersTrack, Combienbar, E Gippsland
     latitude (deg): -37.41093
     longitude (deg): 148.93854
   Telegraph Saddle Car Park, Wilson's Promontory.:
+    locality: Telegraph Saddle Car Park, Wilson's Promontory.
     latitude (deg): -39.03242
     longitude (deg): 146.35578
   Thomson Valley road, near Stronach's camping area, north end of Baw Baw Naitonal Park.:
+    locality: Thomson Valley road, near Stronach's camping area, north end of Baw
+      Baw Naitonal Park.
     latitude (deg): -37.74789
     longitude (deg): 146.21875
   Tidbinbilla Nature Reserve, along Bushland Meander walk from Black Flats car park.:
+    locality: Tidbinbilla Nature Reserve, along Bushland Meander walk from Black Flats
+      car park.
     latitude (deg): -35.46203
     longitude (deg): 148.9143
   Tidbinbilla Nature Reserve, along ring road, just east of Flints car park.:
+    locality: Tidbinbilla Nature Reserve, along ring road, just east of Flints car
+      park.
     latitude (deg): -35.4575
     longitude (deg): 148.92223
   Tidbinbilla Nature Reserve, along ring road, just passed Eucalypt Forest car park.:
+    locality: Tidbinbilla Nature Reserve, along ring road, just passed Eucalypt Forest
+      car park.
     latitude (deg): -35.46154
     longitude (deg): 148.90571
   Tidbinbilla Nature Reserve, along southernmost part of ring road, just passed Tinbidbilla River.:
+    locality: Tidbinbilla Nature Reserve, along southernmost part of ring road, just
+      passed Tinbidbilla River.
     latitude (deg): -35.47989
     longitude (deg): 148.90303
   Tidbinbilla Nature Reserve, along Xanthorrhoea loop walk from Dalsetta car park.:
+    locality: Tidbinbilla Nature Reserve, along Xanthorrhoea loop walk from Dalsetta
+      car park.
     latitude (deg): -35.44984
     longitude (deg): 148.93119
   Tidbinbilla Nature Reserve, just north of Xanthorrhoea loop walk from Dalsetta car park.:
+    locality: Tidbinbilla Nature Reserve, just north of Xanthorrhoea loop walk from
+      Dalsetta car park.
     latitude (deg): -35.4496
     longitude (deg): 148.93323
   Tindall's Lane, Berry.:
+    locality: Tindall's Lane, Berry.
     latitude (deg): -34.76241
     longitude (deg): 150.72579
   Tomboye road, between Princes Highway and Shortcut road. Just outside Murramarand National Park.:
+    locality: Tomboye road, between Princes Highway and Shortcut road. Just outside
+      Murramarand National Park.
     latitude (deg): -35.59634
     longitude (deg): 150.25412
   Tonimbuk road, just south of Bridal road, Tonimbuk.:
+    locality: Tonimbuk road, just south of Bridal road, Tonimbuk.
     latitude (deg): -38.02115
     longitude (deg): 145.72255
   Toolbrunup carpark, Stirling Range National Park.:
+    locality: Toolbrunup carpark, Stirling Range National Park.
     latitude (deg): -34.39187
     longitude (deg): 118.06292
   Toolijooa Rd, Berry.:
+    locality: Toolijooa Rd, Berry.
     latitude (deg): -34.77739
     longitude (deg): 150.74334
   Track just north of Yalwal road, Bamarang Nature Reserve.:
+    locality: Track just north of Yalwal road, Bamarang Nature Reserve.
     latitude (deg): -34.89404
     longitude (deg): 150.53253
   Trafalgar Road, Tuross Head.:
+    locality: Trafalgar Road, Tuross Head.
     latitude (deg): -36.0611056
     longitude (deg): 150.1274389
   Trig Point, Salt lake Walking Track and Trig Point Track, Little Desert National Park:
+    locality: Trig Point, Salt lake Walking Track and Trig Point Track, Little Desert
+      National Park
     latitude (deg): -36.485866
     longitude (deg): 141.784801
   Tynong North Road, just north of Princes Highway.:
+    locality: Tynong North Road, just north of Princes Highway.
     latitude (deg): -38.06729
     longitude (deg): 145.62012
   Unnamed road near Blores Hill, Glenmaggie area.:
+    locality: Unnamed road near Blores Hill, Glenmaggie area.
     latitude (deg): -37.92538
     longitude (deg): 146.82111
   Unnamed track north of Seninis track and Moe-Walhalla road intersection, Moondarra.:
+    locality: Unnamed track north of Seninis track and Moe-Walhalla road intersection,
+      Moondarra.
     latitude (deg): -38.01388
     longitude (deg): 146.35358
   W3 road, off Tyers-Walhalla Road, Tyers Park.:
+    locality: W3 road, off Tyers-Walhalla Road, Tyers Park.
     latitude (deg): -38.11314
     longitude (deg): 146.43498
   Walhalla road, 6km north of Aberfeldy clearing.:
+    locality: Walhalla road, 6km north of Aberfeldy clearing.
     latitude (deg): -37.65665
     longitude (deg): 146.37334
   Walhalla road, just south of Donnelly's Creek road.:
+    locality: Walhalla road, just south of Donnelly's Creek road.
     latitude (deg): -37.7197
     longitude (deg): 146.37062
   Wamban Road, just east of Wamban Creek where it splits off Moruya River.:
+    locality: Wamban Road, just east of Wamban Creek where it splits off Moruya River.
     latitude (deg): -35.932905
     longitude (deg): 150.043401
   Wamban Road, just west of Wamban Creek in riverside vegetation, just outside Deua National Park.:
+    locality: Wamban Road, just west of Wamban Creek in riverside vegetation, just
+      outside Deua National Park.
     latitude (deg): -35.95346
     longitude (deg): 150.023799
   Warburton, Dammans Rd & Yarra River, 140m E of Mayers Bridge:
+    locality: Warburton, Dammans Rd & Yarra River, 140m E of Mayers Bridge
     latitude (deg): -37.754386
     longitude (deg): 145.680494
   Warburton, Mount Bridie Rd:
+    locality: Warburton, Mount Bridie Rd
     latitude (deg): -37.768847
     longitude (deg): 145.678353
   Warburton, track to Mt Donna Buang:
+    locality: Warburton, track to Mt Donna Buang
     latitude (deg): -37.750386
     longitude (deg): 145.6873
   Warburton, Wellington Rd & Waterloo Ave:
+    locality: Warburton, Wellington Rd & Waterloo Ave
     latitude (deg): -37.749969
     longitude (deg): 145.686361
   Wattamolla Rd, Woodhill:
+    locality: Wattamolla Rd, Woodhill
     latitude (deg): -34.727994
     longitude (deg): 150.672984
   West Cann Rd, Cann River Gippsland:
+    locality: West Cann Rd, Cann River Gippsland
     latitude (deg): -37.50317
     longitude (deg): 149.17662
   Western Boundary road, Moruya State Forest.:
+    locality: Western Boundary road, Moruya State Forest.
     latitude (deg): -36.03508
     longitude (deg): 150.04853
   Wogamia Nature Reserve, Shoalhaven River, West of Nowra.:
+    locality: Wogamia Nature Reserve, Shoalhaven River, West of Nowra.
     latitude (deg): -34.87676
     longitude (deg): 150.52198
   Wondoomarook I60 Bushland Reserve, Strathbogie.:
+    locality: Wondoomarook I60 Bushland Reserve, Strathbogie.
     latitude (deg): -36.85719
     longitude (deg): 145.715
   Woodhill Mountain Rd, Berry:
+    locality: Woodhill Mountain Rd, Berry
     latitude (deg): -34.735125
     longitude (deg): 150.69158
   Woolshed Falls, Woolshed Falls Road, Beechworth.:
+    locality: Woolshed Falls, Woolshed Falls Road, Beechworth.
     latitude (deg): -36.31863
     longitude (deg): 146.67056
   Wright Forest Bushland Reserve, Tetratheka track.:
+    locality: Wright Forest Bushland Reserve, Tetratheka track.
     latitude (deg): -37.92955
     longitude (deg): 145.48383
   Yalwal Road, Colymea State Conservation Area.:
+    locality: Yalwal Road, Colymea State Conservation Area.
     latitude (deg): -34.90952
     longitude (deg): 150.47997
   Yalwal Road, just west of Old Burrier Firetrail, Colymea State Conservation Area.:
+    locality: Yalwal Road, just west of Old Burrier Firetrail, Colymea State Conservation
+      Area.
     latitude (deg): -34.91688
     longitude (deg): 150.41106
   "Yankee Jims Ck, \x1AWesburn,Upper Yarra Valleey.":
+    locality: "Yankee Jims Ck, \x1AWesburn,Upper Yarra Valleey."
     latitude (deg): -37.770187
     longitude (deg): 145.655913
   Yarra state Forest,  Brahams Rd:
+    locality: Yarra state Forest,  Brahams Rd
     latitude (deg): -37.725911
     longitude (deg): 145.777747
   Yarra state Forest, Easment 130 m south of Brahams Rd, 450m S from C511.:
+    locality: Yarra state Forest, Easment 130 m south of Brahams Rd, 450m S from C511.
     latitude (deg): -37.725911
     longitude (deg): 145.777747
   Yarra state Forest, junction of Brahams Rd and Mississippi Rd:
+    locality: Yarra state Forest, junction of Brahams Rd and Mississippi Rd
     latitude (deg): -37.767485
     longitude (deg): 145.812944
   Yarra state Forest, Mississippi Rd:
+    locality: Yarra state Forest, Mississippi Rd
     latitude (deg): -37.770486
     longitude (deg): 145.789911
   Yarrangobilly, Snowy Mountains Highway 150 m south of Goodmans Gully, track to west.:
+    locality: Yarrangobilly, Snowy Mountains Highway 150 m south of Goodmans Gully,
+      track to west.
     latitude (deg): -35.677472
     longitude (deg): 148.486056
   Yuonga Rd, Warburton.:
+    locality: Yuonga Rd, Warburton.
     latitude (deg): -37.743109
     longitude (deg): 145.7056
 contexts: .na
@@ -1041,80 +1466,118 @@ traits:
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: unknown
+  methods: Minimum thickness (mm) of outer layer of oven-dried fruit below valves.
 - var_in: height_m
   unit_in: m
   trait_name: plant_height
-  entity_type: individual
-  value_type: raw
+  entity_type: population
+  value_type: maximum
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: replicates
+  methods: Height (m) of individual trees was first measured via clinometer along
+    with girth at breast height. The sampling strategy for this study was generally
+    not to target the largest individuals, but to get a range of sizes, and usually
+    (but not always) these trees sampled were those with material within reach of
+    pole clippers. So it will tend to have smaller individuals as well and the values
+    documented here are simply the maximum individual height recorded at a location.
+    The high values for plant height are also expected, are the species list includes
+    several of the tallest tree species in the world, including Eucalytus regnans,
+    Eucalytus viminalis, and Eucalytus delegatensis.
+- var_in: diameter_cm
+  unit_in: cm
+  trait_name: plant_diameter_breast_height
+  entity_type: population
+  value_type: maximum
+  basis_of_value: measurement
+  replicates: replicates
+  methods: Diameter was calculated from girth at breast height. The sampling strategy
+    for this study was generally not to target the largest individuals, but to get
+    a range of sizes, and usually (but not always) these trees sampled were those
+    with material within reach of pole clippers. So it will tend to have smaller individuals
+    as well and the values documented here are simply the maximum individual diameter
+    recorded at a location.
 - var_in: leaf_mass_g
   unit_in: g
   trait_name: leaf_dry_mass
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 3
+  methods: We sampled fully expanded leaves, attempting to sample “sun” leaves. Mass
+    (g) of a single leaf including petiole after drying at 60-70C for 72hrs. Replicates
+    >/= 3.
 - var_in: sla_mm2_per_mg
   unit_in: mm2/mg
   trait_name: leaf_mass_per_area
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 3
+  methods: SLA was measured as Area of fresh leaf (mm2) including petiole divided
+    by dry mass (mg) after oven treatment. Replicates >/=3.
 - var_in: leaf_area_cm2
   unit_in: cm2
   trait_name: leaf_area
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 3
+  methods: Area of a single fresh leaf including petiole (cm2) measured with leaf
+    area meter. Replicates >/= 3 leaves per plant.
 - var_in: fruit_mass_mg
   unit_in: mg
   trait_name: fruit_dry_mass
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 5
+  methods: Mass of single fruit found by averaging mass of 5 replicate empty oven-dried
+    fruits (mg) weighed simultaneously. Seeds and chaff were dehisced during oven
+    drying, and not included in the weight for this trait.
 - var_in: seed_mass_mg
   unit_in: mg
   trait_name: seed_dry_mass
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 10
+  methods: Average seed mass found by dividing total mass of 10 seeds (mg) weighed
+    simultaneously.
 - var_in: bark_thickness_mm
   unit_in: mm
   trait_name: bark_thickness
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 5
+  methods: Bark thickness on individual trees was measured in mm using a bark thickness
+    gauge 5 times at breast height along with girth. Relative Bark Thickness at 100cm
+    girth was calculated according to the allometric equation, RBT = BT*(100/G)0.52
+    determined from data across all species.
 - var_in: relative_bark_thickness
   unit_in: mm/mm
   trait_name: bark_thickness_index
   entity_type: individual
-  value_type: raw
+  value_type: mean
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 5
+  methods: Bark thickness on individual trees was measured in mm using a bark thickness
+    gauge 5 times at breast height along with girth.
 - var_in: stem_density_g_per_ml
   unit_in: g/ml
   trait_name: wood_density
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
-  replicates: 1
-  methods: unknown
+  replicates: 1-2
+  methods: Measured as dry mass (g) of an approx. 1cm diam x 10cm long section of
+    twig divided by fresh volume (mL) measured using the displacement method. Occasionally
+    some young bark may have been retained. Replicates = 1 or 2.
 substitutions: .na
-taxonomic_updates: .na
+taxonomic_updates:
+- find: Eucalyptus costata subsp. Murrayana
+  replace: Eucalyptus incrassata
+  reason: Align with known synonym (E. Wenk, 2023-06-14)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na
