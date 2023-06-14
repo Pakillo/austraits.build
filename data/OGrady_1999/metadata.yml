@@ -91,7 +91,7 @@ contexts:
     description: Measurement made during 1997 dry season.
 traits:
 - var_in: intrinsic_transpiration_m3/d/m2
-  unit_in: m3{water}/m2{leaf}/d
+  unit_in: m3{H2O}/m2{leaf}/d
   trait_name: integrated_plant_transpiration
   entity_type: entity_type
   value_type: mean
