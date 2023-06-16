@@ -31,7 +31,7 @@ dataset:
   description: X-ray computed tomography (microCT) images were obtained from different
     aged branch xylem to study the number, size and spatial distribution of in situ
     embolized conduits among three dominant tree species growing in a woodland community.
-  basis_of_record: field_experiment
+  basis_of_record: field
   life_stage: unknown
   sampling_strategy: We performed the experiments early in the austral spring prior
     to the onset of new leaf and stem extension growth to determine the amount of
@@ -43,14 +43,7 @@ dataset:
     Two branches bearing green foliage were selected from two trees of the following
     three dominant species- the angiosperms Eucalyptus pulchella Desf. (Myrtaceae)
     and Acacia mearnsii De Wild. (Fabaceae) and the conifer Callitris rhomboidea R.Br.
-    ex Rich. & A.Rich. (Cupressaceae). Leaf water potential measurement via a pressure
-    chamber in Hobart confrmed that all branches were well hydrated at the time of
-    collection (Supplementary data Table S1). The branches were re-wrapped and stored
-    in the dark prior to transporting them the next day to the Australian Synchrotron
-    in Melbourne. To avoid open vessel artefacts, all angiosperm branches were at
-    least 2 m long as prior testing in three replicate branches each of A. mearnsii
-    and E. pulchella revealed a maximum vessel length in terminal branches of 1.40
-    m.
+    ex Rich. & A.Rich. (Cupressaceae). 
   original_file: unknown
   notes: data extracted from paper, not raw data
 locations:
@@ -58,17 +51,12 @@ locations:
     latitude (deg): -42.0479278
     longitude (deg): 147.9567972
     description: We selected an evergreen dry sclerophyll woodland in the Central
-      East of Tasmania, Australia as we had prior knowledge that at the site (1) all
-      tree species exhibit similar patterns in water status and (2) all species experienced
-      water potentials low enough to induce embolism in the xylem (Skelton et  al.,
-      2017). This allowed us to exclude the possibility that differences in native
-      embolism are a result of different water stress due to some species having access
-      to deeper water reservoirs. The average temperature during summer is 17 °C,
+      East of Tasmania, Australia. The average temperature during summer is 17 °C,
       with an occasional daily maximum of 40 °C. Overall, mean temperatures (measured
       at the Swansea weather station <10 km away, Australian Bureau of Meteorology)
       slightly increased over the last 60 years, resulting in only a few mild frost
       days (0 to -2 °C) in recent winters. Over the last 3 years, this site has received
-      less than the average annual precipitation (550  mm), leading to drier than
+      less than the average annual precipitation (550 mm), leading to drier than
       normal conditions, which is reflected in a negative three monthly averaged Standardized
       Precipitation Evapotranspiration Index (SPEI3) (Vicente-Serrano et  al., 2010).
       The SPEI3 indicates that drought is a common feature of the site and has increased
@@ -87,7 +75,7 @@ contexts:
   - value: 3.0
     description: Third scan for each branch, with an average distance of 325mm from the branch tip. The third scan position is the oldest scanned branch section.
 - context_property: branch age
-  category: method
+  category: entity
   var_in: Scan_position_age_year
   values:
   - value: 2.0
@@ -127,14 +115,7 @@ traits:
     and Brodribb et  al. (2016a). In short, all images were processed by extracting
     the image difference between subsequent images in ImageJ (version 1.52a, Schneider
     et al., 2012). Image thresholding was used to count the number and size of embolism
-    events throughout the dehydration process. The amount of embolized pixel area
-    was extracted from each image and expressed as a percentage of total embolized
-    pixel area to relate the increase in embolism percentage to time. Following this,
-    the linear relationship between water potential and time from the psychrometer
-    and pressure chamber readings was used to predict the water potential for each
-    embolism event (Fig. 2B). All tree-level vulnerability curves can be viewed in
-    Supplementary data Fig. S2. The infection point, P50, was predicted from this
-    relationship.
+    events throughout the dehydration process. 
 - var_in: Embolized_area_percent
   unit_in: %
   trait_name: .na
@@ -165,12 +146,7 @@ traits:
     et al., 2012). Image thresholding was used to count the number and size of embolism
     events throughout the dehydration process. The amount of embolized pixel area
     was extracted from each image and expressed as a percentage of total embolized
-    pixel area to relate the increase in embolism percentage to time. Following this,
-    the linear relationship between water potential and time from the psychrometer
-    and pressure chamber readings was used to predict the water potential for each
-    embolism event (Fig. 2B). All tree-level vulnerability curves can be viewed in
-    Supplementary data Fig. S2. The infection point, P50, was predicted from this
-    relationship.
+    pixel area to relate the increase in embolism percentage to time.
 - var_in: Theoretical_conductance_nativescan
   unit_in: kg/m/MPa/s
   trait_name: sapwood_specific_hydraulic_conductivity_theoretical
