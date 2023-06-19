@@ -1,0 +1,42 @@
+source:
+  primary:
+    key: Cochrane_2018
+    bibtype: Article
+    year: '2019'
+    author: A. Cochrane
+    journal: Plant Biology
+    title: Temperature thresholds for germination in 20 short-range endemic plant
+      species from a Greenstone Belt in southern Western Australia
+    volume: '22'
+    number: S1
+    pages: 103--112
+    doi: 10.1111/plb.12951
+    editor: J.F. Scheepens
+contributors:
+  data_collectors:
+  - last_name: Cochrane
+    given_name: Anne
+    ORCID: 0000-0001-5002-368X
+    affiliation: Biodiversity and Conservation Science, Department of Biodiversity,
+      Conservation and Attractions, WA, Australia
+    additional_role: contact
+  austraits_curators: Elizabeth Wenk
+dataset:
+  data_is_long_format: no
+  custom_R_code: .na
+  collection_date: x/x
+  taxon_name: species
+  location_name: unknown
+  description: unknown
+  basis_of_record: unknown
+  life_stage: unknown
+  sampling_strategy: unknown
+  original_file: unknown
+  notes: unknown
+locations: .na
+contexts: .na
+traits: .na
+substitutions: .na
+taxonomic_updates: .na
+exclude_observations: .na
+questions: .na

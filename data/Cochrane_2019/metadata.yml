@@ -1,0 +1,41 @@
+source:
+  primary:
+    key: Cochrane_2019
+    bibtype: Article
+    year: '2019'
+    author: Anne Cochrane
+    journal: Folia Geobotanica
+    title: Effects of temperature on germination in eight Western Australian herbaceous
+      species
+    volume: '54'
+    number: 1-2
+    pages: 29--42
+    doi: 10.1007/s12224-019-09335-6
+contributors:
+  data_collectors:
+  - last_name: Cochrane
+    given_name: Anne
+    ORCID: 0000-0001-5002-368X
+    affiliation: Biodiversity and Conservation Science, Department of Biodiversity,
+      Conservation and Attractions, WA, Australia
+    additional_role: contact
+  austraits_curators: Elizabeth Wenk
+dataset:
+  data_is_long_format: no
+  custom_R_code: .na
+  collection_date: x/x
+  taxon_name: Species
+  location_name: unknown
+  description: unknown
+  basis_of_record: unknown
+  life_stage: unknown
+  sampling_strategy: unknown
+  original_file: unknown
+  notes: unknown
+locations: .na
+contexts: .na
+traits: .na
+substitutions: .na
+taxonomic_updates: .na
+exclude_observations: .na
+questions: .na
