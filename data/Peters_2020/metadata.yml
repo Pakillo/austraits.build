@@ -17,7 +17,7 @@ contributors:
   data_collectors:
   - last_name: Peters
     given_name: Jennifer
-    ORCID: unkown
+    ORCID: unknown
     affiliation: Hawkesbury Institute for the Environment, Western Sydney University
   assistants: unknown
   austraits_curators: Gillian Kowalick
@@ -38,7 +38,7 @@ dataset:
   sampling_strategy: Plant material was sourced from a local Sydney nursery and grown
     in 10 litre pots under well-watered conditions in the tunnel house on Western
     Sydney University Hawkesbury campus for 4 weeks prior to measurement at the Australian
-    Synchrotron. Individuals of A.  aneura were grown from seed on Hawkesbury campus
+    Synchrotron. Individuals of A. aneura were grown from seed on Hawkesbury campus
     in 25 litre soil bags. At the time of measurement, plants were 2-3 years old and
     ranged in height from 1.5 m to 2.5 m; stems were 10-25 mm in diameter at the scan
     site. For each experiment, plant material was transported to the Australian Synchrotron
@@ -94,12 +94,7 @@ traits:
     we calculated the stem xylem water potential (xylem tension) at which 12% and
     50% of vessels were embolized (P12 and P50, respectively) and 95% confidence intervals
     (CIs) using the fitplc package (Duursma and Choat, 2017) in R v.3.2.0 (R Core
-    Team, 2015). Statistically significant differences between roots and stem P50
-    were assessed for each species by generating 95% CIs for the difference between
-    group means (Gauthey et al., 2020). We resampled 2000 values from bootstrap distributions
-    generated during curve fitting in fitplc and used them to generate bootstrap CIs
-    for the difference between mean P50 for roots and stems. Significant differences
-    were assessed by overlap of these CIs with zero.
+    Team, 2015). 
 - var_in: P50
   unit_in: MPa
   trait_name: water_potential_50percent_lost_conductivity
@@ -114,8 +109,8 @@ traits:
     time points, the precise scan location was marked with correction fluid on the
     stem and root, and slices used for analysis came from the same position within
     the scan zone. Embolized vessels were measured (area and diameter) and counted
-    using ‘Threshold’ and ‘Analyze particles’ functions in Image J software (1.48).
-    Total vessel counts were performed manually on fully embolized ‘cut’ scans in
+    using 'Threshold' and 'Analyze particles' functions in Image J software (1.48).
+    Total vessel counts were performed manually on fully embolized 'cut' scans in
     most cases. For E. saligna, total vessel counts were obtained from scans where
     both air- and water-filled vessels were clear and easy to distinguish. Vulnerability
     curves for C.  deodara were based on measurement of embolized xylem cross-sectional
@@ -132,12 +127,7 @@ traits:
     we calculated the stem xylem water potential (xylem tension) at which 12% and
     50% of vessels were embolized (P12 and P50, respectively) and 95% confidence intervals
     (CIs) using the fitplc package (Duursma and Choat, 2017) in R v.3.2.0 (R Core
-    Team, 2015). Statistically significant differences between roots and stem P50
-    were assessed for each species by generating 95% CIs for the difference between
-    group means (Gauthey et al., 2020). We resampled 2000 values from bootstrap distributions
-    generated during curve fitting in fitplc and used them to generate bootstrap CIs
-    for the difference between mean P50 for roots and stems. Significant differences
-    were assessed by overlap of these CIs with zero.
+    Team, 2015).
 - var_in: Native_embolism_percent
   unit_in: percentage
   trait_name: .na
