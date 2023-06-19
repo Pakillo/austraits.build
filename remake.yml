@@ -816,6 +816,25 @@ targets:
                   taxon_list
                  )
 
+  Cochrane_2001_config:
+    command: >
+      dataset_configure("data/Cochrane_2001/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Cochrane_2001_raw:
+    command: >
+      dataset_process("data/Cochrane_2001/data.csv",
+                  Cochrane_2001_config,
+                  schema,
+                  resource_metadata
+                 )
+  Cochrane_2001:
+    command: >
+      build_update_taxonomy(Cochrane_2001_raw,
+                  taxon_list
+                 )
+
   Cochrane_2017_config:
     command: >
       dataset_configure("data/Cochrane_2017/metadata.yml",
@@ -833,8 +852,7 @@ targets:
     command: >
       build_update_taxonomy(Cochrane_2017_raw,
                   taxon_list
-                 )
-
+                 )  
   Collette_2021_config:
     command: >
       dataset_configure("data/Collette_2021/metadata.yml",
@@ -6675,6 +6693,7 @@ targets:
         Choat_2012,
         Clarke_2009,
         Clarke_2015,
+        Cochrane_2001,
         Cochrane_2017,
         Collette_2021,
         Cooper_2004,
