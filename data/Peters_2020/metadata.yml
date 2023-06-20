@@ -26,7 +26,7 @@ dataset:
   custom_R_code: .na
   collection_date: unknown/2020
   taxon_name: Species
-  location_name: unknown
+  location_name: location_name
   description: In this study, we measured vulnerability to drought-induced cavitation
     in woody roots and stems of five tree species (Acacia aneura, Cedrus deodara,
     Eucalyptus crebra, Eucalytus saligna, and Quercus palustris) with a wide range
@@ -34,7 +34,7 @@ dataset:
     of xylem embolism in stems and roots of intact plants that were naturally dehydrated
     to varying levels of water stress.
   basis_of_record: lab
-  life_stage: juvenile
+  life_stage: sapling
   sampling_strategy: Plant material was sourced from a local Sydney nursery and grown
     in 10 litre pots under well-watered conditions in the tunnel house on Western
     Sydney University Hawkesbury campus for 4 weeks prior to measurement at the Australian
@@ -49,9 +49,13 @@ dataset:
   notes: data extracted from paper, not raw data.
 locations:
   Western Sydney University Hawksbury campus:
-    latitude (deg):
-    longitude (deg):
-    description:
+    latitude (deg): -33.61395
+    longitude (deg): 150.75012
+    description: Plant material was sourced from a local Sydney nursery and grown
+      in 10 litre pots under well-watered conditions in the tunnel house on Western
+      Sydney University Hawkesbury campus for 4 weeks prior to measurement at the
+      Australian Synchrotron. Individuals of A. aneura were grown from seed on Hawkesbury
+      campus in 25 litre soil bags.
 contexts:
 - context_property: sampling location
   category: method
@@ -63,7 +67,7 @@ contexts:
     description: Measurement taken from the root of the plant.
 traits:
 - var_in: P12
-  unit_in: MPa
+  unit_in: neg_MPa
   trait_name: water_potential_12percent_lost_conductivity
   entity_type: population
   value_type: mean
@@ -94,9 +98,9 @@ traits:
     we calculated the stem xylem water potential (xylem tension) at which 12% and
     50% of vessels were embolized (P12 and P50, respectively) and 95% confidence intervals
     (CIs) using the fitplc package (Duursma and Choat, 2017) in R v.3.2.0 (R Core
-    Team, 2015). 
+    Team, 2015).
 - var_in: P50
-  unit_in: MPa
+  unit_in: neg_MPa
   trait_name: water_potential_50percent_lost_conductivity
   entity_type: population
   value_type: mean
@@ -129,7 +133,7 @@ traits:
     (CIs) using the fitplc package (Duursma and Choat, 2017) in R v.3.2.0 (R Core
     Team, 2015).
 - var_in: Native_embolism_percent
-  unit_in: percentage
+  unit_in: '%'
   trait_name: .na
   entity_type: population
   value_type: mean
