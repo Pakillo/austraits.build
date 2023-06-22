@@ -19,7 +19,6 @@ contributors:
     given_name: Carola
     ORCID: unkown
     affiliation: School of Biology, University of Tasmania, Hobart
-  assistants: unknown
   austraits_curators: Gillian Kowalick
 dataset:
   data_is_long_format: no
@@ -44,19 +43,20 @@ dataset:
     three dominant species- the angiosperms Eucalyptus pulchella Desf. (Myrtaceae)
     and Acacia mearnsii De Wild. (Fabaceae) and the conifer Callitris rhomboidea R.Br.
     ex Rich. & A.Rich. (Cupressaceae).
-  original_file: unknown
+  original_file: none, data extracted from paper.
   notes: data extracted from paper, not raw data
 locations:
   woodland:
     latitude (deg): -42.0479278
     longitude (deg): 147.9567972
-    description: We selected an evergreen dry sclerophyll woodland in the Central
-      East of Tasmania, Australia. The average temperature during summer is 17 °C,
-      with an occasional daily maximum of 40 °C. Overall, mean temperatures (measured
-      at the Swansea weather station <10 km away, Australian Bureau of Meteorology)
-      slightly increased over the last 60 years, resulting in only a few mild frost
-      days (0 to -2 °C) in recent winters. Over the last 3 years, this site has received
-      less than the average annual precipitation (550 mm), leading to drier than normal
+    description: evergreen dry sclerophyll woodland
+    notes: We selected an evergreen dry sclerophyll woodland in the Central East of
+      Tasmania, Australia. The average temperature during summer is 17 °C, with an
+      occasional daily maximum of 40 °C. Overall, mean temperatures (measured at the
+      Swansea weather station <10 km away, Australian Bureau of Meteorology) slightly
+      increased over the last 60 years, resulting in only a few mild frost days (0
+      to -2 °C) in recent winters. Over the last 3 years, this site has received less
+      than the average annual precipitation (550 mm), leading to drier than normal
       conditions, which is reflected in a negative three monthly averaged Standardized
       Precipitation Evapotranspiration Index (SPEI3) (Vicente-Serrano et  al., 2010).
       The SPEI3 indicates that drought is a common feature of the site and has increased
@@ -69,15 +69,14 @@ contexts:
   var_in: Scan_position
   values:
   - value: 1.0
-    description: First scan for each branch (native scan), closest to the branch tip
-      (120mm distance to the tip). This first scan position represents the most recent
-      growth.
+    description: Scan position closest to the branch tip representing the most recent
+      growth (120mm distance to the tip).
   - value: 2.0
-    description: The second scan position, a more mature branch section.
+    description: Second scan position, representing a more mature branch section.
   - value: 3.0
-    description: Third scan for each branch, with an average distance of 325mm from
-      the branch tip. The third scan position is the oldest scanned branch section.
-- context_property: branch age
+    description: Third scan position, representing the oldest branch section (average
+      distance of 325mm from the branch tip).
+- context_property: branch age (years)
   category: entity
   var_in: Scan_position_age_year
   values:
@@ -185,7 +184,7 @@ traits:
     algorithm.
 - var_in: Theoretical_conductance_controlscan
   unit_in: kg/m/MPa/s
-  trait_name: sapwood_specific_hydraulic_conductivity_theoretical
+  trait_name: .na
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -214,6 +213,42 @@ traits:
   replicates: 2
   methods: The percentage of embolized vessels and the percentage loss of conductance
     (PLC) are calculated in relation to the control scans (100 % embolized).
+- var_in: stem_P50
+  unit_in: MPa
+  trait_name: water_potential_50percent_lost_conductivity
+  entity_type: population
+  value_type: mean
+  basis_of_value: measurement
+  replicates: 3
+  methods: During May-August 2020, three trees per species were sampled to quantify
+    the branch vulnerability to embolism during rapid dehydration under laboratory
+    conditions. The preceding 6 months had above average rainfall, thus enabling branches
+    to be collected with new growth that had not been subjected to prior water stress.
+    Branches of similar length to those described above were collected, double bagged
+    with wet tissue and transported to Hobart. ^p The optical vulnerability technique,
+    as described in Brodribb et al. (2016b) and Johnson et al. (2020), was used on
+    3-5 mm wide branches to measure the vulnerability to embolism for all species.
+    To capture embolism events, we removed the bark and covered the exposed xylem
+    in hydrogel (Tensive, Parker Laboratories Inc., Fairfield, NJ, USA). The branches
+    were then secured in 3-D printed clamps with a light source and camera (Cavicam,
+    Hobart, Tasmania, Australia) (Johnson et al., 2020). The light within the Cavicams
+    illuminated the branch during branch dehydration so that the camera could capture
+    the branch surface. Pictures were taken every 3 min and stored on an SD card until
+    full branch dehydration was achieved. A stem psychrometer (PSY1, ICT International,
+    Armidale, NSW, Australia) or periodic water potential measurements with a pressure
+    chamber were used to monitor the decline in water potential during the dehydration.
+    Images were processed following the guidelines described at www.opensourceov.org
+    and Brodribb et al. (2016a). In short, all images were processed by extracting
+    the image difference between subsequent images in ImageJ (version 1.52a, Schneider
+    et al., 2012). Image thresholding was used to count the number and size of embolism
+    events throughout the dehydration process. The amount of embolized pixel area
+    was extracted from each image and expressed as a percentage of total embolized
+    pixel area to relate the increase in embolism percentage to time. Following this,
+    the linear relationship between water potential and time from the psychrometer
+    and pressure chamber readings was used to predict the water potential for each
+    embolism event (Fig. 2B). All tree-level vulnerability curves can be viewed in
+    Supplementary data Fig. S2. The inflection point, P50, was predicted from this
+    relationship.
 substitutions: .na
 taxonomic_updates: .na
 exclude_observations: .na
