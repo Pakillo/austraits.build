@@ -4293,6 +4293,25 @@ targets:
                   taxon_list
                  )
 
+  Peters_2020_config:
+    command: >
+      dataset_configure("data/Peters_2020/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Peters_2020_raw:
+    command: >
+      dataset_process("data/Peters_2020/data.csv",
+                  Peters_2020_config,
+                  schema,
+                  resource_metadata
+                 )
+  Peters_2020:
+    command: >
+      build_update_taxonomy(Peters_2020_raw,
+                  taxon_list
+                 )
+
   Pfautsch_2016_config:
     command: >
       dataset_configure("data/Pfautsch_2016/metadata.yml",
@@ -6896,6 +6915,7 @@ targets:
         Pate_1990,
         Peeters_2002,
         Pekin_2011,
+        Peters_2020,
         Pfautsch_2016,
         Pickering_2014,
         Pickup_2002,
