@@ -60,13 +60,13 @@ dataset:
       filter(trait == "height_m") %>%
       filter(collector != "L.J. Pollock") %>%
       mutate(replicates = 1) %>%
-      group_by(taxon, locality) %>%
+      group_by(taxon, dataset) %>%
       mutate(
         value = max(value),
         replicates = sum(replicates)
         ) %>%
       ungroup() %>%
-      distinct(value, replicates, taxon, locality, trait, .keep_all = TRUE) %>%
+      distinct(value, replicates, taxon, dataset, trait, .keep_all = TRUE) %>%
       mutate(value = ifelse(tree_id == "BRG06", value/10, value));
 
     diameter <- data %>%
@@ -77,13 +77,13 @@ dataset:
         replicates = 1,
         trait = "diameter_cm"
       ) %>%
-      group_by(taxon, locality) %>%
+      group_by(taxon, dataset) %>%
       mutate(
         value = max(value),
         replicates = sum(replicates)
         ) %>%
       ungroup() %>%
-      distinct(value, replicates, taxon, locality, trait, .keep_all = TRUE);
+      distinct(value, replicates, taxon, dataset, trait, .keep_all = TRUE);
 
     data %>%
       filter(collector != "L.J. Pollock") %>%
@@ -127,7 +127,7 @@ dataset:
   original_file: The continuous trait dataset was prepared and is contained within
     the R package eucdata (Windecker et al. 2021).
   notes: All trait data in this dataset were collected and processed anew by this
-    project.
+    project. Plant height should be added as a context property.
 locations:
   1 km off Princes Highway along Western Boundary road, near Tuross Head.:
     latitude (deg): -36.04009
