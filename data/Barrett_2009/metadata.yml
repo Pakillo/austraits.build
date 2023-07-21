@@ -1,38 +1,198 @@
 source:
   primary:
     key: Barrett_2009
-    bibtype: Article
-    year: unknown
-    author: unknown
-    title: unknown
-    journal: unknown
-    volume: unknown
-    number: unknown
-    pages: unknown
-    doi: unknown
+    bibtype: Report
+    year: 2009
+    author: Sarah Barrett, Sarah Comer, Nathan McQuoid, Meghan Porter, Cameron Tiller
+      and Deon Utber
+    title: Identification and Conservation of Fire Sensitive Ecosystems and Species
+      of the South Coast Natural Resource Management Region.
+    publisher: Department of Conservation and Land Management, South Coast Region,
+      Western Australia
 contributors:
   data_collectors:
-  - last_name: unknown
-    given_name: unknown
-    ORCID: unknown
-    affiliation: unknown
-  assistants: unknown
-  austraits_curators: unknown
+  - last_name: Barrett
+    given_name: Sarah
+    ORCID: .na
+    affiliation: Parks and Wildlife Service, South Coast Region, Department of Biodiversity,
+      Conservation and Attractions, Albany, WA
+  austraits_curators: Sophie Yang
 dataset:
   data_is_long_format: no
-  custom_R_code: .na
-  collection_date: Unknown/2009
+  custom_R_code:       '
+    data %>%
+      mutate(
+        location_name = "South Coast region of WA",
+        seedbank = fire_response,
+        bud_bank_location = fire_response,
+        post_fire_recruitment = fire_response,
+        reproductive_maturity = post_fire_recovery,
+        time_to_50_percent_flowering = primary_juvenile_period
+      )'
+  collection_date: unknown/2009
   taxon_name: species
-  location_name: unknown
-  description: unknown
-  basis_of_record: unknown
-  life_stage: unknown
-  sampling_strategy: unknown
-  original_file: unknown
-  notes: unknown
-locations: .na
+  location_name: location_name
+  description: A government report collating information on the ecological attributes
+    of 80 fire-sensitive systems in the South Coast region of Western Australia.
+  basis_of_record: literature
+  life_stage: adult
+  sampling_strategy: Southern Prospects, the South Coast Strategy for Natural Resource
+    Management, identified that the South Coast region has many fire sensitive ecosystems
+    occurring on public and private land; that inappropriate fire regimes were a significant
+    threatening process impacting on biodiversity; and that more information was required
+    to adequately manage and conserve these systems. This project identifies a preliminary
+    list of 80 fire sensitive systems and collates information on their ecological
+    attributes that will directly assist their management.
+  original_file: Extracted tables from the report PDF are in the raw folder
+  notes: .na
+locations:
+  South Coast region of WA:
+    latitude range (deg): -32.5 to -35.3
+    longitude range (deg): 116.7 to 124.5
+    description: South Coast 'Ecodistricts' identifying the region's natural patterns
+      in terms of related areas by the criteria of oldest to youngest of geology,
+      climate, drainages, soils and vegetation systems.
 contexts: .na
-traits: .na
+traits:
+- var_in: fire_response
+  unit_in: .na
+  trait_name: resprouting_capacity
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The following component species lists are not comprehensive lists and their
+    level of detail varies considerably between systems. The response to fire and
+    rate of maturation rates of flora species is documented where known. Selected
+    fire sensitive species are highlighted in bold, these include obligate reseeders,
+    in particular serotinous species, as well as structural species sensitive to high
+    intensity fire, short range endemics and significant fauna. Plants are classified
+    as obligate seeders with a canopy (OSC) or soil-stored seed bank (OSS), basal
+    resprouters (RS), epicormic resprouters (RS ep) or facultative resprouter / seeders
+    (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources were Sarah Barrett,
+    Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan McQuoid, Gil Craig,
+    Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton, Libby Sandiford (personal
+    observations); McCaw (1997b), DEC NatureMap, DEC Fire Response Database. Published
+    sources were Anderson (2005), Burrows et al. (2008), Collins et al. (2008), Hassell
+    (2001), George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni
+    (2006), Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper
+    (1988), Young (2006).
+- var_in: post_fire_recovery
+  unit_in: a
+  trait_name: reproductive_maturity
+  entity_type: species
+  value_type: bin
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The following component species lists are not comprehensive lists and their
+    level of detail varies considerably between systems. The response to fire and
+    rate of maturation rates of flora species is documented where known. Selected
+    fire sensitive species are highlighted in bold, these include obligate reseeders,
+    in particular serotinous species, as well as structural species sensitive to high
+    intensity fire, short range endemics and significant fauna. Maturation times for
+    plant species, based on post-fire recovery and first flowering, are classified
+    as rapid (< 3 years), medium (4 - 6 years) and slow (>6) (adapted from Hassell
+    2001). First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Fire responses and maturation times should be regarded
+    as indicative only. Unpublished data sources were Sarah Barrett, Karlene Bain,
+    Sarah Comer, Anne Cochrane, Emma Adams, Nathan McQuoid, Gil Craig, Roger Hearn,
+    Jannine Liddelow, Carl Gosper, Ted Middleton, Libby Sandiford (personal observations);
+    McCaw (1997b), DEC NatureMap, DEC Fire Response Database. Published sources were
+    Anderson (2005), Burrows et al. (2008), Collins et al. (2008), Hassell (2001),
+    George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni (2006),
+    Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper (1988),
+    Young (2006).
+- var_in: reproductive_maturity
+  unit_in: a
+  trait_name: fire_time_from_fire_to_50_percent_flowering
+  entity_type: species
+  value_type: bin
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The following component species lists are not comprehensive lists and their
+    level of detail varies considerably between systems. The response to fire and
+    rate of maturation rates of flora species is documented where known. Selected
+    fire sensitive species are highlighted in bold, these include obligate reseeders,
+    in particular serotinous species, as well as structural species sensitive to high
+    intensity fire, short range endemics and significant fauna. Maturation times for
+    plant species, based on post-fire recovery and first flowering, are classified
+    as rapid (< 3 years), medium (4 - 6 years) and slow (>6) (adapted from Hassell
+    2001). First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Fire responses and maturation times should be regarded
+    as indicative only. Unpublished data sources were Sarah Barrett, Karlene Bain,
+    Sarah Comer, Anne Cochrane, Emma Adams, Nathan McQuoid, Gil Craig, Roger Hearn,
+    Jannine Liddelow, Carl Gosper, Ted Middleton, Libby Sandiford (personal observations);
+    McCaw (1997b), DEC NatureMap, DEC Fire Response Database. Published sources were
+    Anderson (2005), Burrows et al. (2008), Collins et al. (2008), Hassell (2001),
+    George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni (2006),
+    Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper (1988),
+    Young (2006).
+- var_in: primary_juvenile_period
+  unit_in: mo
+  trait_name: reproductive_maturity
+  entity_type: species
+  value_type: median
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: time_to_50_percent_flowering
+  unit_in: mo
+  trait_name: fire_time_from_fire_to_50_percent_flowering
+  entity_type: species
+  value_type: median
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: seedbank
+  unit_in: .na
+  trait_name: seedbank_location
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The response to fire and rate of maturation rates of flora species is documented
+    where known. Selected fire sensitive species are highlighted in bold, these include
+    obligate reseeders, in particular serotinous species, as well as structural species
+    sensitive to high intensity fire, short range endemics and significant fauna.
+    Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
+    bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
+- var_in: bud_bank_location
+  unit_in: .na
+  trait_name: bud_bank_location
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The response to fire and rate of maturation rates of flora species is documented
+    where known. Selected fire sensitive species are highlighted in bold, these include
+    obligate reseeders, in particular serotinous species, as well as structural species
+    sensitive to high intensity fire, short range endemics and significant fauna.
+    Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
+    bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
+- var_in: post_fire_recruitment
+  unit_in: .na
+  trait_name: post_fire_recruitment
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The response to fire and rate of maturation rates of flora species is documented
+    where known. Selected fire sensitive species are highlighted in bold, these include
+    obligate reseeders, in particular serotinous species, as well as structural species
+    sensitive to high intensity fire, short range endemics and significant fauna.
+    Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
+    bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
 substitutions: .na
 taxonomic_updates: .na
 exclude_observations: .na
