@@ -1,0 +1,49 @@
+dataset_id,trait_name,find,replace
+Barrett_2009,resprouting_capacity,OSS,fire_killed
+Barrett_2009,resprouting_capacity,RS,resprouts
+Barrett_2009,resprouting_capacity,OSC,fire_killed
+Barrett_2009,resprouting_capacity,OSC/RS,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS ep/ OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS/OSS,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS ep,resprouts
+Barrett_2009,resprouting_capacity,RS/ ep,resprouts
+Barrett_2009,resprouting_capacity,OSC ,fire_killed
+Barrett_2009,resprouting_capacity,Annual,
+Barrett_2009,resprouting_capacity,FERN,
+Barrett_2009,resprouting_capacity,Fern,
+Barrett_2009,resprouting_capacity,RS / OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,GEO,
+Barrett_2009,resprouting_capacity,RS /OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS/ OSS,fire_killed resprouts
+Barrett_2009,resprouting_capacity,Lichen,
+Barrett_2009,resprouting_capacity,Moss,
+Barrett_2009,resprouting_capacity,RS ep/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RSep/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS ep /OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RSE,resprouts
+Barrett_2009,resprouting_capacity,RS ep / OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RSep,resprouts
+Barrett_2009,resprouting_capacity,"RS ep, OSC",fire_killed resprouts
+Barrett_2009,resprouting_capacity,Rsep/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS/ep/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,RS / OSS,fire_killed resprouts
+Barrett_2009,resprouting_capacity,0SS,fire_killed
+Barrett_2009,resprouting_capacity,OSS/RS,fire_killed resprouts
+Barrett_2009,resprouting_capacity,R/OSC,fire_killed resprouts
+Barrett_2009,resprouting_capacity,MOSS,
+Barrett_2009,resprouting_capacity,Cryptogram,
+Barrett_2009,resprouting_capacity,Comb-fern,
+Barrett_2009,resprouting_capacity,RS/ OSC,fire_killed resprouts
+Barrett_2009,reproductive_maturity,medium to slow,4--
+Barrett_2009,reproductive_maturity,medium,4--6
+Barrett_2009,reproductive_maturity,rapid,3
+Barrett_2009,reproductive_maturity,rapid to medium,6
+Barrett_2009,reproductive_maturity,slow,6--
+Barrett_2009,reproductive_maturity,medium - slow,4--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium to slow,4--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium,4--6
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid,3
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid to medium,6
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,slow,6--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium - slow,4--

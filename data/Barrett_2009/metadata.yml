@@ -2,12 +2,13 @@ source:
   primary:
     key: Barrett_2009
     bibtype: Report
+    type: government
     year: 2009
     author: Sarah Barrett, Sarah Comer, Nathan McQuoid, Meghan Porter, Cameron Tiller
       and Deon Utber
     title: Identification and Conservation of Fire Sensitive Ecosystems and Species
       of the South Coast Natural Resource Management Region.
-    publisher: Department of Conservation and Land Management, South Coast Region,
+    institution: Department of Conservation and Land Management, South Coast Region,
       Western Australia
 contributors:
   data_collectors:
@@ -19,15 +20,48 @@ contributors:
   austraits_curators: Sophie Yang
 dataset:
   data_is_long_format: no
-  custom_R_code:       '
+  custom_R_code:                                                                                                                                                                                                                           '
     data %>%
+      mutate(across(c("fire_response", "post_fire_recovery", "primary_juvenile_period"), ~str_replace_all(.x, "\\?", ""))) %>%
+      mutate(across(c("fire_response", "post_fire_recovery", "primary_juvenile_period"), ~ifelse(.x == "", NA_character_, .x))) %>%
       mutate(
         location_name = "South Coast region of WA",
-        seedbank = fire_response,
-        bud_bank_location = fire_response,
-        post_fire_recruitment = fire_response,
+        seedbank = case_when(
+          str_detect(fire_response, "OSS") ~ "soil_seedbank",
+          str_detect(fire_response, "OSC") ~ "canopy_seedbank",
+          str_detect(fire_response, "0SS") ~ "soil_seedbank",
+          TRUE ~ NA_character_),
+        bud_bank_location = case_when(
+          str_detect(fire_response, "ep") ~ "epicormic_buds",
+          str_detect(fire_response, "RS") ~ "basal_buds",
+          TRUE ~ NA_character_
+        ),
         reproductive_maturity = post_fire_recovery,
-        time_to_50_percent_flowering = primary_juvenile_period
+        primary_juvenile_period_min = case_when(
+          str_detect(primary_juvenile_period, "(?<=>)\\d+") ~ str_extract(primary_juvenile_period, "(?<=>)\\d+"),
+          str_detect(primary_juvenile_period, "(?<=≥)\\d+") ~ str_extract(primary_juvenile_period, "(?<=≥)\\d+"),
+          str_detect(primary_juvenile_period, "\\d+(?= to)") ~ str_extract(primary_juvenile_period, "\\d+(?= to)"),
+          str_detect(primary_juvenile_period, "\\d+(?=\\-)") ~ str_extract(primary_juvenile_period, "\\d+(?=\\-)"),
+          str_detect(primary_juvenile_period, "\\d+(?= \\+)") ~ str_extract(primary_juvenile_period, "\\d+(?= \\+)"),
+          str_detect(primary_juvenile_period, "\\d+(?=\\+)") ~ str_extract(primary_juvenile_period, "\\d+(?=\\+)"),
+          TRUE ~ NA_character_),
+        primary_juvenile_period_med = case_when(
+          str_detect(primary_juvenile_period, "^\\d+(?![ \\-\\+\\d])") ~ str_extract(primary_juvenile_period, "^\\d+(?![ \\-\\+\\d])"),
+          TRUE ~ NA_character_),
+        primary_juvenile_period_max = case_when(
+          str_detect(primary_juvenile_period, "(?<=<)\\d+") ~ str_extract(primary_juvenile_period, "(?<=<)\\d+"),
+          str_detect(primary_juvenile_period, "(?<=< )\\d+") ~ str_extract(primary_juvenile_period, "(?<=< )\\d+"),
+          str_detect(primary_juvenile_period, "(?<=≤)\\d+") ~ str_extract(primary_juvenile_period, "(?<=≤)\\d+"),
+          str_detect(primary_juvenile_period, "(?<=to )\\d+") ~ str_extract(primary_juvenile_period, "(?<=to )\\d+"),
+          str_detect(primary_juvenile_period, "(?<=\\-)\\d+") ~ str_extract(primary_juvenile_period, "(?<=\\-)\\d+"),
+          TRUE ~ NA_character_),
+        time_to_50_percent_flowering_min = primary_juvenile_period_min,
+        time_to_50_percent_flowering_med = primary_juvenile_period_med,
+        time_to_50_percent_flowering_max = primary_juvenile_period_max,
+        plant_growth_form = if_else(fire_response == "GEO", "geophyte", NA_character_),
+        life_form = if_else(fire_response == "GEO", "geophyte", NA_character_),
+        plant_growth_from = if_else(fire_response %in% c("Fern", "FERN", "Comb-fern"), "fern", NA_character_),
+        life_history = if_else(fire_response == "Annual", "annual", NA_character_)
       )'
   collection_date: unknown/2009
   taxon_name: species
@@ -72,11 +106,13 @@ traits:
     (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources were Sarah Barrett,
     Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan McQuoid, Gil Craig,
     Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton, Libby Sandiford (personal
-    observations); McCaw (1997b), DEC NatureMap, DEC Fire Response Database. Published
-    sources were Anderson (2005), Burrows et al. (2008), Collins et al. (2008), Hassell
-    (2001), George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni
-    (2006), Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper
-    (1988), Young (2006).
+    observations); McCaw (1997b), DEC NatureMap, DEC Fire Response Database; sources
+    for Appendix VI are Juliette Wedge, Andrew Brown, Emma Adams, Nathan, Mcquoid,
+    G. Craig, Roger Hearn, Jannine Liddelow, Ted Middleton (personal observations).
+    Published sources were Anderson (2005), Burrows et al. (2008), Collins et al.
+    (2008), Hassell (2001), George and Pieroni (2002), Gosper et al. (in press), Kavanagh
+    and Pieroni (2006), Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor
+    and Hopper (1988), Young (2006).
 - var_in: post_fire_recovery
   unit_in: a
   trait_name: reproductive_maturity
@@ -127,7 +163,7 @@ traits:
     George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni (2006),
     Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper (1988),
     Young (2006).
-- var_in: primary_juvenile_period
+- var_in: primary_juvenile_period_med
   unit_in: mo
   trait_name: reproductive_maturity
   entity_type: species
@@ -139,11 +175,59 @@ traits:
     Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
     Liddelow, Ted Middleton (personal observations). Published sources were Collins
     et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
-- var_in: time_to_50_percent_flowering
+- var_in: primary_juvenile_period_min
+  unit_in: mo
+  trait_name: reproductive_maturity
+  entity_type: species
+  value_type: minimum
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: primary_juvenile_period_max
+  unit_in: mo
+  trait_name: reproductive_maturity
+  entity_type: species
+  value_type: maximum
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: time_to_50_percent_flowering_med
   unit_in: mo
   trait_name: fire_time_from_fire_to_50_percent_flowering
   entity_type: species
   value_type: median
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: time_to_50_percent_flowering_min
+  unit_in: mo
+  trait_name: fire_time_from_fire_to_50_percent_flowering
+  entity_type: species
+  value_type: minimum
+  basis_of_value: measurement
+  replicates: .na
+  methods: First flowering is defined as time to first flowering of 50% of a population
+    where this data is available. Unpublished data sources were Sarah Barrett, Juliette
+    Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
+    Liddelow, Ted Middleton (personal observations). Published sources were Collins
+    et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+- var_in: time_to_50_percent_flowering_max
+  unit_in: mo
+  trait_name: fire_time_from_fire_to_50_percent_flowering
+  entity_type: species
+  value_type: maximum
   basis_of_value: measurement
   replicates: .na
   methods: First flowering is defined as time to first flowering of 50% of a population
@@ -164,7 +248,16 @@ traits:
     sensitive to high intensity fire, short range endemics and significant fauna.
     Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
     bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
-    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources
+    were Sarah Barrett, Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan
+    McQuoid, Gil Craig, Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton,
+    Libby Sandiford (personal observations); McCaw (1997b), DEC NatureMap, DEC Fire
+    Response Database; sources for Appendix VI are Juliette Wedge, Andrew Brown, Emma
+    Adams, Nathan, Mcquoid, G. Craig, Roger Hearn, Jannine Liddelow, Ted Middleton
+    (personal observations). Published sources were Anderson (2005), Burrows et al.
+    (2008), Collins et al. (2008), Hassell (2001), George and Pieroni (2002), Gosper
+    et al. (in press), Kavanagh and Pieroni (2006), Marriot and Olde (1995 a, b),
+    Meney and Pate (1999), Taylor and Hopper (1988), Young (2006).
 - var_in: bud_bank_location
   unit_in: .na
   trait_name: bud_bank_location
@@ -178,10 +271,19 @@ traits:
     sensitive to high intensity fire, short range endemics and significant fauna.
     Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
     bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
-    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
-- var_in: post_fire_recruitment
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources
+    were Sarah Barrett, Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan
+    McQuoid, Gil Craig, Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton,
+    Libby Sandiford (personal observations); McCaw (1997b), DEC NatureMap, DEC Fire
+    Response Database; sources for Appendix VI are Juliette Wedge, Andrew Brown, Emma
+    Adams, Nathan, Mcquoid, G. Craig, Roger Hearn, Jannine Liddelow, Ted Middleton
+    (personal observations). Published sources were Anderson (2005), Burrows et al.
+    (2008), Collins et al. (2008), Hassell (2001), George and Pieroni (2002), Gosper
+    et al. (in press), Kavanagh and Pieroni (2006), Marriot and Olde (1995 a, b),
+    Meney and Pate (1999), Taylor and Hopper (1988), Young (2006).
+- var_in: plant_growth_form
   unit_in: .na
-  trait_name: post_fire_recruitment
+  trait_name: plant_growth_form
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
@@ -192,8 +294,184 @@ traits:
     sensitive to high intensity fire, short range endemics and significant fauna.
     Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
     bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
-    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO).
-substitutions: .na
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources
+    were Sarah Barrett, Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan
+    McQuoid, Gil Craig, Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton,
+    Libby Sandiford (personal observations); McCaw (1997b), DEC NatureMap, DEC Fire
+    Response Database; sources for Appendix VI are Juliette Wedge, Andrew Brown, Emma
+    Adams, Nathan, Mcquoid, G. Craig, Roger Hearn, Jannine Liddelow, Ted Middleton
+    (personal observations). Published sources were Anderson (2005), Burrows et al.
+    (2008), Collins et al. (2008), Hassell (2001), George and Pieroni (2002), Gosper
+    et al. (in press), Kavanagh and Pieroni (2006), Marriot and Olde (1995 a, b),
+    Meney and Pate (1999), Taylor and Hopper (1988), Young (2006).
+- var_in: life_history
+  unit_in: .na
+  trait_name: life_history
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: The response to fire and rate of maturation rates of flora species is documented
+    where known. Selected fire sensitive species are highlighted in bold, these include
+    obligate reseeders, in particular serotinous species, as well as structural species
+    sensitive to high intensity fire, short range endemics and significant fauna.
+    Plants are classified as obligate seeders with a canopy (OSC) or soil-stored seed
+    bank (OSS), basal resprouters (RS), epicormic resprouters (RS ep) or facultative
+    resprouter / seeders (RS / OSC or OSS) or geophytes (GEO). Unpublished data sources
+    were Sarah Barrett, Karlene Bain, Sarah Comer, Anne Cochrane, Emma Adams, Nathan
+    McQuoid, Gil Craig, Roger Hearn, Jannine Liddelow, Carl Gosper, Ted Middleton,
+    Libby Sandiford (personal observations); McCaw (1997b), DEC NatureMap, DEC Fire
+    Response Database; sources for Appendix VI are Juliette Wedge, Andrew Brown, Emma
+    Adams, Nathan, Mcquoid, G. Craig, Roger Hearn, Jannine Liddelow, Ted Middleton
+    (personal observations). Published sources were Anderson (2005), Burrows et al.
+    (2008), Collins et al. (2008), Hassell (2001), George and Pieroni (2002), Gosper
+    et al. (in press), Kavanagh and Pieroni (2006), Marriot and Olde (1995 a, b),
+    Meney and Pate (1999), Taylor and Hopper (1988), Young (2006).
+substitutions:
+- trait_name: resprouting_capacity
+  find: OSS
+  replace: fire_killed
+- trait_name: resprouting_capacity
+  find: RS
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: OSC
+  replace: fire_killed
+- trait_name: resprouting_capacity
+  find: OSC/RS
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS ep/ OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS/OSS
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS ep
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: RS/ ep
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: OSC
+  replace: fire_killed
+- trait_name: resprouting_capacity
+  find: Annual
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: FERN
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: Fern
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: RS / OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: GEO
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: RS /OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS/ OSS
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: Lichen
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: Moss
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: RS ep/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RSep/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS ep /OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RSE
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: RS ep / OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RSep
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: RS ep, OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: Rsep/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS/ep/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: RS / OSS
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: 0SS
+  replace: fire_killed
+- trait_name: resprouting_capacity
+  find: OSS/RS
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: R/OSC
+  replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: MOSS
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: Cryptogram
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: Comb-fern
+  replace: .na.character
+- trait_name: resprouting_capacity
+  find: RS/ OSC
+  replace: fire_killed resprouts
+- trait_name: reproductive_maturity
+  find: medium to slow
+  replace: 4--
+- trait_name: reproductive_maturity
+  find: medium
+  replace: 4--6
+- trait_name: reproductive_maturity
+  find: rapid
+  replace: '3'
+- trait_name: reproductive_maturity
+  find: rapid to medium
+  replace: '6'
+- trait_name: reproductive_maturity
+  find: slow
+  replace: 6--
+- trait_name: reproductive_maturity
+  find: medium - slow
+  replace: 4--
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: medium to slow
+  replace: 4--
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: medium
+  replace: 4--6
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: rapid
+  replace: '3'
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: rapid to medium
+  replace: '6'
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: slow
+  replace: 6--
+- trait_name: fire_time_from_fire_to_50_percent_flowering
+  find: medium - slow
+  replace: 4--
 taxonomic_updates: .na
 exclude_observations: .na
 questions: .na
