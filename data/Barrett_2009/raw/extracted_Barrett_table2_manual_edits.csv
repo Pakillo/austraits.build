@@ -84,7 +84,8 @@ Andersonia depressa,P3,OSS,,197
 Andersonia echinocephala,P3,OSS,>48,197
 Andersonia grandiflora,P3,OSS,,197
 Andersonia hammersleyana,P2,OSS,36 to 48,197
-Andersonia jamesii,P1,OSS,(JL),197
+Andersonia jamesii,P1,OSS,24,197
+Andersonia jamesii,P1,OSS,36,197
 Andersonia pinaster,R,OSS,36,197
 Andersonia redolens,P1,OSS,36 to 48,197
 Andersonia setifolia,P3,OSS,,197
@@ -612,7 +613,7 @@ Meeboldina crassipes,P3,RS,,208
 Meeboldina thysanantha,P3,,,208
 Melaleuca agathosmoides,P1,,,208
 Melaleuca araucarioides,P4,,,208
-Melaleuca basicephala,P4,36?,,208
+Melaleuca basicephala,P4,,36?,208
 Melaleuca dempta,P3,OSC,,208
 Melaleuca diosmifolia,P3,,,208
 Melaleuca eximia,P2,,,208

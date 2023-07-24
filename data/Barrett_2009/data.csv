@@ -174,7 +174,8 @@ Andersonia echinocephala,OSS,197,NA,P3,>48
 Andersonia grandiflora,OSS,197,NA,P3,NA
 Andersonia hammersleyana,OSS,197,NA,P2,36 to 48
 Andersonia hammerslyeana,OSS,143,medium,NA,NA
-Andersonia jamesii,OSS,197,NA,P1,(JL)
+Andersonia jamesii,OSS,197,NA,P1,24
+Andersonia jamesii,OSS,197,NA,P1,36
 Andersonia lazulina,OSS,197,NA,P3,24
 Andersonia pinaster,OSS,151,medium,R,36
 Andersonia redolens,OSS,197,NA,P1,36 to 48
@@ -1366,7 +1367,7 @@ Melaleuca acuminata,RS,175,NA,NA,NA
 Melaleuca agathosmoides,NA,208,NA,P1,NA
 Melaleuca apodocephala,NA,189,NA,NA,NA
 Melaleuca araucarioides,NA,208,NA,P4,NA
-Melaleuca basicephala,36?,208,NA,P4,NA
+Melaleuca basicephala,NA,208,NA,P4,36?
 Melaleuca bracteosa,NA,160,NA,NA,NA
 Melaleuca brevifolia,NA,189,NA,NA,NA
 Melaleuca brevifolia,?OSC,184,NA,NA,NA
@@ -1651,7 +1652,7 @@ Rinzia longifolia,NA,210,NA,P1,NA
 Rorippa cygnorum,OSS?,210,NA,P2,24
 Rorripa dictyosperma,OSS,210,NA,P2,9
 Rulingia apella,NA,210,NA,P1,NA
-Rulingia coryfolia,rapid,194,NA,NA,NA
+Rulingia coryfolia,NA,194,rapid,NA,NA
 Rumex drummondii,NA,210,NA,P4,NA
 Rumicastrum chamaecladum,OSS,210,NA,P2,6
 Salt Lakes fringing,NA,174,NA,NA,NA
