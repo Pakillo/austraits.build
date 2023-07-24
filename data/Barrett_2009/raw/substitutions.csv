@@ -34,6 +34,7 @@ Barrett_2009,resprouting_capacity,R/OSC,fire_killed resprouts
 Barrett_2009,resprouting_capacity,MOSS,
 Barrett_2009,resprouting_capacity,Cryptogram,
 Barrett_2009,resprouting_capacity,Comb-fern,
+Barrett_2009,resprouting_capacity,OSC ,fire_killed
 Barrett_2009,resprouting_capacity,RS/ OSC,fire_killed resprouts
 Barrett_2009,reproductive_maturity,medium to slow,4--
 Barrett_2009,reproductive_maturity,medium,4--6
@@ -41,9 +42,9 @@ Barrett_2009,reproductive_maturity,rapid,3
 Barrett_2009,reproductive_maturity,rapid to medium,6
 Barrett_2009,reproductive_maturity,slow,6--
 Barrett_2009,reproductive_maturity,medium - slow,4--
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium to slow,4--
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium,4--6
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid,3
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid to medium,6
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,slow,6--
-Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium - slow,4--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium to slow,48--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium,48--72
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid,36
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,rapid to medium,72
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,slow,72--
+Barrett_2009,fire_time_from_fire_to_50_percent_flowering,medium - slow,48--

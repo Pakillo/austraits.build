@@ -86,7 +86,15 @@ locations:
     description: South Coast 'Ecodistricts' identifying the region's natural patterns
       in terms of related areas by the criteria of oldest to youngest of geology,
       climate, drainages, soils and vegetation systems.
-contexts: .na
+contexts:
+- context_property: time to flowering type
+  category: entity_context
+  var_in: entity_context
+  values:
+  - value: from resprouting
+    description: Time from fire to flowering measured on resprouting shoots.
+  - value: from seed
+    description: Time from fire to flowering measured on plants that germinated post-fire.
 traits:
 - var_in: fire_response
   unit_in: .na
@@ -139,7 +147,7 @@ traits:
     Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper (1988),
     Young (2006).
 - var_in: reproductive_maturity
-  unit_in: a
+  unit_in: mo
   trait_name: fire_time_from_fire_to_50_percent_flowering
   entity_type: species
   value_type: bin
@@ -163,6 +171,7 @@ traits:
     George and Pieroni (2002), Gosper et al. (in press), Kavanagh and Pieroni (2006),
     Marriot and Olde (1995 a, b), Meney and Pate (1999), Taylor and Hopper (1988),
     Young (2006).
+  entity_context: from seed
 - var_in: primary_juvenile_period_med
   unit_in: mo
   trait_name: reproductive_maturity
@@ -211,6 +220,7 @@ traits:
     Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
     Liddelow, Ted Middleton (personal observations). Published sources were Collins
     et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+  entity_context: from seed
 - var_in: time_to_50_percent_flowering_min
   unit_in: mo
   trait_name: fire_time_from_fire_to_50_percent_flowering
@@ -223,6 +233,7 @@ traits:
     Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
     Liddelow, Ted Middleton (personal observations). Published sources were Collins
     et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+  entity_context: from seed
 - var_in: time_to_50_percent_flowering_max
   unit_in: mo
   trait_name: fire_time_from_fire_to_50_percent_flowering
@@ -235,6 +246,7 @@ traits:
     Wedge, Andrew Brown, Emma Adams, Nathan McQuoid, G. Craig, Roger Hearn, Jannine
     Liddelow, Ted Middleton (personal observations). Published sources were Collins
     et al (2008), George and Pieroni (2002), Kavanagh and Pieroni (2006).
+  entity_context: from seed
 - var_in: seedbank
   unit_in: .na
   trait_name: seedbank_location
@@ -436,6 +448,9 @@ substitutions:
 - trait_name: resprouting_capacity
   find: RS/ OSC
   replace: fire_killed resprouts
+- trait_name: resprouting_capacity
+  find: OSC 
+  replace: fire_killed
 - trait_name: reproductive_maturity
   find: medium to slow
   replace: 4--
@@ -456,22 +471,22 @@ substitutions:
   replace: 4--
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: medium to slow
-  replace: 4--
+  replace: 48--
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: medium
-  replace: 4--6
+  replace: 48--72
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: rapid
-  replace: '3'
+  replace: '36'
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: rapid to medium
-  replace: '6'
+  replace: '72'
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: slow
-  replace: 6--
+  replace: 72--
 - trait_name: fire_time_from_fire_to_50_percent_flowering
   find: medium - slow
-  replace: 4--
+  replace: 48--
 taxonomic_updates: .na
 exclude_observations: .na
 questions: .na
