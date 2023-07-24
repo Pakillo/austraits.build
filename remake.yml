@@ -284,6 +284,25 @@ targets:
                   taxon_list
                  )
 
+  Barrett_2009_config:
+    command: >
+      dataset_configure("data/Barrett_2009/metadata.yml",
+                 definitions,
+                 unit_conversions
+                 )
+  Barrett_2009_raw:
+    command: >
+      dataset_process("data/Barrett_2009/data.csv",
+                  Barrett_2009_config,
+                  schema,
+                  resource_metadata
+                 )
+  Barrett_2009:
+    command: >
+      build_update_taxonomy(Barrett_2009_raw,
+                  taxon_list
+                 )
+
   Bean_1997_config:
     command: >
       dataset_configure("data/Bean_1997/metadata.yml",
@@ -6913,6 +6932,7 @@ targets:
         ATRP_2020,
         Auld_2000,
         Baker_2019,
+        Barrett_2009,
         Bean_1997,
         Blackman_2010,
         Bloomfield_2018,
