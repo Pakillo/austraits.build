@@ -58,10 +58,18 @@ dataset:
         time_to_50_percent_flowering_min = primary_juvenile_period_min,
         time_to_50_percent_flowering_med = primary_juvenile_period_med,
         time_to_50_percent_flowering_max = primary_juvenile_period_max,
-        plant_growth_form = if_else(fire_response == "GEO", "geophyte", NA_character_),
+        plant_growth_form = case_when(
+          fire_response == "GEO" ~ "geophyte",
+          fire_response %in% c("Fern", "FERN", "Comb-fern") ~ "fern",
+          TRUE ~ NA_character_
+        ),
         life_form = if_else(fire_response == "GEO", "geophyte", NA_character_),
-        plant_growth_from = if_else(fire_response %in% c("Fern", "FERN", "Comb-fern"), "fern", NA_character_),
-        life_history = if_else(fire_response == "Annual", "annual", NA_character_)
+        life_history = if_else(fire_response == "Annual", "annual", NA_character_),
+        species = case_when(
+          str_detect(species, "(?<=E. ).+") ~ str_replace(species, "E. ", "Eucalyptus "),
+          str_detect(species, "(?<=E ).+") ~ str_replace(species, "E ", "Eucalyptus "),
+          TRUE ~ species
+        )
       )'
   collection_date: unknown/2009
   taxon_name: species
@@ -449,7 +457,7 @@ substitutions:
   find: RS/ OSC
   replace: fire_killed resprouts
 - trait_name: resprouting_capacity
-  find: OSC 
+  find: 'OSC '
   replace: fire_killed
 - trait_name: reproductive_maturity
   find: medium to slow
