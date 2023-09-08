@@ -496,5 +496,17 @@ substitutions:
   find: medium - slow
   replace: 48--
 taxonomic_updates: .na
-exclude_observations: .na
+exclude_observations:
+- variable: taxon_name
+  find: Xanthoparmelia sargentii, Xanthoparmelia subimitatrix, Usnea pulvinata
+  reason: lichen
+- variable: taxon_name
+  find: Amanita carneiphylla, Torrendia grandis, Torrendia inculta
+  reason: fungus
+- variable: taxon_name
+  find: Fabronia hampeana, Drepanocladus aduncus, Warnstorfia fluitans
+  reason: moss
+- variable: taxon_name
+  find: Salt Lakes fringing, Garawanta E35)
+  reason: location
 questions: .na

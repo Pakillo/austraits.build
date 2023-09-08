@@ -107,7 +107,7 @@ Adenanthos cygnorum,OSS,147,NA,NA,NA
 Adenanthos dobagii,OSS,196,NA,R,48
 Adenanthos dobsonii,NA,188,NA,NA,NA
 Adenanthos ellipticus,OSS,156,medium,R,48
-Adenanthos ellipticus x cuneatus,OSS,156,NA,NA,NA
+Adenanthos ellipticus x Adenanthos cuneatus,OSS,156,NA,NA,NA
 Adenanthos eyri,OSS,188,NA,NA,NA
 Adenanthos filifolius,OSS,155,NA,P3,48 to 60
 Adenanthos forrestii,RS,188,NA,NA,NA
@@ -124,7 +124,7 @@ Adenanthos pungens ssp. pungens,OSS,196,NA,R,NA
 Adenanthos sericeous,OSS,161,NA,NA,NA
 Adenanthos velutinus,NA,196,NA,R,NA
 Adenanthos venosus,RS,157,NA,NA,NA
-Adenanthos x cunninghamii,OSS,196,NA,P4,NA
+Adenanthos x  cunninghamii,OSS,196,NA,P4,NA
 Agonis baxteri,RS,142,NA,NA,NA
 Agonis baxteri (obtusissima),RS,157,NA,NA,NA
 Agonis flexuosa,OSC,161,NA,NA,NA
@@ -372,7 +372,7 @@ Banksia violaceae,OSC,141,NA,NA,NA
 Banksia violaceae,OSC,166,medium to slow,NA,NA
 Banksia viscida,OSC,198,NA,P3,NA
 Banksia xylothemelia,RS,179,NA,P3,NA
-Banksia`grandis,RS,155,NA,NA,NA
+Banksia grandis,RS,155,NA,NA,NA
 Banskia calophylla,RS/OSC,159,NA,NA,NA
 Baumea articulata,NA,154,NA,NA,NA
 Baumea spp,NA,150,NA,NA,NA
@@ -655,30 +655,30 @@ Drosera salina,GEO?,202,NA,P2,NA
 Drummondita hassellii,OSS,176,NA,NA,NA
 Drummondita longifolia,OSS,202,NA,R,36 +
 E salmonophloia,OSC,191,NA,NA,NA
-E. dolichoryncha,OSC,191,NA,NA,NA
-E. dundasii,OSC,191,NA,NA,NA
-E. forrestiana,OSC,191,NA,NA,NA
-E. goniantha subsp. goniantha,RS,150,NA,NA,NA
-E. kumarlensis,OSC,191,NA,NA,NA
-E. longicornis,RS ep,174,NA,NA,NA
-E. loxophleba,RS,174,NA,NA,NA
-E. loxophleba x spathulata,NA,174,NA,NA,NA
-E. occidentalis,RS ep/OSC,174,NA,NA,NA
-E. occidentalis,RSep/OSC,191,NA,NA,NA
-E. occidentalis x platypus,OSC,175,slow,NA,NA
-E. oleosa,RS,175,NA,NA,NA
-E. platypus ssp platypus,OSC,175,slow,NA,NA
-E. salmonophloia,OSC,191,NA,NA,NA
-E. salmonophloia,RS ep/ OSC,175,slow,NA,NA
-E. salmonophloia,RS ep/OSC,175,slow,NA,NA
-E. sp mallet,OSC,175,slow,NA,NA
-E. sp. aff uncinata,RS,175,NA,NA,NA
-E. spathulata,OSC,175,slow,NA,NA
-E. spreta,OSC,191,NA,NA,NA
-E. urna,OSC,175,slow,NA,NA
-E. urna,OSC,191,NA,NA,NA
-E. valens,OSC,191,NA,NA,NA
-E. wandoo,RS ep/OSC,175,NA,NA,NA
+Eucalyptus dolichoryncha,OSC,191,NA,NA,NA
+Eucalyptus dundasii,OSC,191,NA,NA,NA
+Eucalyptus forrestiana,OSC,191,NA,NA,NA
+Eucalyptus goniantha subsp. goniantha,RS,150,NA,NA,NA
+Eucalyptus kumarlensis,OSC,191,NA,NA,NA
+Eucalyptus longicornis,RS ep,174,NA,NA,NA
+Eucalyptus loxophleba,RS,174,NA,NA,NA
+Eucalyptus loxophleba x Eucalyptus spathulata,NA,174,NA,NA,NA
+Eucalyptus occidentalis,RS ep/OSC,174,NA,NA,NA
+Eucalyptus occidentalis,RSep/OSC,191,NA,NA,NA
+Eucalyptus occidentalis x Eucalyptus platypus,OSC,175,slow,NA,NA
+Eucalyptus oleosa,RS,175,NA,NA,NA
+Eucalyptus platypus ssp platypus,OSC,175,slow,NA,NA
+Eucalyptus salmonophloia,OSC,191,NA,NA,NA
+Eucalyptus salmonophloia,RS ep/ OSC,175,slow,NA,NA
+Eucalyptus salmonophloia,RS ep/OSC,175,slow,NA,NA
+Eucalyptus sp mallet,OSC,175,slow,NA,NA
+Eucalyptus sp. aff uncinata,RS,175,NA,NA,NA
+Eucalyptus spathulata,OSC,175,slow,NA,NA
+Eucalyptus spreta,OSC,191,NA,NA,NA
+Eucalyptus urna,OSC,175,slow,NA,NA
+Eucalyptus urna,OSC,191,NA,NA,NA
+Eucalyptus valens,OSC,191,NA,NA,NA
+Eucalyptus wandoo,RS ep/OSC,175,NA,NA,NA
 Empodisma gracillimum,RS,153,NA,NA,NA
 Eremophila biserrata,OSS,202,NA,P4,NA
 Eremophila chamaephila,OSS,202,NA,P2,NA
@@ -699,7 +699,7 @@ Eriochilus scaber,NA,146,NA,NA,NA
 Eriochilus scaber ssp orbifolia,GEO,202,NA,P1,12
 Eryngium ferox,NA,202,NA,P3,NA
 Eucalyptus acies,RS,156,NA,P4,NA
-Eucalyptus acies x preissiana,RS,156,NA,NA,NA
+Eucalyptus acies x Eucalyptus preissiana,RS,156,NA,NA,NA
 Eucalyptus aff cornuta,RS,193,NA,NA,NA
 Eucalyptus alipes,OSC,174,slow,NA,NA
 Eucalyptus anceps,RS,164,NA,NA,NA
@@ -719,10 +719,10 @@ Eucalyptus brevistylis,RS/OSC,202,NA,P4,NA
 Eucalyptus brockwayi,OSC,202,NA,P3,NA
 Eucalyptus bupestrium,RS ep,167,NA,NA,NA
 Eucalyptus buprestium,RS ep,158,NA,NA,NA
-Eucalyptus buprestium x erectifolia,RS,202,NA,P4,NA
-Eucalyptus buprestium x ligulata,RS,202,NA,P4,NA
-Eucalyptus buprestium x marginata,RS,203,NA,P4,NA
-Eucalyptus buprestium x staeri,RS,203,NA,P4,NA
+Eucalyptus buprestium x Eucalyptus erectifolia,RS,202,NA,P4,NA
+Eucalyptus buprestium x Eucalyptus ligulata,RS,202,NA,P4,NA
+Eucalyptus buprestium x Eucalyptus marginata,RS,203,NA,P4,NA
+Eucalyptus buprestium x Eucalyptus staeri,RS,203,NA,P4,NA
 Eucalyptus burdettiana,RS,156,NA,R,NA
 Eucalyptus calcicola ssp. calcicola,RS,203,NA,P4,NA
 Eucalyptus calcicola ssp. unita,RS,203,NA,P4,NA
@@ -744,14 +744,14 @@ Eucalyptus decipiens,RS,147,NA,NA,NA
 Eucalyptus decipiens,RS ep,147,NA,NA,NA
 Eucalyptus decipiens subsp adesmo.,RS,141,NA,NA,NA
 Eucalyptus decipiens subsp. adesmo.,RS,141,NA,NA,NA
-Eucalyptus decipiens x falcata,RS,147,NA,NA,NA
+Eucalyptus decipiens x Eucalyptus falcata,RS,147,NA,NA,NA
 Eucalyptus decurva,RS,156,NA,NA,NA
 Eucalyptus decurva,RS ep,167,NA,NA,NA
 Eucalyptus deflexa,RS,203,NA,P4,NA
 Eucalyptus densa,OSC,175,slow,NA,NA
 Eucalyptus desmondensis,RS,203,NA,P4,NA
 Eucalyptus dielsii,OSC,169,slow,NA,NA
-Eucalyptus dielsii x platypus,OSC,203,NA,P1,NA
+Eucalyptus dielsii x Eucalyptus platypus,OSC,203,NA,P1,NA
 Eucalyptus diptera,OSC,176,slow,NA,NA
 Eucalyptus dissimulata,RS,180,NA,NA,NA
 Eucalyptus diversicolor,RS ep/ OSC,149,slow,NA,NA
@@ -804,7 +804,7 @@ Eucalyptus longicornis,RSep,174,NA,NA,NA
 Eucalyptus marginata,RS,155,NA,NA,NA
 Eucalyptus marginata,RS ep,150,NA,NA,NA
 Eucalyptus marginata,RSep,147,NA,NA,NA
-Eucalyptus marginata x pachyloma,RS,203,NA,P4,NA
+Eucalyptus marginata x Eucalyptus pachyloma,RS,203,NA,P4,NA
 Eucalyptus mcquoidii,OSC,160,slow,P2,NA
 Eucalyptus megacarpa,RS ep / OSC,143,NA,NA,NA
 Eucalyptus megacarpa,RS ep /OSC,140,NA,NA,NA
@@ -824,7 +824,7 @@ Eucalyptus occidentalis,RS ep / OSC,150,NA,NA,NA
 Eucalyptus occidentalis,RS ep /OSC,184,NA,NA,NA
 Eucalyptus occidentalis,RS/OSC,191,NA,NA,NA
 Eucalyptus occidentalis,RSep/OSC,161,NA,NA,NA
-Eucalyptus occidentalis x utilis,OSC,161,NA,NA,NA
+Eucalyptus occidentalis x Eucalyptus utilis,OSC,161,NA,NA,NA
 Eucalyptus ocidentalis,RS ep/OSC,164,NA,NA,NA
 Eucalyptus oleosa,RS ep,176,NA,NA,NA
 Eucalyptus orthostemon,RS,147,NA,NA,NA
@@ -845,15 +845,15 @@ Eucalyptus praetermissa,OSC,163,slow,P4,NA
 Eucalyptus preissiana,RS,156,NA,NA,NA
 Eucalyptus preissiana,RS ep,158,NA,NA,NA
 Eucalyptus preissiana ssp. lobata,RS,203,NA,P4,NA
-Eucalyptus preissiana x staeri,RS,203,NA,P4,NA
+Eucalyptus preissiana x Eucalyptus staeri,RS,203,NA,P4,NA
 Eucalyptus proxima,RS,203,NA,P4,NA
 Eucalyptus purpurata,OSC,169,slow,R,NA
 Eucalyptus quaerenda,RS,203,NA,P3,NA
 Eucalyptus ravida,OSC,174,slow,NA,NA
 Eucalyptus redunca,RS,156,NA,NA,NA
 Eucalyptus retusa,RS,141,NA,P?,NA
-Eucalyptus retusa x cornuta,RS,141,NA,NA,NA
-Eucalyptus retusa x cuspidata,RS,141,NA,NA,NA
+Eucalyptus retusa x Eucalyptus cornuta,RS,141,NA,NA,NA
+Eucalyptus retusa x Eucalyptus cuspidata,RS,141,NA,NA,NA
 Eucalyptus rhomboidea,OSC,176,slow,P4,NA
 Eucalyptus rudis,RS ep,150,NA,NA,NA
 Eucalyptus rugulata,OSC,203,NA,P4,NA
@@ -1773,7 +1773,7 @@ Thomasia dielsii,NA,212,NA,P1,NA
 Thomasia discolor,OSS,140,NA,P3,24
 Thomasia foliosa,NA,147,NA,NA,NA
 Thomasia multiflora,NA,212,NA,P1,NA
-Thomasia purpurea x solanacea,NA,212,NA,P1,NA
+Thomasia purpurea x Thomasia solanacea,NA,212,NA,P1,NA
 Thomasia pygmaea,NA,212,NA,P3,NA
 Thomasia quercifolia,NA,212,NA,P2,NA
 Thomasia solanacea,?RS,212,NA,P3,NA
