@@ -21,91 +21,223 @@ contributors:
     affiliation: Evolution & Ecology Research Centre, School of Biological, Earth,
       and Environmental Sciences, UNSW Sydney, Australia
     additional_role: contact
-  austraits_curators: Caitlan Baxter
+  austraits_curators: Caitlan Baxter, Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code:      data %>% mutate(site_name = "Royal National Park", `latitude (deg)`
-    =  -34.095339, `longitude (deg)` = 151.152769)
-  collection_date: 2016/2017
-  taxon_name: species
-  location_name: site_name
+  custom_R_code:     '
+    height <- data %>%
+      select(Species, `Height(cm)`) %>%
+      mutate(
+        Site = "Royal National Park",
+        treatment = "mean across treatments",
+        replicates = 1,
+        Date = "2017"
+      ) %>%
+      filter(!is.na(`Height(cm)`)) %>% 
+      group_by(Species) %>%
+      mutate(
+        plant_height_cm = max(`Height(cm)`),
+        replicates = sum(replicates)
+      ) %>%
+      ungroup() %>% 
+      distinct(Species, Site, treatment, replicates, Date, plant_height_cm);
+
+    data %>%
+      bind_rows(height) %>%
+      mutate(
+        locality = "Royal National Park",
+        `latitude (deg)` = "-34.095339",
+        `longitude (deg)` = "151.152769",
+        across(c(`Area(cm2)`, `fresh_weight(g)`, `dry_weight(g)`, `leaf_mass_per_area(g/cm2)`), ~na_if(.x, "?"))
+      )
+  '
+  collection_date: Date
+  taxon_name: Species
+  location_name: Site
   description: We ask whether correlations among above-ground and below-ground plant
     traits conform with predictions from resource-economic spectrum theory; and if
     root functional traits vary along a small-scale hydrologic gradient in the same
     manner as above-ground functional traits.
   basis_of_record: field
   life_stage: adult
-  sampling_strategy: The site is within the study area of Letten et al.(2015) on a
-    local soil moisture gradient, which marks a transition between two vegetation
-    classes known as Sydney Coastal Heaths on drier soils and Coastal Heath Swamps
-    on wetter soils (Keith 2004). We established eighteen 10- by 10-m plots across
-    the hydrological gradient within our target vegetation community.The four above-ground
-    traits measured were leaf size, specific leaf area, plant height and leaf dry-matter
-    content following (Perez-Harguindeguy et al. 2013). These traits were chosen based
-    on connection to key functions (Diaz et al. 2016; Garnier et al. 2016). For each
-    species, these traits were measured on three individuals randomly selected from
-    each of the quadrats, sampling at least three leaves on each individual for leaf
-    traits. The four fine root traits measured were root branching intensity, specific
-    root length, root tissue density and root dry-matter content. These traits were
-    chosen to enable comparison of results to those of Kramer-Walter et al (2016)
-    which explored variation in fine root traits across soil fertility gradients.
-    At each of our quadrats, we measured these four fine root traits on up to three
-    randomly selected individuals of each target species present in the plot, amounting
-    to a total of 490 root samples.
+  sampling_strategy: The study was conducted in an area of wet heathland vegetation
+    within the Royal National Park, New South Wales, Australia (34 deg 5'43.22"S,
+    151 deg 9'9.97"E) in May 2016 to January 2017. The site is within the study area
+    of Letten et al.(2015) on a local soil moisture gradient, which marks a transition
+    between two vegetation classes known as Sydney Coastal Heaths on drier soils and
+    Coastal Heath Swamps on wetter soils (Keith 2004). Both communities are comprised
+    of sclerophyllous woody shrub layer and an herbaceous ground layer (denser in
+    heath swamp), with species in the Proteaceae, Ericaceae, Myrtaceae, Fabaceae,
+    Restionaceae, Poaceae and Cyperaceae dominant throughout (Keith, 2004). The soils
+    are sandy loams derived from sandstone, acidic and low in nutrient concentrations
+    (Keith and Myerscough 1993). Parts of the site were subjected to low intensity
+    burns in 2015 and in 1994. We sampled patches with different fire histories in
+    order to control for some of the variation that may be induced by these events.
+    ^p The site is within the study area of Letten et al.(2015) on a local soil moisture
+    gradient, which marks a transition between two vegetation classes known as Sydney
+    Coastal Heaths on drier soils and Coastal Heath Swamps on wetter soils (Keith
+    2004). We established eighteen 10- by 10-m plots across the hydrological gradient
+    within our target vegetation community.The four above-ground traits measured were
+    leaf size, specific leaf area, plant height and leaf dry-matter content following
+    (Perez-Harguindeguy et al. 2013). These traits were chosen based on connection
+    to key functions (Diaz et al. 2016; Garnier et al. 2016). For each species, these
+    traits were measured on three individuals randomly selected from each of the quadrats,
+    sampling at least three leaves on each individual for leaf traits. The four fine
+    root traits measured were root branching intensity, specific root length, root
+    tissue density and root dry-matter content. These traits were chosen to enable
+    comparison of results to those of Kramer-Walter et al (2016) which explored variation
+    in fine root traits across soil fertility gradients. At each of our quadrats,
+    we measured these four fine root traits on up to three randomly selected individuals
+    of each target species present in the plot, amounting to a total of 490 root samples.
   original_file: jibbon_traits.csv
-  notes: Paper in review.
+  notes: none
 locations:
   Royal National Park:
-    latitude (deg): -34.095339
-    longitude (deg): 151.152769
-    description: The study was conducted in an area of wet heathland vegetation within
-      the Royal National Park, New South Wales, Australia (34 deg 5'43.22"S, 151 deg
-      9'9.97"E) in May 2016 to January 2017. The site is within the study area of
-      Letten et al.(2015) on a local soil moisture gradient, which marks a transition
-      between two vegetation classes known as Sydney Coastal Heaths on drier soils
-      and Coastal Heath Swamps on wetter soils (Keith 2004). Both communities are
-      comprised of sclerophyllous woody shrub layer and an herbaceous ground layer
-      (denser in heath swamp), with species in the Proteaceae, Ericaceae, Myrtaceae,
-      Fabaceae, Restionaceae, Poaceae and Cyperaceae dominant throughout (Keith, 2004).
-      The soils are sandy loams derived from sandstone, acidic and low in nutrient
-      concentrations (Keith and Myerscough 1993). Parts of the site were subjected
-      to low intensity burns in 2015 and in 1994. We sampled patches with different
-      fire histories in order to control for some of the variation that may be induced
-      by these events.
-contexts: .na
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S10:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S11:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S12:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S13:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S14:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S15:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S16:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S17:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S18:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S19:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S20:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S3:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S4:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S5:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S6:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S7:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S8:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+  S9:
+    locality: Royal National Park
+    latitude (deg): '-34.095339'
+    longitude (deg): '151.152769'
+contexts:
+- context_property: fire history
+  category: treatment
+  var_in: Treatment
+  values:
+  - value: mean across treatments
+    description: unknown
+  - value: BI
+    description: unknown
+  - value: UI
+    description: unknown
+  - value: BW
+    description: unknown
+  - value: BD
+    description: unknown
+  - value: UW
+    description: unknown
+  - value: UD
+    description: unknown
 traits:
-- var_in: Leaf_Area
+- var_in: Area(cm2)
   unit_in: cm2
   trait_name: leaf_area
-  entity_type: population
-  value_type: mean
+  entity_type: individual
+  value_type: raw
   basis_of_value: measurement
-  replicates: unknown
+  replicates: 1
   methods: Following methods described in (Perez-Harguindeguy et al. 2013).
-- var_in: Plant_Height
-  unit_in: m
-  trait_name: .na
-  entity_type: population
-  value_type: mean
+- var_in: plant_height_cm
+  unit_in: cm
+  trait_name: plant_height
+  entity_type: species
+  value_type: maximum
   basis_of_value: measurement
-  replicates: unknown
+  replicates: replicates
   methods: Following methods described in (Perez-Harguindeguy et al. 2013).
-- var_in: leaf_mass_per_area
-  unit_in: .na
-  trait_name: leaf_mass_per_area
-  entity_type: population
-  value_type: mean
+- var_in: dry_weight(g)
+  unit_in: g
+  trait_name: leaf_dry_mass
+  entity_type: individual
+  value_type: raw
   basis_of_value: measurement
-  replicates: unknown
+  replicates: 1
   methods: Following methods described in (Perez-Harguindeguy et al. 2013); units
     unknown and nothing makes sense
-- var_in: ldmc
+- var_in: fresh_weight(g)
+  unit_in: g
+  trait_name: leaf_fresh_mass
+  entity_type: individual
+  value_type: raw
+  basis_of_value: measurement
+  replicates: 1
+  methods: Following methods described in (Perez-Harguindeguy et al. 2013); units
+    unknown and nothing makes sense
+- var_in: leaf_mass_per_area(g/cm2)
+  unit_in: g/cm2
+  trait_name: leaf_mass_per_area
+  entity_type: individual
+  value_type: raw
+  basis_of_value: measurement
+  replicates: 1
+  methods: Following methods described in (Perez-Harguindeguy et al. 2013); units
+    unknown and nothing makes sense
+- var_in: ldmc(g/g)
   unit_in: g/g
   trait_name: leaf_dry_matter_content
-  entity_type: population
-  value_type: mean
+  entity_type: individual
+  value_type: raw
   basis_of_value: measurement
-  replicates: unknown
+  replicates: 1
   methods: Following methods described in (Perez-Harguindeguy et al. 2013).
 - var_in: root_density
   unit_in: mg/mm3
@@ -189,6 +321,4 @@ taxonomic_updates:
   reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
   taxonomic_resolution: Species
 exclude_observations: .na
-questions:
-  additional_traits: The author has individual level data and also trait data linked
-    to individual plots, that we're hoping to include in AusTraits in the future.
+questions: .na
