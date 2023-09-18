@@ -15,7 +15,7 @@ contributors:
   data_collectors:
   - last_name: Grootemaat
     given_name: Saskia
-    ORCID: .na.character
+    ORCID: 0000-0002-5033-5912
     affiliation: Evolution & Ecology Research Centre, School of Biological, Earth,
       and Environmental Sciences, UNSW Sydney, Australia
     additional_role: contact
@@ -28,7 +28,7 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(
         specific_leaf_area = `Leaf area (cm2)`/`Leaf dry mass (g)`,
@@ -37,20 +37,20 @@ dataset:
                                       measurement_remarks)
       ) %>% 
       group_by(Material,Taxon) %>% 
-        mutate_at(vars(`Leaf moisture (at time of measuring) (%odw)`),
-                        ~replace(.x,duplicated(.x),NA)) %>% 
+        mutate(across(c(`Leaf moisture (at time of measuring) (%odw)`),
+                        ~replace(.x,duplicated(.x),NA))) %>% 
       ungroup()
   '
   collection_date: 2012-12/2015
   taxon_name: Taxon
-  site_name: Site
+  location_name: Site
   description: This study measured the decomposition rate and flammability (ignitibility,
     sustainability and combustibility) of bark from 10 common forest tree species,
     and quantified correlations with potentially important traits to understand the
     interspecific differences in bark decomposability and flammability, and what chemical
     or physical traits drive variation in these properties.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Ten tree species with characteristic bark features were selected
     in the dry sclerophyll forests of Ku-ring-gai Chase National Park (33deg37'25'S,
     151deg14'39''E) and Blackwall Mountain Reserve (33deg30'26'S, 151deg20'0''E),
@@ -82,7 +82,7 @@ dataset:
     laboratory conditions (21 deg C).
   original_file: Grootemaat2017_AjoB_Data.xls
   notes: none
-sites:
+locations:
   Blackwall Mountain:
     latitude (deg): -33.5072222
     longitude (deg): 151.3333
@@ -127,12 +127,12 @@ traits:
     Co., Moline, IL, USA).
 - var_in: Leaf C (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_C_per_dry_mass
+  trait_name: leaf_senesced_C_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: &senesced_leaf_method Bulked sample across multiple individuals. 0.25 g of sample was weighed
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
     out into a tin foil capsule which was placed into the induction furnace of a LECO
     Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
     carbon present was combusted to CO2 which was determined with an infrared detection
@@ -142,108 +142,199 @@ traits:
     Handbook section 6B2, p75.)
 - var_in: Leaf N (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_N_per_dry_mass
+  trait_name: leaf_senesced_N_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Al (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Al_per_dry_mass
+  trait_name: leaf_senesced_Al_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf B (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_B_per_dry_mass
+  trait_name: leaf_senesced_B_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Ca (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_Ca_per_dry_mass
+  trait_name: leaf_senesced_Ca_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Cu (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Cu_per_dry_mass
+  trait_name: leaf_senesced_Cu_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Fe (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Fe_per_dry_mass
+  trait_name: leaf_senesced_Fe_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf K (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_K_per_dry_mass
+  trait_name: leaf_senesced_K_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Mg (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_Mg_per_dry_mass
+  trait_name: leaf_senesced_Mg_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Mn (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Mn_per_dry_mass
+  trait_name: leaf_senesced_Mn_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Na (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Na_per_dry_mass
+  trait_name: leaf_senesced_Na_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf P (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_P_per_dry_mass
+  trait_name: leaf_senesced_P_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf S (wght %)
   unit_in: '%'
-  trait_name: senesced_leaf_S_per_dry_mass
+  trait_name: leaf_senesced_S_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Zn (mg/kg)
   unit_in: mg/kg
-  trait_name: senesced_leaf_Zn_per_dry_mass
+  trait_name: leaf_senesced_Zn_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 10-40
-  methods: *senesced_leaf_method 
+  methods: Bulked sample across multiple individuals. 0.25 g of sample was weighed
+    out into a tin foil capsule which was placed into the induction furnace of a LECO
+    Truspec CHN combustion analyser set at 1100 deg C and calibrated on EDTA. The
+    carbon present was combusted to CO2 which was determined with an infrared detection
+    cell. The nitrogen present was combusted to N2, NO2 and NO. The oxides were reduced
+    to N2 which was determined quantitatively using a thermal conductivity cell. (Rayment,
+    G.E. & Lyons, D.J. (2011) Soil Chemical Methods, Australasia. CSIRO Publishing.
+    Handbook section 6B2, p75.)
 - var_in: Leaf Lignin (wght %)
   unit_in: '%'
   trait_name: leaf_lignin_per_dry_mass
@@ -278,7 +369,7 @@ traits:
     Soil Science and Plant Analysis, 25, 269-277.)
 - var_in: Leaf Ash (wght %)
   unit_in: '%'
-  trait_name: leaf_ash_content_per_dry_mass
+  trait_name: leaf_ash_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -350,7 +441,7 @@ traits:
     at 105 deg C. Fuel moisture content was then expressed as a percentage of oven-dry
     weight.
 - var_in: TTI (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_time_to_ignition
   entity_type: individual
   value_type: raw
@@ -378,7 +469,7 @@ traits:
     as initial sample mass (corresponding approximately with total mass burnt) divided
     by total burning time (sum of FD and SD).
 - var_in: FD (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_flame_duration
   entity_type: individual
   value_type: raw
@@ -406,7 +497,7 @@ traits:
     as initial sample mass (corresponding approximately with total mass burnt) divided
     by total burning time (sum of FD and SD).
 - var_in: SD (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_smoulder_duration
   entity_type: individual
   value_type: raw
@@ -434,7 +525,7 @@ traits:
     as initial sample mass (corresponding approximately with total mass burnt) divided
     by total burning time (sum of FD and SD).
 - var_in: TBT (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_total_burn_duration
   entity_type: individual
   value_type: raw
@@ -807,7 +898,7 @@ traits:
     25, 269-277.)
 - var_in: Bark Ash (wght %)
   unit_in: '%'
-  trait_name: bark_ash_content_per_dry_mass
+  trait_name: bark_ash_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -924,7 +1015,7 @@ traits:
     leaf width (mm), thickness (mm) and mass (g) (Perez-Harguindeguy et al. 2013).
 - var_in: specific_leaf_area
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -1037,7 +1128,8 @@ substitutions: .na
 taxonomic_updates:
 - find: Anophora hispida
   replace: Angophora hispida
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-10)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: Note to AusTraits data processors, this study includes many additional

@@ -39,10 +39,10 @@ dataset:
   custom_R_code: .na
   collection_date: 1999/1999
   taxon_name: species_name
-  site_name: site
+  location_name: site
   description: seed traits for lowP sydney sandstone sites from Ian Wright
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Three random individuals of each species were located, away from
     track edges. For each individual three random branches with tips at the outer
     surface of the plant's crown were chosen. The first branch-point back from the
@@ -60,7 +60,7 @@ dataset:
   original_file: Wright & Henery seed mass data.xls
   notes: Currently, all the data in this spreadsheet are from the Westoby 1990 manuscript,
     not from the 2003 Westoby and Wright manuscript.
-sites:
+locations:
   Ku-Ring-Gai Chase National Park:
     longitude (deg): 151.143
     latitude (deg): -33.694
@@ -106,7 +106,7 @@ traits:
     data in AusTraits for this data has been left in at present.
 - var_in: SLA
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -146,7 +146,7 @@ traits:
     5 leaves from each of 5 individuals (mallee, June 1998).
 - var_in: twig A
   unit_in: mm2
-  trait_name: twig_area
+  trait_name: branch_terminal_twig_cross_sectional_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -166,7 +166,7 @@ traits:
     5 leaves from each of 5 individuals (mallee, June 1998).
 - var_in: twig L
   unit_in: mm
-  trait_name: twig_length
+  trait_name: branch_terminal_twig_length
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -188,17 +188,21 @@ substitutions: .na
 taxonomic_updates:
 - find: Dodonaea viscosa spathulata
   replace: Dodonaea viscosa var. spathulata
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among known canonical
+    names APC (2022-11-10)
+  taxonomic_resolution: Varietas
 - find: Eucalyptus haemostoma
   replace: Eucalyptus haemastoma
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Olearia oswaldii
+  replace: Olearia sp. [Olearia oswaldii; Westoby_2003]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 - find: Olearia pimelioides
   replace: Olearia pimeleoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Olearia oswaldii
-  replace: Olearia sp. [Olearia oswaldii]
-  reason: Align to genus as no 'oswaldii' or similar in any related genera (E. Wenk,
-    2020-05-25)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

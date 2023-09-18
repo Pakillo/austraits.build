@@ -25,7 +25,7 @@ contributors:
   data_collectors:
   - last_name: Grootemaat
     given_name: Saskia
-    ORCID: .na.character
+    ORCID: 0000-0002-5033-5912
     affiliation: Evolution & Ecology Research Centre, School of Biological, Earth,
       and Environmental Sciences, UNSW Sydney, Australia
     additional_role: contact
@@ -42,37 +42,30 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:        '
     data %>% 
       filter(taxon != "NA NA") %>% 
       group_by(taxon) %>%  
-        mutate_at(vars(`N (%mass)`,`P (%mass)`,`lignin (%mass)`,`tannin (%mass)`,
-                `FMC (% odw)`,senesced_leaf_N_per_dry_mass,senesced_leaf_P_per_dry_mass),
-                ~ replace(.x, duplicated(.x),NA)) %>%
+        mutate(across(c(`N (%mass)`, `P (%mass)`, `lignin (%mass)`, `tannin (%mass)`,
+                `FMC (% odw)`, senesced_leaf_N_per_dry_mass, senesced_leaf_P_per_dry_mass),
+                ~ replace(.x, duplicated(.x), NA))) %>%
       ungroup() %>%
       mutate(
-        method_number = ifelse(material == "FRESH",1,NA),
-        method_number = ifelse(material == "DRIED",2,method_number),        
-        method_number = ifelse(material == "SENESCED",3,method_number),
-        measurement_remarks = ifelse(material == "FRESH","fresh leaves (indicating amount of leaf moisture)", NA),
-        measurement_remarks = ifelse(material == "DRIED","dry leaves (indicating amount of leaf moisture)", measurement_remarks),
-        measurement_remarks = ifelse(material == "SENESCED","senesced leaves (indicating amount of leaf moisture)", measurement_remarks),
         row_number = row_number(),
-        observation_number = ifelse(row_number == 372, 2, 1)
+        `tannin (%mass)` = ifelse(row_number == 372, NA, `tannin (%mass)`),        
+        `tannin (%mass)` = ifelse(row_number == 373, NA, `tannin (%mass)`)
       )
   '
   collection_date: 2012/2012
   taxon_name: taxon
-  site_name: site_name
-  measurement_remarks: measurement_remarks
-  method_number: method_number
+  location_name: site_name
   description: The aim of this study was twofold, (i) to determine which morphological
     and chemical leaf traits drive flammability and (ii) to determine whether different
     (combinations of) morphological and chemical leaf traits drive interspecific variation
     in decomposition and litter flammability and, in turn, help us understand the
     relationship between decomposability and flammability.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: SITE AND SPECIES SELECTION The leaves for this study were collected
     from four sites in New South Wales, Australia. The leaf traits related to species'
     carbon and nutrient economies are well documented for these sites (Wright, Reich
@@ -110,7 +103,7 @@ dataset:
     leaves, and senesced leaves. For leaf length, width, thickness, ... only data
     on fresh, live leaves is integrated into AusTraits, but the complete dataset is
     available in the raw data folder for the study.
-sites:
+locations:
   Kuring-gai NP hiP:
     longitude (deg): 151.2922222
     latitude (deg): -33.5788889
@@ -160,7 +153,20 @@ sites:
     soil C, total (%): 0.67
     soil cation exchange capacity (meq/kg): 38.7
     geology (stratigraphic map unit): Loamy red sand (Quaternary dune systems)
-contexts: .na
+contexts:
+- context_property: sample moisture status
+  category: method_context
+  var_in: material
+  values:
+  - find: FRESH
+    value: fresh leaves
+    description: fresh leaves, indicating high leaf moisture level
+  - find: DRIED
+    value: dried leaves
+    description: dry leaves, indicating low leaf moisture level
+  - find: SENESCED
+    value: senesced leaves
+    description: senesced leaves, indicating low leaf moisture level
 traits:
 - var_in: length (mm)
   unit_in: mm
@@ -231,7 +237,7 @@ traits:
     leaf width (mm), thickness (mm) and mass (g) (Perez-Harguindeguy et al. 2013).
 - var_in: SLA
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -271,7 +277,7 @@ traits:
     assays (OI Analytical, Wilsonville, OR, USA).
 - var_in: senesced_leaf_N_per_dry_mass
   unit_in: '%'
-  trait_name: senesced_leaf_N_per_dry_mass
+  trait_name: leaf_senesced_N_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -291,7 +297,7 @@ traits:
     assays (OI Analytical, Wilsonville, OR, USA).
 - var_in: senesced_leaf_P_per_dry_mass
   unit_in: '%'
-  trait_name: senesced_leaf_P_per_dry_mass
+  trait_name: leaf_senesced_P_per_dry_mass
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -316,12 +322,11 @@ traits:
   value_type: mean
   basis_of_value: measurement
   replicates: unknown
-  observation_number: observation_number
   methods: Data on chemical leaf traits were taken from Cornwell's decomposition experiment
     (2006). Soluble polyphenols (tannins) were determined using the Folin-Denis method
     (Allen et al. 1974).
 - var_in: TTI (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_time_to_ignition
   entity_type: individual
   value_type: raw
@@ -363,7 +368,7 @@ traits:
     visible flame. All these measurements were made in seconds, with an accuracy of
     one-tenth of a second (decimals).
 - var_in: FD (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_flame_duration
   entity_type: individual
   value_type: raw
@@ -405,7 +410,7 @@ traits:
     these measurements were made in seconds, with an accuracy of one-tenth of a second
     (decimals).
 - var_in: SD (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_smoulder_duration
   entity_type: individual
   value_type: raw
@@ -447,7 +452,7 @@ traits:
     out. All these measurements were made in seconds, with an accuracy of one-tenth
     of a second (decimals).
 - var_in: TBT (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: fire_total_burn_duration
   entity_type: individual
   value_type: raw
@@ -490,8 +495,14 @@ traits:
     an accuracy of one-tenth of a second (decimals).
 substitutions: .na
 taxonomic_updates:
+- find: Allocasuarina sp
+  replace: Allocasuarina sp. [Grootemaat_2015]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
 - find: Dodonaea viscosa subsp. spathulata
-  replace: Dodonaea viscosa subsp. spatulata
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-09)
+  replace: Dodonaea viscosa var. spathulata
+  reason: match_06. Automatic alignment with synonymous term among known canonical
+    names APC (2022-11-10)
+  taxonomic_resolution: Varietas
 exclude_observations: .na
 questions: .na

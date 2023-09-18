@@ -40,37 +40,46 @@ contributors:
   austraits_curators: Ian Wright
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:        '
     data %>% 
       mutate(
-        fire_response = ifelse(life_history == "r", "resprouts", NA),
-        fire_response = ifelse(life_history == "o", "fire_killed", fire_response),
+        resprouting_capacity = ifelse(life_history == "r", "resprouts", NA),
+        resprouting_capacity = ifelse(life_history == "o", "fire_killed", resprouting_capacity),
         leaf_water_content = (100 - leaf_water_content),
         life_history = ifelse(life_history=="r","p",life_history),
         regen_strategy = ifelse(life_history=="o","seed",""),
         life_history = ifelse(life_history=="o","p",life_history),
         regen_strategy= ifelse(plant_growth_form=="f","fern",""),
         life_history = ifelse(life_history=="f","",life_history),
-        context_name = if_else(TRIP == 1,"dry",""), context_name = if_else(TRIP == 2, "wet",context_name),
-        population_id = site_name,
-        Nfixer = gsub("y","Y",Nfixer),
-        observation_number = ifelse(TRIP == 2,2,1)
-      ) %>% 
-      mutate_at(vars(`life_history`,`regen_strategy`), ~na_if(.,"")) %>%
-      mutate_at(vars(`leaf_water_content`), ~na_if(.,0)) %>%
+        Nfixer = stringr::str_replace(Nfixer, "y|Y","1"),
+        Nfixer = stringr::str_replace(Nfixer, "101","0"),
+        Nfixer = stringr::str_replace(Nfixer, "n|N","0"),     
+        plant_growth_form = ifelse(plant_growth_form %in% c("S or T", "T/S", "T or S"), "shrub tree", plant_growth_form),
+        plant_growth_form = ifelse(plant_growth_form %in% c("S/H", "H or S", "S or H", "H/S"), "herb shrub", plant_growth_form),
+        plant_growth_form = ifelse(species_name == "Sauropus sp.", "herb shrub", plant_growth_form),
+        plant_growth_form = ifelse(species_name == "Ampelocissus acetosa", "climber_herbaceous herb", plant_growth_form),
+        plant_growth_form = ifelse(species_name == "Carpentaria acuminata", "tree", plant_growth_form),
+        phenology = ifelse(species_name == "Alstonia actinophylla", "facultative_drought_deciduous evergreen", phenology),
+        phenology = ifelse(species_name == "Petalostigma quadriloculare", "facultative_drought_deciduous evergreen", phenology),
+        root_structure = ifelse(species_name == "Lophostemon lactifluus", "ectomycorrhizal arbuscular_mycorrhizal", root_structure),
+        root_structure = ifelse(species_name == "Cartonema spicatum", "non_mycorrhizal", root_structure),
+        TRIP = ifelse(is.na(TRIP),1,TRIP),
+        across(c(`life_history`,`regen_strategy`), ~na_if(.x, "")),
+        across(c(`leaf_water_content`), ~na_if(.x, 0))
+      ) %>%
       group_by(species_name) %>%
-        mutate_at(vars(`regen_strategy`,`root_structure`,`C3C4`,`Nfixer`,`plant_growth_form`,
-        `life_history`,`phenology`),replace_duplicates_with_NA) %>%
+        mutate(
+          across(c(`regen_strategy`,`root_structure`,`C3C4`,`Nfixer`,`plant_growth_form`,
+          `life_history`,`phenology`, resprouting_capacity), replace_duplicates_with_NA)
+        ) %>%
       ungroup()
   '
   collection_date: 1994/1998
   taxon_name: species_name
-  site_name: site_name
-  context_name: context_name
-  population_id: population_id
+  location_name: site_name
   description: Susanne Schmidt's Kakadu data, merged from several spreadsheets
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Eucalyptus tetrodonta and E. miniata dominate the most distinctive
     savanna community in northern Australia. Acacia species are prominent understorey
     species in this open forest community. Other genera of tree and shrub species
@@ -117,7 +126,7 @@ dataset:
     moved them to the %C column. For many species there were replicate measurements
     and the replicate that is assumed to be %C was much different than the other two
     values.
-sites:
+locations:
   Kakadu1:
     description: waste rock dump
     date sampled: Data collected in dry (July 1994) and wet (Feb 1995)
@@ -366,12 +375,16 @@ sites:
     latitude (deg): -13.272
     longitude (deg): 132.829
 contexts:
-  dry:
-    sampling season: dry season (Samples collected during the first trip, which occurred
-      during the dry season.)
-  wet:
-    sampling season: wet season (Samples collected during the second trip, which occurred
-      during the wet season.)
+- context_property: sampling season
+  category: temporal
+  var_in: TRIP
+  values:
+  - find: 1
+    value: dry
+    description: Samples collected during the dry season (first trip).
+  - find: 2
+    value: wet
+    description: Samples collected during the wet season (second trip).
 traits:
 - var_in: leaf_water_content
   unit_in: '%'
@@ -380,10 +393,11 @@ traits:
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: Healthy mature leaves, twigs and roots were oven-dried at 60degC on the day of collection.
-- var_in: fire_response
+  methods: Healthy mature leaves, twigs and roots were oven-dried at 60degC on the
+    day of collection.
+- var_in: resprouting_capacity
   unit_in: .na
-  trait_name: fire_response
+  trait_name: resprouting_capacity
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
@@ -416,7 +430,7 @@ traits:
 - var_in: plant_growth_form
   unit_in: .na
   trait_name: plant_growth_form
-  entity_type: species
+  entity_type: population
   value_type: mode
   basis_of_value: expert_score
   replicates: .na
@@ -466,7 +480,7 @@ traits:
     (0.3-0.5% N) were analysed by continuous flow isotope ratio mass spectrometry
     (20-20 CF-IRMS Europa Scientific, Crewe, UK).
 - var_in: leaf_delta13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -480,7 +494,7 @@ traits:
     (0.3-0.5% N) were analysed by continuous flow isotope ratio mass spectrometry
     (20-20 CF-IRMS Europa Scientific, Crewe, UK).
 - var_in: leaf_delta15N
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta15N
   entity_type: individual
   value_type: raw
@@ -505,16 +519,22 @@ substitutions:
   replace: facultative_drought_deciduous
 - trait_name: nitrogen_fixing
   find: '101'
-  replace: '0'
+  replace: non_nitrogen_fixer
+- trait_name: nitrogen_fixing
+  find: '0'
+  replace: non_nitrogen_fixer
+- trait_name: nitrogen_fixing
+  find: '1'
+  replace: nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: 'N'
-  replace: '0'
+  replace: non_nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: 'Y'
-  replace: '1'
+  replace: nitrogen_fixer
 - trait_name: plant_growth_form
   find: V
-  replace: climber_vine
+  replace: climber_herbaceous
 - trait_name: plant_growth_form
   find: O (Fern)
   replace: fern
@@ -526,7 +546,7 @@ substitutions:
   replace: graminoid
 - trait_name: plant_growth_form
   find: p
-  replace: palm
+  replace: palmoid
 - trait_name: plant_growth_form
   find: H
   replace: herb
@@ -606,103 +626,276 @@ substitutions:
   find: a/p
   replace: annual perennial
 taxonomic_updates:
-- find: Acacia convalium
-  replace: Acacia convallium
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Acacia gonocarpus
-  replace: Acacia gonocarpa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Diospyrus calycantha
-  replace: Diospyros calycantha
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Eucalyptus camadulensis
-  replace: Eucalyptus camaldulensis
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Exocarpus latifolius
-  replace: Exocarpos latifolius
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Hibiscus tiliacus
-  replace: Hibiscus tiliaceus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Livistonia benthamii
-  replace: Livistona benthamii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Petalostigma quadiloculara
-  replace: Petalostigma quadriloculare
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Syzygium minutiflorum
-  replace: Syzygium minutuliflorum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Sterculia quadridrifida
-  replace: Sterculia quadrifida
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
-- find: Distichostemon arhemicus
-  replace: Distichostemon arnhemicus
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
-- find: Eucalyptus dichromophoia
-  replace: Eucalyptus dichromophloia
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
-- find: Phyllanthus qrandisepalus
-  replace: Phyllanthus grandisepalus
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
-- find: Terminalia seriocarpa
-  replace: Terminalia sericocarpa
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
+- find: Acacia sp.
+  replace: Acacia sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Bruguiera sp.
+  replace: Bruguiera sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Cayratia sp.
+  replace: Cayratia sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Centipeda sp.
+  replace: Centipeda sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Commelina sp.
+  replace: Commelina sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Cyperus sp.
+  replace: Cyperus sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Dampiera sp.
+  replace: Dampiera sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Dianella sp.
+  replace: Dianella sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Dunbaria sp.
+  replace: Dunbaria sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Euphorbia sp.
+  replace: Euphorbia sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Excoecaria sp.
+  replace: Excoecaria sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Fimbristylis sp.
+  replace: Fimbristylis sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Glinus sp.
+  replace: Glinus sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Gmelina sp.
+  replace: Gmelina sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Goodenia sp.
+  replace: Goodenia sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Hyptis sp.
+  replace: Hyptis sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Limnophila sp.
+  replace: Limnophila sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Lindsaea sp.
+  replace: Lindsaea sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Livistona sp.
+  replace: Livistona sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Lomandra sp.
+  replace: Lomandra sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Lumnitzera sp.
+  replace: Lumnitzera sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Pluchea sp.
+  replace: Pluchea sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Polygala sp.
+  replace: Polygala sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Sauropus sp.
+  replace: Sauropus sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Scleria sp.
+  replace: Scleria sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Senna sp.
+  replace: Senna sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Thecanthes sp.
+  replace: Pimelea sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Thespesia sp.
+  replace: Thespesia sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Uraria sp.
+  replace: Uraria sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Waltheria sp.
+  replace: Waltheria sp. [Schmidt_2003]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
 - find: Acacia aulac
   replace: Acacia aulacocarpa
-  reason: Align to APC accepted species name (E. Wenk, 2020-05-24)
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-12)
+  taxonomic_resolution: Species
+- find: Acacia convalium
+  replace: Acacia convallium
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Acacia gonocarpus
+  replace: Acacia gonocarpa
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Alysicarpus glum
   replace: Alysicarpus glumaceus
-  reason: Align spelling with known name (E. Wenk, 2020-03-06)
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-12)
+  taxonomic_resolution: Species
+- find: Chlerode
+  replace: Clerodendrum sp. [Chlerode; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Clerodendron sp
+  replace: Clerodendrum sp. [Schmidt_2003]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
+- find: Clerodendron sp.
+  replace: Clerodendrum sp. [Schmidt_2003]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
+- find: De. sp.A
+  replace: Desmodium sp. [De. sp.A; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Diospyrus calycantha
+  replace: Diospyros calycantha
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Distichostemon arhemicus
+  replace: Distichostemon arnhemicus
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Epimered
+  replace: Epimeredi sp. [Epimered; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Eucalyptus camadulensis
+  replace: Eucalyptus camaldulensis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Eucalyptus dichromophoia
+  replace: Eucalyptus dichromophloia
+  reason: match_15_fuzzy. Fuzzy match alignment with species-level canonical name
+    in `APC known` when everything except first 2 words ignored (2022-11-10)
+  taxonomic_resolution: Species
+- find: Exocarpus latifolius
+  replace: Exocarpos latifolius
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Fimbristylis comp
   replace: Fimbristylis complanata
-  reason: Align to APC accepted spelling (E. Wenk, 2020-05-25)
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-12)
+  taxonomic_resolution: Species
+- find: Hibiscus tiliacus
+  replace: Hibiscus tiliaceus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Leprocar
-  replace: Leptocarpus sp.
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Leptocarpus sp. [Leprocar; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Livistonia benthamii
+  replace: Livistona benthamii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-12)
+  taxonomic_resolution: Species
 - find: Melastoma malabathricum ssp. Malabathricum
-  replace: Melastoma affine
-  reason: Confirm alignment with APC accepted species (E. Wenk, 2020-05-25)
+  replace: Melastoma malabathricum subsp. malabathricum
+  reason: match_08. Automatic alignment with synonymous name in APNI (2022-11-12)
+  taxonomic_resolution: Subspecies
 - find: Myrtella
-  replace: Lithomyrtus sp.
-  reason: Align to genus (E. Wenk, 2020-05-24)
+  replace: Myrtella sp. [Myrtella; Schmidt_2003]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus in APNI
+    (2022-11-10)
+  taxonomic_resolution: genus
+- find: Pachynema sp
+  replace: Hibbertia sp. [Schmidt_2003]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
+- find: Pachynema sp.
+  replace: Hibbertia sp. [Schmidt_2003]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
 - find: Pc. pohl
-  replace: Planchonella pohlmaniana
-  reason: align to species (E. Wenk, 2020-05-24)
+  replace: Planchonella pohlmaniana [Pc. pohl; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Petalostigma quadiloculara
+  replace: Petalostigma quadriloculare
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Phyllanthus qrandisepalus
+  replace: Phyllanthus grandisepalus
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-12)
+  taxonomic_resolution: Species
+- find: Se. sp.
+  replace: Senna sp. [Se. sp.; Schmidt_2003]
+  reason: Manual matched to genus for taxon that can't be matched to species (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: genus
+- find: Sterculia quadridrifida
+  replace: Sterculia quadrifida
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Syzygium minutiflorum
+  replace: Syzygium minutuliflorum
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Terminalia platy
-  replace: Terminalia sp. [Terminalia platyptera or Terminalia platyphylla]
-  reason: Align to genus, because abbreviation given is ambiguous (E. Wenk, 2020-0525)
+  replace: Terminalia sp. [Terminalia platyptera or Terminalia platyphylla; Schmidt_2003]
+  reason: Manual match to genus for taxon that can't be match to species (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Genus
+- find: Terminalia seriocarpa
+  replace: Terminalia sericocarpa
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Thecanthes sp
+  replace: Pimelea sp. [Schmidt_2003]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
+- find: Tr. Po.s
+  replace: Trianthema portulacastrum [Tr. Po.s; Schmidt_2003]
+  reason: Manual match to species (Elizabeth Wenk, 2022-11-22)
+  taxonomic_resolution: Species
 - find: Vetiveri
   replace: Chrysopogon zizanioides
-  reason: align to known naturalised species (E. Wenk, 2020-05-24)
-- find: Epimered
-  replace: Epimeredi
-  reason: Automatic alignment with name in APNI names (2020-06-24)
-- find: Petrophila shirleyae
-  replace: Petrophile shirleyae
-  reason: Align spelling with known species (E Wenk, 2020-02-11)
-- find: De. sp.A
-  replace: Desmodium sp. [De. sp.A]
-  reason: Align spelling with known genus (E Wenk, 2020-06-19)
-- find: Se. sp.
-  replace: Senna sp. [Se. sp.]
-  reason: Align spelling with known genus (E Wenk, 2020-06-19)
-- find: Tr. Po.s
-  replace: Trianthema portulacastrum
-  reason: Align spelling with known species (E Wenk, 2020-06-19)
-- find: Thecanthes sp
-  replace: Pimelea sp.
-  reason: Align spelling with current genus (E Wenk, 2020-06-26)
-- find: Pachynema sp
-  replace: Hibbertia sp.
-  reason: Align spelling with current genus (E Wenk, 2020-06-26)
-- find: Clerodendron sp
-  replace: Clerodendrum sp.
-  reason: Align spelling with current genus (E Wenk, 2020-06-26)
-exclude_observations: .na
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-22)
+  taxonomic_resolution: Species
+exclude_observations:
+- variable: taxon_name
+  find: Br. gran, Ep., Br. sp., Ep. hert, Ep. hete, Ep. sp., Ep., Gd. furc, Ha., holly
+    le, Ht. sp.5, L., Ht. sp.a
+  reason: too little resolution
 questions:
   additional_traits: NRA

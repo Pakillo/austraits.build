@@ -28,23 +28,23 @@ contributors:
       Australia
   - last_name: Mazanec
     given_name: Richard
-    ORCID: .na.character
+    ORCID: 0000-0002-4332-887X
     affiliation: Biodiversity and Conservation Science, Department of Biodiversity,
       Conservation and Attractions, WA, Australia
     notes: no contact
   austraits_curators: Elizabeth Wenk
 dataset:
-  data_is_long_format: no  
+  data_is_long_format: no
   custom_R_code: .na
   collection_date: 2017-03/2017-03
   taxon_name: species
-  site_name: Pop
+  location_name: Pop
   individual_id: ID
   description: Dataset investigating trait variation in a single species (Corymbia
     calophylla) using seed sourced from natural populations growing across a climatic
     gradient.
-  collection_type: field_experiment
-  sample_age_class: sapling
+  basis_of_record: field_experiment
+  life_stage: sapling
   sampling_strategy: '2.1 Study species: Corymbia calophylla is a foundation forest
     canopy species located in Western Australia (WA). It is considered a foundation
     species be-cause its characteristics are critical for forest structure and ecologi-cal
@@ -79,7 +79,7 @@ dataset:
     Within each seed source are different genetic families, indicated in the data.csv
     file; quite a few duplicate values with Schulze_2006_2, but these are truly independent
     values, for both studies made many measurements on the same species.
-sites:
+locations:
   BOO:
     latitude (deg): -34.638944
     longitude (deg): 116.123806
@@ -155,8 +155,8 @@ sites:
 contexts: .na
 traits:
 - var_in: WBI
-  unit_in: dimensionless
-  trait_name: water_band_index
+  unit_in: '{dimensionless}'
+  trait_name: leaf_water_band_index
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -165,8 +165,8 @@ traits:
     Penuelas, J., et al. "The Reflectance at the 950-970 Region as an Indicator of
     Plant Water Status." International Journal of Remote Sensing 14 (1993) 1887-1905.
 - var_in: PRI
-  unit_in: umol/umol
-  trait_name: leaf_PRI
+  unit_in: '{dimensionless}'
+  trait_name: leaf_photochemical_reflectance_index
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -181,7 +181,7 @@ traits:
     efficiency (RUE) and the xanthophyll cycle (Gamon, Serrano, & Surfus, 1997; Garbulsky,
     Penuelas, Gamon, Inoue, & Filella, 2011).
 - var_in: mND705
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: modified_NDVI
   entity_type: individual
   value_type: raw
@@ -197,7 +197,7 @@ traits:
     and is closely related to fraction of absorbed photosynthetically active radiation
     (FPAR) (Myneni et al., 2002; Peng & Gitelson, 2012).
 - var_in: d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -248,7 +248,7 @@ traits:
     (model LiDE220) at 50 dpi.
 - var_in: SLA (m2 kg-1)
   unit_in: m2/kg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement

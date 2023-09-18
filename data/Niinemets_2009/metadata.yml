@@ -30,18 +30,18 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>%
       group_by(Species) %>%
-        mutate_at(vars(`N-fixing`), replace_duplicates_with_NA) %>%
+        mutate(across(c(`N-fixing`), replace_duplicates_with_NA)) %>%
       ungroup()
     '
   collection_date: 2006/2006
   taxon_name: Species
-  site_name: site_name
+  location_name: site_name
   description: mesophyll conductance dataset from Niinemets and Wright for sclerophylls
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: A gradient of decreasing rainfall extends inland from the coast
     in this region. The two higher rainfall sites in Ku-ring-gai Chase National Park
     receive annually ~1.5-fold, and during the driest period between August and October
@@ -90,7 +90,7 @@ dataset:
     (ijw_June2006).xls and Reflectance data.xls via Ian Wright
   notes: The same data.csv file exists for this study and for Wright_2009, but different
     variables are included under each dataset_id
-sites:
+locations:
   AgnesBanks:
     longitude (deg): 150.696
     latitude (deg): -33.642
@@ -167,7 +167,7 @@ sites:
     rainfall: high
     soil P, description: high
     precipitation, description: high
-    collection_type: arboretum
+    basis_of_record: captive_cultivated
   WestHead:
     longitude (deg): 151.298
     latitude (deg): -33.578
@@ -197,7 +197,7 @@ traits:
     University of Texas Health Science Center, San Antonio, TX, USA; ddsdx.uthscsa.edu).
 - var_in: SLAall
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -212,7 +212,7 @@ traits:
     leaves were further oven-dried at 65 deg C for no less than 48 h, and the dry
     mass of each leaf was determined.
 - var_in: Gm
-  unit_in: mmolCO2/g/s
+  unit_in: mol{CO2}/m2/s
   trait_name: leaf_mesophyll_conductance_per_area
   entity_type: individual
   value_type: raw
@@ -220,7 +220,7 @@ traits:
   replicates: 1
   methods: unknown
 - var_in: gm/mass
-  unit_in: molCO2/m2/s
+  unit_in: mmol{CO2}/g/s
   trait_name: leaf_mesophyll_conductance_per_mass
   entity_type: individual
   value_type: raw
@@ -228,7 +228,7 @@ traits:
   replicates: 1
   methods: unknown
 - var_in: dN15
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta15N
   entity_type: individual
   value_type: raw
@@ -239,7 +239,7 @@ traits:
     in fine-ground samples using a LECO CNS2000 Analyzer (LECO Corporation, St Joseph,
     MI, USA).
 - var_in: dC13
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -307,8 +307,8 @@ traits:
     inductively coupled plasma emission spectroscopy (ICP-OES) using American Public
     Health Association standard method 3120 (APHA 3120).
 - var_in: av Ci/CA
-  unit_in: umolCO2 internal/umolCO2 ambient
-  trait_name: ci_over_ca
+  unit_in: umol{CO2_internal}/umol{CO2_ambient}
+  trait_name: leaf_intercellular_CO2_concentration_to_atmospheric_CO2_concentration_ratio
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -338,8 +338,8 @@ traits:
     not fully fill up the window of the gas-exchange cuvette, several leaves arranged
     side by side were enclosed in the cuvette.'
 - var_in: av-Cc
-  unit_in: umolCO2/umol
-  trait_name: cc
+  unit_in: umol{CO2}/umol
+  trait_name: leaf_chloroplast_CO2_concentration
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -356,8 +356,8 @@ traits:
     of 274.8 lmol mol_1 and for O2 (Ko) of 414.1 mmol mol_1 were from Bernacchi et
     al. (2001). '
 - var_in: Av-Ci
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Amax
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Amax
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -387,8 +387,8 @@ traits:
     not fully fill up the window of the gas-exchange cuvette, several leaves arranged
     side by side were enclosed in the cuvette.'
 - var_in: av-CA
-  unit_in: umolCO2/mol
-  trait_name: ca
+  unit_in: umol{CO2}/mol
+  trait_name: atmospheric_CO2_concentration
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -418,8 +418,8 @@ traits:
     not fully fill up the window of the gas-exchange cuvette, several leaves arranged
     side by side were enclosed in the cuvette.'
 - var_in: Amax for Ci=250
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_maximum
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_maximum
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -449,8 +449,8 @@ traits:
     not fully fill up the window of the gas-exchange cuvette, several leaves arranged
     side by side were enclosed in the cuvette.'
 - var_in: Amax/mass
-  unit_in: umolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_maximum
+  unit_in: umol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_maximum
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -480,13 +480,13 @@ traits:
     fill up the window of the gas-exchange cuvette, several leaves arranged side by
     side were enclosed in the cuvette.'
 - var_in: Rd/mass
-  unit_in: neg_umolCO2/g/s
+  unit_in: neg_umol{CO2}/g/s
   trait_name: leaf_dark_respiration_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: 'A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
+  methods: A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
     to ensure maximum stomatal openness before the measurement of A/Ci curves (Centritto
     et al., 2003). At this ambient CO2 concentration, maximum stomatal conductance
     was achieved 20 min to 2 h after leaf enclosure in the cuvette. After reaching
@@ -497,19 +497,19 @@ traits:
     chlorophyll fluorescence yield in the light-adapted state, F, was estimated, and
     a single saturating pulse of white light of 6800-7000 lmol m-2 s-1 was applied
     to close all photosystem II centres and obtain the maximum fluorescence yield
-    Fm''. From these measurements, the effective quantum yield of photosystem II,
-    UPSII, was calculated as (Fm''-F)/Fm''. Upon completion of the A/Ci curve, the
+    Fm'. From these measurements, the effective quantum yield of photosystem II,
+    UPSII, was calculated as (Fm'-F)/Fm'. Upon completion of the A/Ci curve, the
     light was switched off, and as soon as the chamber temperature and ambient CO2
     concentrations had stabilized, commonly 1-2 min after leaf darkening, the dark
-    respiration rate was recorded. '
+    respiration rate was recorded.
 - var_in: Rd
-  unit_in: neg_umolCO2/m2/s
+  unit_in: neg_umol{CO2}/m2/s
   trait_name: leaf_dark_respiration_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: 'A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
+  methods: A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
     to ensure maximum stomatal openness before the measurement of A/Ci curves (Centritto
     et al., 2003). At this ambient CO2 concentration, maximum stomatal conductance
     was achieved 20 min to 2 h after leaf enclosure in the cuvette. After reaching
@@ -520,14 +520,14 @@ traits:
     chlorophyll fluorescence yield in the light-adapted state, F, was estimated, and
     a single saturating pulse of white light of 6800-7000 lmol m-2 s-1 was applied
     to close all photosystem II centres and obtain the maximum fluorescence yield
-    Fm''. From these measurements, the effective quantum yield of photosystem II,
-    UPSII, was calculated as (Fm''-F)/Fm''. Upon completion of the A/Ci curve, the
+    Fm'. From these measurements, the effective quantum yield of photosystem II,
+    UPSII, was calculated as (Fm'-F)/Fm'. Upon completion of the A/Ci curve, the
     light was switched off, and as soon as the chamber temperature and ambient CO2
     concentrations had stabilized, commonly 1-2 min after leaf darkening, the dark
-    respiration rate was recorded. '
+    respiration rate was recorded.
 - var_in: Jmax/mass
   unit_in: umol/g/s
-  trait_name: fluorescence_Jmax_per_mass
+  trait_name: leaf_photosynthesis_Jmax_per_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -555,8 +555,8 @@ traits:
     source (Li-Cor Inc., 2004) were used to estimate the amount of light absorbed,
     Qabs. JETR was then determined (Schreiber et al., 1994; equation in cited manuscript).
 - var_in: Vcmax/mass
-  unit_in: umol/g
-  trait_name: fluorescence_Vcmax_per_mass
+  unit_in: umol/g/s
+  trait_name: leaf_photosynthesis_Vcmax_per_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -583,9 +583,37 @@ traits:
     with the blue and red LED spectra of the LI-6400-40 Leaf Chamber Fluorometer light
     source (Li-Cor Inc., 2004) were used to estimate the amount of light absorbed,
     Qabs. JETR was then determined (Schreiber et al., 1994; equation in cited manuscript).
+- var_in: Jmax/area
+  unit_in: umol/m2/s
+  trait_name: leaf_photosynthesis_Jmax_per_area_25C
+  entity_type: individual
+  value_type: raw
+  basis_of_value: measurement
+  replicates: 1
+  methods: A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
+    to ensure maximum stomatal openness before the measurement of A/Ci curves (Centritto
+    et al., 2003). At this ambient CO2 concentration, maximum stomatal conductance
+    was achieved 20 min to 2 h after leaf enclosure in the cuvette. After reaching
+    the maximum stomatal conductance, steady-state values of net assimilation rates
+    were measured at eight ambient CO2 concentrations between 50 lmol mol-1 and 2000
+    lmol mol-1.
+- var_in: Average Vcmax
+  unit_in: umol/m2/s
+  trait_name: leaf_photosynthesis_Vcmax_per_area_25C
+  entity_type: individual
+  value_type: raw
+  basis_of_value: measurement
+  replicates: 1
+  methods: A low CO2 of 50 lmol mol_1 during the leaf stabilization period was used
+    to ensure maximum stomatal openness before the measurement of A/Ci curves (Centritto
+    et al., 2003). At this ambient CO2 concentration, maximum stomatal conductance
+    was achieved 20 min to 2 h after leaf enclosure in the cuvette. After reaching
+    the maximum stomatal conductance, steady-state values of net assimilation rates
+    were measured at eight ambient CO2 concentrations between 50 lmol mol-1 and 2000
+    lmol mol-1. 
 - var_in: Jmax/Vcmax
-  unit_in: dimensionless
-  trait_name: fluorescence_Jmax_over_Vcmax
+  unit_in: '{dimensionless}'
+  trait_name: leaf_photosynthesis_Jmax_over_Vcmax_25C
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -596,22 +624,7 @@ traits:
     was achieved 20 min to 2 h after leaf enclosure in the cuvette. After reaching
     the maximum stomatal conductance, steady-state values of net assimilation rates
     were measured at eight ambient CO2 concentrations between 50 lmol mol-1 and 2000
-    lmol mol-1. When the steady-state assimilation rate at a given CO2 concentration,
-    ;5 min after change in CO2 concentration, had been recorded, the steady-state
-    chlorophyll fluorescence yield in the light-adapted state, F, was estimated, and
-    a single saturating pulse of white light of 6800-7000 lmol m-2 s-1 was applied
-    to close all photosystem II centres and obtain the maximum fluorescence yield
-    Fm'. From these measurements, the effective quantum yield of photosystem II, UPSII,
-    was calculated as (Fm'-F)/Fm'. Upon completion of the A/Ci curve, the light was
-    switched off, and as soon as the chamber temperature and ambient CO2 concentrations
-    had stabilized, commonly 1-2 min after leaf darkening, the dark respiration rate
-    was recorded. To determine the rates of photosynthetic electron transport from
-    chlorophyll fluorescence measurements (JETR), leaf reflectance and transmittance
-    were estimated with a Li-Cor portable spectroradiometer (Li-Cor 1800, Li-Cor,
-    Inc.) equipped with a Taylor-type integrated sphere. These measurements along
-    with the blue and red LED spectra of the LI-6400-40 Leaf Chamber Fluorometer light
-    source (Li-Cor Inc., 2004) were used to estimate the amount of light absorbed,
-    Qabs. JETR was then determined (Schreiber et al., 1994; equation in cited manuscript).
+    lmol mol-1.
 - var_in: Thickness
   unit_in: mm
   trait_name: leaf_thickness
@@ -639,23 +652,26 @@ traits:
 substitutions:
 - trait_name: nitrogen_fixing
   find: 'Y'
-  replace: 1
+  replace: nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: Y??
-  replace: 1
+  replace: nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: 'N'
-  replace: 0
+  replace: non_nitrogen_fixer
 taxonomic_updates:
 - find: Araucaria bidwilii
   replace: Araucaria bidwillii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Astrotrichia floccosa
   replace: Astrotricha floccosa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Eucalyptus haemostoma
   replace: Eucalyptus haemastoma
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations:
 - variable: taxon_name
   find: Agathis moorei, Cephalotaxus fortunei, Ginkgo biloba

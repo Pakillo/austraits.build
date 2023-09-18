@@ -44,19 +44,23 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate_at(c("N (mature) (mg/g)"), ~na_if(.,0)) %>% mutate(site_name
-    = ifelse(Stage == "Stage_1","Quindalup Young",Stage), site_name = ifelse(site_name
-    == "Stage_3","Quindalup Old",site_name),site_name = ifelse(site_name == "Stage_4","Spearwood
-    West",site_name))
+  custom_R_code: '
+    data %>%
+      mutate(across(c("N (mature) (mg/g)"), ~na_if(.x, 0)),
+        site_name = ifelse(Stage == "Stage_1", "Quindalup Young", Stage),
+        site_name = ifelse(site_name == "Stage_3", "Quindalup Old", site_name),
+        site_name = ifelse(site_name == "Stage_4", "Spearwood West", site_name)
+      )
+  '
   collection_date: 2011-11-11/2011-11-17
   taxon_name: Species
-  site_name: site_name
+  location_name: site_name
   description: A study exploring how traits associated with PPUE, photosynthetic nitrogen
     (N)-use efficiency (PNUE) and leaf respiration might converge along the  chronosequence,
     and whether Proteaceae and non-Proteaceae species differ in leaf traits associated
     with nutrient use.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: We focused on three sites, representing three of the chronosequence
     stages as defined in previous papers on the Jurien Bay chronosequence (Laliberte
     et al., 2012; Turner et al., 2018). Stage 1 refers to the progressive phase of
@@ -70,7 +74,7 @@ dataset:
     and function.
   original_file: files in raw data folder and archived in Google Drive folder
   notes: .na
-sites:
+locations:
   Quindalup Old:
     description: Kwongan
     latitude (deg): -30.1911676
@@ -120,7 +124,7 @@ contexts: .na
 traits:
 - var_in: LMA (g m-2)
   unit_in: g/m2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -217,7 +221,7 @@ traits:
     2 Flow Injection Analysis System (Lachat)
 - var_in: NP ratio
   unit_in: g/g
-  trait_name: N_to_P_ratio
+  trait_name: leaf_NP_ratio
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -259,8 +263,8 @@ traits:
     A second subsample was analysed for leaf [N] using a LaChat QuikChem 8500 Series
     2 Flow Injection Analysis System (Lachat)
 - var_in: Asat (area) umol m-2 s-1
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -284,8 +288,8 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Amax (area) umol m-2 s-1
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_maximum
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_maximum
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -309,8 +313,8 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Asat (mass) nmol g-1 s-1
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -334,8 +338,8 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Amax (mass) nmol g-1 s-1
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_maximum
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_maximum
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -359,7 +363,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark (area) umol m-2 s-1
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: leaf_dark_respiration_per_area
   entity_type: individual
   value_type: raw
@@ -384,7 +388,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark28 (area) umol m-2 s-1
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -409,7 +413,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark25 (area) umol m-2 s-1
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -434,7 +438,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark (mass) nmol g-1 s-1
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: leaf_dark_respiration_per_dry_mass
   entity_type: individual
   value_type: raw
@@ -459,7 +463,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark28 (mass) nmol g-1 s-1
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -484,7 +488,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark25 (mass) nmol g-1 s-1
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -509,7 +513,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: PNUEsat (umol CO2 g-1 N s-1)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: leaf_photosynthetic_nitrogen_use_efficiency_saturated
   entity_type: individual
   value_type: raw
@@ -519,7 +523,7 @@ traits:
     from the 2011 collected plants. For resorption, we used N data from the 2015 sampled
     leaves.
 - var_in: PNUEmax (umol CO2 g-1 N s-1)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: leaf_photosynthetic_nitrogen_use_efficiency_maximum
   entity_type: individual
   value_type: raw
@@ -529,7 +533,7 @@ traits:
     from the 2011 collected plants. For resorption, we used N data from the 2015 sampled
     leaves.
 - var_in: PPUEsat (umol CO2 g-1 P s-1)
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: leaf_photosynthetic_phosphorus_use_efficiency_saturated
   entity_type: individual
   value_type: raw
@@ -539,7 +543,7 @@ traits:
     exchange rates were divided by site-species mean values of leaf [P] obtained in
     2015.
 - var_in: PPUEmax (umol CO2 g-1 P s-1)
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: leaf_photosynthetic_phosphorus_use_efficiency_maximum
   entity_type: individual
   value_type: raw
@@ -549,7 +553,7 @@ traits:
     exchange rates were divided by site-species mean values of leaf [P] obtained in
     2015.
 - var_in: Rdark (N based) (umol CO2 g-1 N s-1)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -574,7 +578,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark28 (N based) (umol CO2 g-1 N s-1)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -599,7 +603,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark25 (N based) (umol CO2 g-1 N s-1)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -624,7 +628,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark (P based) umol CO2 g-1 P s-1
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -649,7 +653,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark28 (P based) umol CO2 g-1 P s-1
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -674,7 +678,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rdark25 (P based) umol CO2 g-1 P s-1
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -699,7 +703,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rd28/Asat (area)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -724,7 +728,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rd28/Asat (mass)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -749,7 +753,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rd28/Amax (area)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -774,7 +778,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rd28/Amax (mass)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -799,7 +803,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: Rlight (area) (umol m-2 s-1)
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: leaf_light_respiration_per_area
   entity_type: individual
   value_type: raw
@@ -824,7 +828,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: RL/RD (area)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -849,7 +853,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: RL/RD 28 (area)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -874,7 +878,7 @@ traits:
     bases. Measurements were made using undamaged, fully expanded, youngest fully
     mature and sun-exposed leaves, still attached to the plant.
 - var_in: RL/RD 25 (area)
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -964,7 +968,7 @@ traits:
     2 Flow Injection Analysis System (Lachat)
 - var_in: N (senesced) (mg/g)
   unit_in: mg/g
-  trait_name: senesced_leaf_N_per_dry_mass
+  trait_name: leaf_senesced_N_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -1007,7 +1011,7 @@ traits:
     2 Flow Injection Analysis System (Lachat)
 - var_in: N resorption (%)
   unit_in: '%'
-  trait_name: resorption_leaf_N
+  trait_name: leaf_N_resorption
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -1050,7 +1054,7 @@ traits:
     2 Flow Injection Analysis System (Lachat)
 - var_in: P (senesced) (mg/g)
   unit_in: mg/g
-  trait_name: senesced_leaf_P_per_dry_mass
+  trait_name: leaf_senesced_P_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -1093,7 +1097,7 @@ traits:
     2 Flow Injection Analysis System (Lachat)
 - var_in: P resorption (%)
   unit_in: '%'
-  trait_name: resorption_leaf_P
+  trait_name: leaf_P_resorption
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -1137,7 +1141,9 @@ traits:
 substitutions: .na
 taxonomic_updates:
 - find: Melaleuca affi. systena
-  replace: Melaleuca systena
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  replace: Melaleuca sp. [Melaleuca affi. systena; Guilherme_Pereira_2019]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 exclude_observations: .na
 questions: .na

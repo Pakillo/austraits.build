@@ -26,19 +26,23 @@ contributors:
   austraits_curators: Caitlyn Baxter
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(site_name = "University of Queensland") %>% group_by(Species)
-    %>% mutate_at(vars(SeedMass), replace_duplicates_with_NA) %>% ungroup()
+  custom_R_code:      '
+    data %>%
+      mutate(site_name = "University of Queensland") %>%
+        group_by(Species) %>%
+          mutate(across(c(SeedMass), replace_duplicates_with_NA)) %>%
+        ungroup()
+  '
   collection_date: 2014/2014
   taxon_name: Species
-  site_name: site_name
-  context_name: Treatment
+  location_name: site_name
   description: A greenhouse experiment that examined nine drought resistance traits
     (six morphological/allocation traits plus assimilation, stomatal conductance and
     water-use efficiency) in well-watered and water-stressed seedlingsof four Brachychiton
     (Malvaceae Juss.) species with ranges spanning a strong aridity gradient in east-central
     Australia
-  collection_type: glasshouse
-  sample_age_class: seedling
+  basis_of_record: lab
+  life_stage: seedling
   sampling_strategy: The genus Brachychiton (family Malvaceae) is composed of 31 described
     species, with all but two being Australian endemics (Guymer 1988). Brachychiton
     species have adapted to a range of climates across Australia, from tropical rainforests
@@ -83,19 +87,25 @@ dataset:
     only had four individuals due to mid-experiment mortality, see Appendix 2).
   original_file: Reynolds_Brachychiton_Trait_Data.xls
   notes: none
-sites:
+locations:
   University of Queensland:
     latitude (deg): -27.495667
     longitude (deg): 153.01002
     description: St Lucia campus glasshouse location
 contexts:
-  Control:
-    water treatment: control (Seedlings received their full transpiration requirements
-      at similar intervals until the conclusion of the experiment.) [manipulated]
-  Drought:
-    water treatment: drought (Seedlings received half of their transpiration requirements
-      every second day, amounting to a quarter of their full requirements for the
-      duration of the experiment.) [manipulated]
+- context_property: drought treatment
+  category: treatment
+  var_in: Treatment
+  values:
+  - find: Control
+    value: control
+    description: Seedlings received enough water to supply their full transpiration
+      requirements until the conclusion of the experiment.
+  - find: Drought
+    value: drought
+    description: Seedlings received enough water to supply half of their transpiration
+      requirements only every second day, amounting to a quarter of their full requirements
+      for the duration of the experiment.
 traits:
 - var_in: LDMC
   unit_in: mg/g
@@ -112,8 +122,8 @@ traits:
     placed in a drying oven at 60 deg C for 72 h and then leaves, roots and stems
     were weighed separately.
 - var_in: WUE
-  unit_in: umolCO2/molH2O
-  trait_name: water_use_efficiency_intrinsic
+  unit_in: umol{CO2}/mol{H2O}
+  trait_name: leaf_water_use_efficiency_intrinsic
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -129,8 +139,8 @@ traits:
     a leaf area correction applied to the gas exchange measurements. WUE is calculated
     as A/Gs.
 - var_in: A
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -145,8 +155,8 @@ traits:
     by tracing the leaf and using ImageJ to calculate the area of the outline, and
     a leaf area correction applied to the gas exchange measurements.
 - var_in: Gs
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -165,7 +175,7 @@ traits:
     in AusTraits
 - var_in: SLA
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -177,7 +187,7 @@ traits:
     placed in a drying oven at 60 deg C for 72 h and then leaves, roots and stems
     were weighed separately.
 - var_in: SLvR
-  unit_in: mg_shoot/mg_root
+  unit_in: mg{shoot}/mg{root}
   trait_name: root_shoot_ratio
   entity_type: individual
   value_type: raw
@@ -233,7 +243,7 @@ traits:
     in a drying oven at 60 deg C for 72 h and then leaves, roots and stems were weighed
     separately.
 - var_in: Al_As
-  unit_in: mm2_leaf/mm2_sapwood
+  unit_in: mm2{leaf}/mm2{sapwood}
   trait_name: huber_value
   entity_type: individual
   value_type: raw
@@ -277,7 +287,7 @@ traits:
   replicates: unknown
   methods: Species mean seed mass, sourced from local nuseries. The seed mass values
     are from a subsample of seeds that were supplied by local nurseries.
-  sample_age_class: adult
+  life_stage: adult
 - var_in: RWC
   unit_in: g/g
   trait_name: stem_water_content_per_saturated_mass

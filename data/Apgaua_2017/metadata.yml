@@ -35,13 +35,13 @@ dataset:
   custom_R_code: .na
   collection_date: 2014/2015
   taxon_name: Species
-  site_name: Study site
-  context_name: Plant functional group
+  location_name: Study site
   description: Study exploring wood functional anatomy traits related to plant hydraulic
     architecture across different plant functional groups in a lowland tropical rain
     forest.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  measurement_remarks: Plant functional group
+  life_stage: adult
   sampling_strategy: Our study site is located at the Daintree Rainforest Observatory
     (16deg06min20secS 145deg26min40secE, 50 m a.s.l.) in a lowland rain forest adjacent
     to the Daintree National Park in north-eastern Australia. The site experiences
@@ -84,7 +84,7 @@ dataset:
     study species.
   original_file: Apgaua et al. 2017
   notes: none
-sites:
+locations:
   Daintree Rainforest Observatory:
     latitude (deg): -16.1055556
     longitude (deg): 145.4444444
@@ -93,19 +93,7 @@ sites:
     temperature, MAT (C): 24.4
     precipitation, MAP (mm): 4900
     soil type: high fertility soils developed over metamorphic and granitic colluvium
-contexts:
-  Maturephase tree:
-    vegetation type: climax community tree species
-  Pioneer shrub:
-    vegetation type: pioneer shrub species, generally fast-growing
-  Pioneer tree:
-    vegetation type: pioneer tree species, generally fast-growing
-  Understorey shrub:
-    vegetation type: shade tolerant, generally slower-growing shrub species
-  Understorey tree:
-    vegetation type: shade tolerant, generally slower-growing tree species
-  Vine:
-    vegetation type: woody vine species, generally fast-growing
+contexts: .na
 traits:
 - var_in: Plant functional group
   unit_in: .na
@@ -163,14 +151,12 @@ traits:
     from these, we obtained mean (d; lm) and maximum diameters (dmax) for each species.
 - var_in: Vessel diameter (um)
   unit_in: um
-  trait_name: vessel_diameter
+  trait_name: stem_vessel_diameter
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
   replicates: 1
-  method_number: 1
-  remeasurement_remarks: mean value
-  methods: &vessel_diameter_method We sectioned wood samples with a GSL1 microtome (Gaertner, Lucchinetti
+  methods: We sectioned wood samples with a GSL1 microtome (Gaertner, Lucchinetti
     & Schweingruber 2014), stained the sections with toluidine blue and mounted them
     onto microscope slides with glycerine jelly for examination. We photographed vessels
     from the outermost two centimetres of sapwood of each species with a digital camera
@@ -187,17 +173,29 @@ traits:
     from these, we obtained mean (d; lm) and maximum diameters (dmax) for each species.
 - var_in: Vessel diameter max (um)
   unit_in: um
-  trait_name: vessel_diameter
+  trait_name: stem_vessel_diameter
   entity_type: individual
   value_type: maximum
   basis_of_value: measurement
   replicates: 1
-  method_number: 2
-  remeasurement_remarks: mean value
-  methods: *vessel_diameter_method 
+  methods: We sectioned wood samples with a GSL1 microtome (Gaertner, Lucchinetti
+    & Schweingruber 2014), stained the sections with toluidine blue and mounted them
+    onto microscope slides with glycerine jelly for examination. We photographed vessels
+    from the outermost two centimetres of sapwood of each species with a digital camera
+    (Nikon DS-Fi2, Nikon Corporation, Minato-ku, Tokyo, Japan) mounted on a light
+    microscope (409 and 1009 magnification; Nikon ECLIPSE Ci-L, Nikon Corporation).
+    Using the imaging software GIMP (v2.8.10, https://www.gimp.org/), we coloured
+    60-100 vessel lumens from at least three images per species. We used the imaging
+    software IMAGEJ (National Institutes of Health, Bethesda, MD, USA) to count and
+    measure vessel lumen areas (VA; lm2) from the coloured vessel lumens and obtained
+    vessel density (VD) by counting and measuring the area of all vessel lumens that
+    fell within three digital square frames of a standardized area. Vessel fraction
+    (VF) was calculated as the product of vessel area and VD (VA 9 VD). For greater
+    interstudy comparability, we calculated vessel diameters from vessel areas, and
+    from these, we obtained mean (d; lm) and maximum diameters (dmax) for each species.
 - var_in: Hydraulically weighted diameter (um)
   unit_in: um
-  trait_name: vessel_diameter_hydraulic
+  trait_name: stem_vessel_diameter_hydraulic
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -223,8 +221,8 @@ traits:
     be if it is to have the same total conductivity for the same number of conduits
     as the sampled stem.
 - var_in: Vessel density (mm-2)
-  unit_in: count/mm2
-  trait_name: vessel_density
+  unit_in: '{count}/mm2'
+  trait_name: stem_vessel_density
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -245,8 +243,8 @@ traits:
     interstudy comparability, we calculated vessel diameters from vessel areas, and
     from these, we obtained mean (d; lm) and maximum diameters (dmax) for each species.
 - var_in: Vessel fraction (unitless)
-  unit_in: dimensionless
-  trait_name: vessel_lumen_fraction
+  unit_in: mm2/mm2
+  trait_name: stem_vessel_lumen_fraction
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -267,8 +265,8 @@ traits:
     interstudy comparability, we calculated vessel diameters from vessel areas, and
     from these, we obtained mean (d; lm) and maximum diameters (dmax) for each species.
 - var_in: Theoretical specific xylem hydraulic conductivity (kg s-1 MPa-1)
-  unit_in: 10^6 x kg/m/s/MPa
-  trait_name: sapwood_specific_conductivity_theoretical
+  unit_in: 10^6.kg/m/MPa/s
+  trait_name: sapwood_specific_hydraulic_conductivity_theoretical
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -296,8 +294,8 @@ traits:
     into AusTraits; that is, the units used are '10^6 x kg/m/s/MPa' versus 'kg/s/MPa'
     in the manuscript.)
 - var_in: Vulnerability index (unitless)
-  unit_in: dimensionless
-  trait_name: vulnerability_index
+  unit_in: 'um.m2/{count}'
+  trait_name: stem_xylem_vulnerability_index
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -318,8 +316,8 @@ traits:
     a vulnerability index (VI = d/VD; susceptibility to cavitation; Scholz et al.
     2013) for each species.
 - var_in: Vessel Multiple Fraction (unitless)
-  unit_in: dimensionless
-  trait_name: vessel_multiple_fraction
+  unit_in: '{dimensionless}'
+  trait_name: stem_vessel_multiple_fraction
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -343,8 +341,8 @@ traits:
     of vessels (Scholz et al. 2013). A Vmf value approximating 1 denotes a tendency
     towards solitary vessels.
 - var_in: Intrinsic water-use efficiency (umol mol-1 )
-  unit_in: umolCO2/molH2O
-  trait_name: water_use_efficiency_intrinsic
+  unit_in: umol{CO2}/mol{H2O}
+  trait_name: leaf_water_use_efficiency_intrinsic
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -371,7 +369,7 @@ traits:
     were strongly correlated with WUEi (Pearson correlation, r = 0_847, P < 0_0001),
     we use only the latter in our analyses.
 - var_in: d13c (per mille)
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -397,40 +395,51 @@ substitutions:
   replace: tree
 - trait_name: plant_growth_form
   find: Vine
-  replace: climber_liana
+  replace: climber_woody
 taxonomic_updates:
-- find: Cryptocarya mackinonianna
-  replace: Cryptocarya mackinnoniana
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
-- find: Rhus taitenses
-  replace: Rhus taitensis
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
-- find: Homalanthus novoguineensis
-  replace: Homalanthus novo-guineensis
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
 - find: Ardisia brevipetala
   replace: Ardisia brevipedata
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Atractorcarpus hirtus
   replace: Atractocarpus hirtus
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
-- find: Haplostichantus ramiflorus
-  replace: Haplostichanthus ramiflorus
-  reason: Automatic alignment with name in APC list (known names) (2021-02-15)
-- find: Gilbeeea whypallana
-  replace: Gillbeea whypallana
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
-- find: Pseuduvaria froggatti
-  replace: Pseuduvaria froggattii
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
-- find: Ryparosa kurangii
-  replace: Ryparosa kurrangii
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Caesalpinea traceyi
   replace: Caesalpinia traceyi
-  reason: Automatic alignment with name in APC list (known names) (2021-02-15)
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Cryptocarya mackinonianna
+  replace: Cryptocarya mackinnoniana
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Entada phaseloides
   replace: Entada phaseoloides
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Gilbeeea whypallana
+  replace: Gillbeea whypallana
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Haplostichantus ramiflorus
+  replace: Haplostichanthus ramiflorus
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Homalanthus novoguineensis
+  replace: Homalanthus novo-guineensis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Pseuduvaria froggatti
+  replace: Pseuduvaria froggattii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Rhus taitenses
+  replace: Rhus taitensis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Ryparosa kurangii
+  replace: Ryparosa kurrangii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

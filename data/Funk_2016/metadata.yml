@@ -26,33 +26,23 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
-    data %>%
-      mutate(
-        `Nut acq strat` = gsub("Nfixer/","",`Nut acq strat`),
-        `Nut acq strat` = gsub("MD",NA,`Nut acq strat`),
-        `Rt tp cat` = gsub("MD",NA,`Rt tp cat`),
-        `Root depth (cm)` = gsub("MD",NA,`Root depth (cm)`),
-        `Height (mm)` = gsub("MD",NA,`Height (mm)`),
-        `Aarea` = gsub("MD",NA,`Aarea`),
-        `Amass` = gsub("MD",NA,`Amass`),
-        `PNUE`= gsub("MD",NA,`PNUE`),
-        `PPUE` = gsub("MD",NA,`PPUE`),
-        `WUE`= gsub("MD",NA,`WUE`),
-        `Root type` = gsub("MD",NA,`Root type`)
-        ) %>%
-      mutate(
-        Date = ifelse(Site == "Banksia woodland","2011-09/2011-11",NA),
-        Date = ifelse(Site == "Coastal banksia woodland","2012-09/2012-11",Date)
-        )
+  custom_R_code:      '
+data %>%
+  mutate(
+    `Nut acq strat` = stringr::str_replace(`Nut acq strat`, "Nfixer/",""),
+    across(everything(), ~as.character(.x)),
+    across(everything(), ~na_if(.x,"MD")),
+    Date = ifelse(Site == "Banksia woodland","2011-09/2011-11",NA),
+    Date = ifelse(Site == "Coastal banksia woodland","2012-09/2012-11",Date)
+  )
   '
   collection_date: Date
   taxon_name: Species
-  site_name: Site
+  location_name: Site
   description: Australian subset of a worldwide comparison of functional traits in
     invasive versus native species in mediterranean-climate ecosystems
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: We selected eight moderately to heavily invaded MCE communities
     including grasslands, shrublands, and woodlands. Our sites had similar mean annual
     precipitation (330-834 mm), but varied greatly in soil nutrient availability,
@@ -64,7 +54,7 @@ dataset:
     middle of the spring growing season, prior to fl owering.
   original_file: AusTraits_banksia woodland.xls in raw folder and in GoogleDrive folder
   notes: none
-sites:
+locations:
   Banksia woodland:
     latitude (deg): -32.04667
     longitude (deg): 115.83639
@@ -127,7 +117,7 @@ traits:
   methods: expert observation or reference book
 - var_in: LMA (g/m2)
   unit_in: g/m2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -136,7 +126,7 @@ traits:
     leaf area, dried at 65 deg C for 3 d, and weighed to determine LMA.
 - var_in: SRL (cm/mg)
   unit_in: cm/mg
-  trait_name: specific_root_length
+  trait_name: root_specific_root_length
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -148,7 +138,7 @@ traits:
     to determine SRL (cm 2 g-1).
 - var_in: Root type
   unit_in: .na
-  trait_name: root_morphology
+  trait_name: root_system_classification
   entity_type: population
   value_type: mode
   basis_of_value: expert_score
@@ -241,8 +231,8 @@ traits:
     analyzer (SmartChem 200; Unity Scientific, Brookfi eld, Connecticut, USA) following
     Kjeldahl digest.
 - var_in: Aarea
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -253,8 +243,8 @@ traits:
     temperature of 25 deg C, and at relative humidity of 40-60%. When necessary, photosynthetic
     rates were temperature- corrected using standard equations (von Caemmerer 2000).
 - var_in: WUE
-  unit_in: mmolCO2/molH2O
-  trait_name: water_use_efficiency_photosynthetic
+  unit_in: mmol{CO2}/mol{H2O}
+  trait_name: leaf_water_use_efficiency_instantaneous
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -266,8 +256,8 @@ traits:
     rates were temperature- corrected using standard equations (von Caemmerer 2000).
     Water-use efficiency was calculated as the ratio of photosynthesis to transpiration.
 - var_in: Amass
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -278,7 +268,7 @@ traits:
     temperature of 25 deg C, and at relative humidity of 40-60%. When necessary, photosynthetic
     rates were temperature- corrected using standard equations (von Caemmerer 2000).
 - var_in: PNUE
-  unit_in: umolCO2/molN/s
+  unit_in: umol{CO2}/mol{N}/s
   trait_name: leaf_photosynthetic_nitrogen_use_efficiency_saturated
   entity_type: individual
   value_type: raw
@@ -287,7 +277,7 @@ traits:
   methods: Photosynthetic nitrogen-use efficiency (PNUE) was calculated as the ratio
     of photosynthesis to leaf N.
 - var_in: PPUE
-  unit_in: mmolCO2/molP/s
+  unit_in: mmol{CO2}/mol{P}/s
   trait_name: leaf_photosynthetic_phosphorus_use_efficiency_saturated
   entity_type: individual
   value_type: raw
@@ -298,10 +288,10 @@ traits:
 substitutions:
 - trait_name: nitrogen_fixing
   find: 'yes'
-  replace: 1
+  replace: nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: 'no'
-  replace: 0
+  replace: non_nitrogen_fixer
 - trait_name: root_structure
   find: AMF
   replace: arbuscular_mycorrhizal
@@ -325,10 +315,10 @@ substitutions:
   replace: long_root_hairs
 - trait_name: plant_growth_form
   find: shrub/sml tree
-  replace: shrub treelet
+  replace: shrub tree
 - trait_name: plant_growth_form
   find: sml tree
-  replace: treelet
+  replace: tree
 - trait_name: plant_growth_form
   find: grass
   replace: graminoid
@@ -337,29 +327,29 @@ substitutions:
   replace: graminoid
 - trait_name: plant_growth_form
   find: tree-like monocot
-  replace: grass-tree
-- trait_name: root_morphology
+  replace: palmoid
+- trait_name: root_system_classification
   find: I
   replace: type_i
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: II
   replace: type_ii
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: III
   replace: type_iii
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: IV
   replace: type_iv
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: IV?
   replace: type_iv
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: VII
   replace: type_vii
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: VIII
   replace: type_viii
-- trait_name: root_morphology
+- trait_name: root_system_classification
   find: IX
   replace: type_ix
 - trait_name: life_form
@@ -374,16 +364,20 @@ substitutions:
 taxonomic_updates:
 - find: Angiozanthos manglesii
   replace: Anigozanthos manglesii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Banksia attenuta
   replace: Banksia attenuata
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Corymbia callophylla
   replace: Corymbia calophylla
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Xanthorrhoea preissi
   replace: Xanthorrhoea preissii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: root depth

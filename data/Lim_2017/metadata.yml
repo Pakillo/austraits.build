@@ -29,7 +29,7 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     heightdata <-
       data %>%
         mutate(counter = 1) %>%
@@ -52,18 +52,17 @@ dataset:
         Date = Date %>% str_replace("Apr", "Apr-2012") %>% dmy()
       ) %>%
       group_by(Species) %>%
-        mutate_at(vars("plant_growth_form"),replace_duplicates_with_NA) %>%
+        mutate(across(c(plant_growth_form), replace_duplicates_with_NA)) %>%
       ungroup() %>%
       bind_rows(heightdata)
   '
   collection_date: Date
   taxon_name: Species
-  site_name: Site
-  context_name: Position
+  location_name: Site
   description: functional trait measurements in relation to landscape position in
     alpine habitats (frost hollows vs. higher slope positions)
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Data on species occurrences and functional traits were collected
     from the Bogong High Plains in northeast Victoria, Australia between Nov 2011
     and May 2012 (the austral summer). The Bogong High Plains are located on alpine
@@ -98,7 +97,7 @@ dataset:
     species (see Table 1 for a list of functional traits).
   original_file: several files in raw data folder
   notes: .na
-sites:
+locations:
   23N:
     latitude (deg): -36.91565
     longitude (deg): 147.2866167
@@ -328,12 +327,19 @@ sites:
     description: Jims Hill South
     slope aspect (degrees): south
 contexts:
-  Bottom:
-    topography: site at the bottom of a frost hollow in open heathland
-  Mid:
-    topography: site between the bottom of a frost hollow and the top of the slope
-  Top:
-    topography: site at the top of a slope in open woodland
+- context_property: topography
+  category: plot
+  var_in: Position
+  values:
+  - find: Bottom
+    value: bottom of slope
+    description: Site at the bottom of a frost hollow in open heathland.
+  - find: Mid
+    value: middle of slope
+    description: Site between the bottom of a frost hollow and the top of the slope.
+  - find: Top
+    value: top of slope
+    description: Site at the top of a slope in open woodland.
 traits:
 - var_in: plant_growth_form
   unit_in: .na
@@ -369,7 +375,7 @@ traits:
     were only present in one plot.
 - var_in: SLA.cm2/g
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -384,8 +390,8 @@ traits:
     et al. 2013). SLA was calculated as the ratio of the one-sided area of each group
     of leaves to its dry mass (Perez-Harguindeguy et al. 2013).
 - var_in: lumen.fraction
-  unit_in: dimensionless
-  trait_name: vessel_lumen_fraction
+  unit_in: um2/um2
+  trait_name: stem_vessel_lumen_fraction
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -401,8 +407,8 @@ traits:
     unit area, by dividing the number of vessels observed in each section by the total
     area of the section (Zanne et al. 2010).
 - var_in: non-lumen.fraction
-  unit_in: dimensionless
-  trait_name: vessel_non_lumen_fraction
+  unit_in: um2/um2
+  trait_name: stem_vessel_non_lumen_fraction
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -478,7 +484,7 @@ traits:
     observed in each section by the total area of the section (Zanne et al. 2010).
 - var_in: vessel_diameter_xylem
   unit_in: mm
-  trait_name: vessel_diameter
+  trait_name: stem_vessel_diameter
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -496,7 +502,8 @@ substitutions: .na
 taxonomic_updates:
 - find: Pimelea axiflor
   replace: Pimelea axiflora
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: leaf bud size, proportion air space in leaf bud, hair density

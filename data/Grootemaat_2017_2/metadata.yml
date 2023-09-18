@@ -15,7 +15,7 @@ contributors:
   data_collectors:
   - last_name: Grootemaat
     given_name: Saskia
-    ORCID: .na.character
+    ORCID: 0000-0002-5033-5912
     affiliation: Evolution & Ecology Research Centre, School of Biological, Earth,
       and Environmental Sciences, UNSW Sydney, Australia
     additional_role: contact
@@ -27,7 +27,7 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:        '
   data %>%
     mutate(
       measurement_remarks = ifelse(material == "dried","air-dried live leaves",
@@ -36,14 +36,14 @@ dataset:
   '
   collection_date: 2013/2013
   taxon_name: Taxon
-  site_name: site_name
+  location_name: site_name
   description: For upscaling from leaf traits to wildfire behaviour one needs to know
     if the same leaf traits are important for the flammability of 1) individual leaves,
     and 2) multiple leaves packed in fuel beds. This study tested whether the fuel
     packing properties, through airflow limitation, overruled the effects of individual
     leaf morphology and chemistry.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: To compare the flammability of individual leaves with the flammability
     in fuel beds, species were used as replicate, and the same evergreen perennial
     species were used as in Grootemaat et al. (2015). However, for some species it
@@ -85,7 +85,7 @@ dataset:
     SA/V, tissue density, dry mass, SLA*, lignin, tannin, TTI, FD, SD and TBT that
     are in the raw data folder are from Saskia's 2015 Func. Ecol. paper and are in
     AusTraits under Grootemaat_2015.
-sites:
+locations:
   Kuring-gai NP hiP:
     longitude (deg): 151.2922222
     latitude (deg): -33.5788889
@@ -138,7 +138,7 @@ sites:
 contexts: .na
 traits:
 - var_in: point_burning_time (s)
-  unit_in: seconds
+  unit_in: s
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -255,7 +255,7 @@ traits:
     s-1 ), point burning time (s) and fuel consumption (% mass loss) (Supplementary
     material Appendix 1 Table A1).
 - var_in: packing ratio
-  unit_in: dimensionless
+  unit_in: '{dimensionless}'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -296,7 +296,7 @@ traits:
     calculated on species means.
 - var_in: fuel consumption (%)
   unit_in: '%'
-  trait_name: fire_fuel_comsumption
+  trait_name: fire_fuel_consumption
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -381,7 +381,7 @@ traits:
     in a 1:4 mixture of 37% HCl and 65% HNO 3 (by volume) (Murphy and Riley 1962).
 - var_in: senesced_leaf_N
   unit_in: '%'
-  trait_name: senesced_leaf_N_per_dry_mass
+  trait_name: leaf_senesced_N_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -392,7 +392,7 @@ traits:
     elemental analyser.
 - var_in: senesced_leaf_C
   unit_in: '%'
-  trait_name: senesced_leaf_C_per_dry_mass
+  trait_name: leaf_senesced_C_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -403,7 +403,7 @@ traits:
     elemental analyser.
 - var_in: senesced_leaf_P
   unit_in: '%'
-  trait_name: senesced_leaf_P_per_dry_mass
+  trait_name: leaf_senesced_P_per_dry_mass
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -414,7 +414,7 @@ traits:
     in a 1:4 mixture of 37% HCl and 65% HNO 3 (by volume) (Murphy and Riley 1962).
 - var_in: curliness incl pet. (mm)
   unit_in: mm
-  trait_name: leaf_curliness
+  trait_name: leaf_posture_numeric
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -431,8 +431,8 @@ traits:
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: leaf_ash_content_per_dry_mass, but measured in a way that won't be comparable
-    to other studies; xperimental burns were performed on monospecific fuel beds consisting
+  methods: leaf_ash_per_dry_mass, but measured in a way that won't be comparable to
+    other studies; xperimental burns were performed on monospecific fuel beds consisting
     of air-dried senesced leaves or air-dried green leaves. The experiments were run
     in the Fire Laboratory of Amsterdam for Research in Ecology (FLARE), at VU University
     in Amsterdam, the Netherlands. The fuel beds were burned following the procedure
@@ -463,9 +463,15 @@ traits:
     (% mass loss) (Supplementary material Appendix 1 Table A1).
 substitutions: .na
 taxonomic_updates:
+- find: Allocasuarina sp
+  replace: Allocasuarina sp. [Grootemaat_2017_2]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
 - find: Dodonaea viscosa subsp. spathulata
-  replace: Dodonaea viscosa subsp. spatulata
-  reason: Automatic alignment with name in APC list (accepted) (2021-02-15)
+  replace: Dodonaea viscosa var. spathulata
+  reason: match_06. Automatic alignment with synonymous term among known canonical
+    names APC (2022-11-10)
+  taxonomic_resolution: Varietas
 exclude_observations: .na
 questions:
   additional_traits: This study also contains data on four traits related to fuel

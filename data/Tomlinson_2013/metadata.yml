@@ -39,10 +39,10 @@ dataset:
   custom_R_code: .na
   collection_date: 2008/2010
   taxon_name: Species
-  site_name: Seed location
+  location_name: Seed location
   description: various traits for 18 Australian species
-  collection_type: glasshouse
-  sample_age_class: sapling
+  basis_of_record: lab
+  life_stage: sapling
   sampling_strategy: We sampled dominant or very abundant tree species from humid
     and semi-arid savannas in Africa, Australia and South America (previously described
     in Tomlinson et al. 2012). We identified semi-arid and humid environments using
@@ -126,7 +126,7 @@ dataset:
     only the Australian species. AusTraits has changed the units for stomatal conductance
     from 'umol m-2 s-1' to 'mmol m-2 s-1'. Additional data measured on these same
     species is available in Tomlinson_2019.
-sites:
+locations:
   Byfield:
     climate description: humid
     latitude (deg): -19.43
@@ -272,7 +272,7 @@ traits:
     of these species.
 - var_in: SLA (mm2 mg-1)
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -415,8 +415,8 @@ traits:
     were calculated by dividing mass-based estimates by associated SLA (e.g. Na =
     Nm x SLA).
 - var_in: Aa (umolCO2 m-2 s-1)
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -430,8 +430,8 @@ traits:
     light levels that we were able to supply to our plants in the greenhouse (up to
     450  micromol  m-2 s-1).
 - var_in: Am (nmolCO2 g-1 s-1)
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -445,8 +445,8 @@ traits:
     light levels that we were able to supply to our plants in the greenhouse (up to
     450  micromol  m-2 s-1).
 - var_in: gs (umolH2O m-2 s-1)
-  unit_in: mmolH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -460,8 +460,8 @@ traits:
     light levels that we were able to supply to our plants in the greenhouse (up to
     450  micromol  m-2 s-1).
 - var_in: PWUE (umolCO2  umol-1 H2O )
-  unit_in: umolCO2/mmolH2O
-  trait_name: water_use_efficiency_intrinsic
+  unit_in: umol{CO2}/mmol{H2O}
+  trait_name: leaf_water_use_efficiency_intrinsic
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -475,7 +475,7 @@ traits:
     light levels that we were able to supply to our plants in the greenhouse (up to
     450  micromol  m-2 s-1).
 - var_in: PNUE (umolCO2 s-1 g-1 N)
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: leaf_photosynthetic_nitrogen_use_efficiency_saturated
   entity_type: population
   value_type: mean

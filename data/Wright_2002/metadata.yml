@@ -71,14 +71,25 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(Kl = Kl*10000) %>% mutate (ca = ca_ci + ci, ci_ca
-    = ci / ca)
+  custom_R_code: '
+    data %>%
+      mutate(
+        Kl = Kl*10000,
+        ca = ca_ci + ci, ci_ca = ci / ca
+      ) %>%
+      group_by(species_name) %>%
+        mutate(
+          `max_height_m` = max(`max_height_m`),
+          across(c(`max_height_m`), replace_duplicates_with_NA)
+        ) %>% 
+      ungroup()
+  '
   collection_date: 2001/2001
   taxon_name: species_name
-  site_name: site_name
+  location_name: site_name
   description: subset of Phd data from Ian Wright
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Traits of fully expanded, outer-canopy leaves were measured on
     perennial species sampled from nutrient-rich and nutrient poor sites in each of
     two rainfall zones in eastern Australia (site details given in Table A1, species
@@ -92,7 +103,7 @@ dataset:
   original_file: Wright_phdData subset for Rach.xls + many others
   notes: Zanne_2007 and Hughes_2005 include additional trait measurements made at
     the same sites.
-sites:
+locations:
   Kuring-gai NP hiP:
     longitude (deg): 151.2922222
     latitude (deg): -33.5788889
@@ -167,7 +178,7 @@ traits:
     1997 and a further 6-10 leaves collected in November 1998.
 - var_in: SLA_raw
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -254,7 +265,7 @@ traits:
   methods: Leaves were oven-dried for a minimum of 48 h at 65 deg C, weighed, finely
     ground, and analysed for Kjeldahl N and P.
 - var_in: LL
-  unit_in: years
+  unit_in: a
   trait_name: leaf_lifespan
   entity_type: population
   value_type: mean
@@ -330,7 +341,7 @@ traits:
     or non-linear change in 64 of the 66 species from the first to the fifth replicate.
     Thus cMD is likely to be a reasonable representative of minimum c.
 - var_in: d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: population
   value_type: mean
@@ -340,7 +351,7 @@ traits:
     leaf samples used for measuring Rd by Wright et al 2001. The 13C isotope data
     were later used by Prentice et al 2014 Ecol Letts and Cornwell et al 2018 GEB.
 - var_in: d15N
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta15N
   entity_type: population
   value_type: mean
@@ -350,7 +361,7 @@ traits:
     leaf samples used for measuring Rd by Wright et al 2001. The 13C isotope data
     were later used by Prentice et al 2014 Ecol Letts and Cornwell et al 2018 GEB.
 - var_in: Ks
-  unit_in: kg/m/s/MPa
+  unit_in: kg/m/MPa/s
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -374,7 +385,7 @@ traits:
     cross sectional area of the stem (minus bark; m2) or total leaf area subtending
     the distal branch end, (m2) respectively.
 - var_in: Kh
-  unit_in: kg*m/s/MPa
+  unit_in: kg.m/MPa/s
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -398,7 +409,7 @@ traits:
     cross sectional area of the stem (minus bark; m2) or total leaf area subtending
     the distal branch end, (m2) respectively.
 - var_in: Kl
-  unit_in: 10^4 x kg/m/s/MPa
+  unit_in: 10^4.kg/m/MPa/s
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -422,7 +433,7 @@ traits:
     cross sectional area of the stem (minus bark; m2) or total leaf area subtending
     the distal branch end, (m2) respectively.
 - var_in: ci
-  unit_in: umolCO2/mol
+  unit_in: umol{CO2}/mol
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -447,8 +458,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: ci_raw
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Asat
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -472,7 +483,7 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: ca
-  unit_in: umolCO2/mol
+  unit_in: umol{CO2}/mol
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -497,8 +508,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: CO2a_raw
-  unit_in: umolCO2/mol
-  trait_name: ca
+  unit_in: umol{CO2}/mol
+  trait_name: atmospheric_CO2_concentration
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -522,8 +533,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: ci_ca
-  unit_in: umolCO2 internal/umolCO2 ambient
-  trait_name: ci_over_ca
+  unit_in: umol{CO2_internal}/umol{CO2_ambient}
+  trait_name: leaf_intercellular_CO2_concentration_to_atmospheric_CO2_concentration_ratio
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -547,8 +558,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: Aarea_gs
-  unit_in: umolCO2/mmolH2O
-  trait_name: water_use_efficiency_intrinsic
+  unit_in: umol{CO2}/mmol{H2O}
+  trait_name: leaf_water_use_efficiency_intrinsic
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -572,8 +583,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: trans
-  unit_in: mmolH2O/m2/s
-  trait_name: leaf_transpiration_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_transpiration_per_area_at_Asat
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -597,7 +608,7 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: Aarea
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -622,8 +633,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: PsAreaUse_raw
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -647,7 +658,7 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: Amass
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -672,8 +683,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: PsmassUSE_raw
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -697,13 +708,13 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: Gs
-  unit_in: mmolH2O/m2/s
+  unit_in: mmol{H2O}/m2/s
   trait_name: .na
   entity_type: population
   value_type: mean
   basis_of_value: measurement
   replicates: 6.2
-  methods: Wright 2001; stomatal_conductance_per_area_at_Asat; Standard methods were
+  methods: Wright 2001; leaf_stomatal_conductance_per_area_at_Asat; Standard methods were
     followed for measuring leaf traits (Bassow & Bazzaz 1997; Eamus et al . 1999;
     Reich et al . 1998; Reich et al . 1999). All leaf traits were measured on young
     to medium-aged, fully expanded, outer-canopy leaves. Measurements of photosynthetic
@@ -723,8 +734,8 @@ traits:
     C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all from different
     individuals (except Exocarpos aphyllus ).
 - var_in: GsUSE_raw
-  unit_in: mmolH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -748,7 +759,7 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: wue
-  unit_in: umolCO2/mmolH2O
+  unit_in: umol{CO2}/mmol{H2O}
   trait_name: .na
   entity_type: population
   value_type: mean
@@ -773,8 +784,8 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: wue_raw
-  unit_in: umolCO2/mmolH2O
-  trait_name: water_use_efficiency_photosynthetic
+  unit_in: umol{CO2}/mmol{H2O}
+  trait_name: leaf_water_use_efficiency_instantaneous
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -798,7 +809,7 @@ traits:
     25.5 deg C, SE 0.9 deg C), with an average of 6.2 samples taken per species, all
     from different individuals (except Exocarpos aphyllus ).
 - var_in: RD_MASS
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: leaf_dark_respiration_per_dry_mass
   entity_type: population
   value_type: mean
@@ -1086,43 +1097,76 @@ traits:
     was haphazard.
 substitutions: .na
 taxonomic_updates:
-- find: Eucalyptus haemostoma
-  replace: Eucalyptus haemastoma
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Olearia pimelioides
-  replace: Olearia pimeleoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Pultenea daphnoides
-  replace: Pultenaea daphnoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Pultenea flexilis
-  replace: Pultenaea flexilis
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Solanum ferocissium
-  replace: Solanum ferocissimum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+- find: Allocasuarina sp
+  replace: Allocasuarina sp. [Wright_2002]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC accepted` name (2022-11-10)
+  taxonomic_resolution: genus
+- find: Dodonaea viscosa ssp angustissima
+  replace: Dodonaea viscosa subsp. angustissima
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
+- find: Dodonaea viscosa ssp cuneata
+  replace: Dodonaea viscosa subsp. cuneata
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
+- find: Dodonaea viscosa ssp spatulata
+  replace: Dodonaea viscosa subsp. spatulata
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Dodonaea viscosa ssp.angustissima
   replace: Dodonaea viscosa subsp. angustissima
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Dodonaea viscosa ssp.cuneata
   replace: Dodonaea viscosa subsp. cuneata
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Dodonaea viscosa ssp.spatulata
-  replace: Dodonaea viscosa var. spatulata
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
-- find: Allocasuarina sp
-  replace: Allocasuarina sp.
-  reason: Align to genus (E. Wenk, 2020-05-24)
+  replace: Dodonaea viscosa subsp. spatulata
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
+- find: Eucalyptus haemostoma
+  replace: Eucalyptus haemastoma
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Olearia pimelioides
+  replace: Olearia pimeleoides
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Pultenea daphnoides
+  replace: Pultenaea daphnoides
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Pultenea flexilis
+  replace: Pultenaea flexilis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Senna artemisioides var 1lft
   replace: Senna artemisioides
-  reason: Align to APC accepted synonym (E. Wenk, 2020-05-25)
+  reason: match_14. Automatic alignment with species-level canonical name in APC accepted
+    when notes are ignored (2022-11-12)
+  taxonomic_resolution: Species
 - find: Senna artemisioides var 3lft
   replace: Senna artemisioides
-  reason: Align to APC accepted synonym (E. Wenk, 2020-05-25)
+  reason: match_14. Automatic alignment with species-level canonical name in APC accepted
+    when notes are ignored (2022-11-12)
+  taxonomic_resolution: Species
+- find: Solanum ferocissium
+  replace: Solanum ferocissimum
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Thysanotus sp
-  replace: Thysanotus sp.
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Thysanotus sp. [Wright_2002]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC accepted` name (2022-11-10)
+  taxonomic_resolution: genus
 exclude_observations: .na
 questions:
   additional_traits: additional PV curve parameters (solute potential, water content

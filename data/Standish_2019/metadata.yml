@@ -19,27 +19,27 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(
         site_name = "Jarrah_forest",
-        seed_mass_collection_type = ifelse(`SM data source` %in% c("Weighed", "Standish et al, unpub data"), 
+        seed_mass_basis_of_record = ifelse(`SM data source` %in% c("Weighed", "Standish et al, unpub data"), 
           "field","literature")
       )
   '
   collection_date: unknown/2019
   taxon_name: Species Name
-  site_name: site_name
+  location_name: site_name
   description: Plant traits for jarrah forest species growing in and around Alcoa's
     mining lease in the jarrah forest of south-western Australia.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Plant traits for jarrah forest species growing in and around
     Alcoa's mining lease in the jarrah forest of south-western Australia.
   original_file: file AusTraits_jarrah forest archived in google drive
   notes: This dataset includes both native and weed species. The column "Status" identifies
     whether a species is an Australian native or a weed.
-sites:
+locations:
   Jarrah_forest:
     latitude (deg): -32.7
     longitude (deg): 116.05
@@ -48,26 +48,26 @@ contexts: .na
 traits:
 - var_in: Fire Response
   unit_in: .na
-  trait_name: fire_response
+  trait_name: resprouting_capacity
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
   replicates: .na
-  collection_type: literature
+  basis_of_record: literature
   measurement_remarks: FR data source
-  methods: Excel spreadsheet "AusTraits_jarrah forest" archived in google
-    drive provides full reference details in worksheet 3.
+  methods: Excel spreadsheet "AusTraits_jarrah forest" archived in google drive provides
+    full reference details in worksheet 3.
 - var_in: Seed storage
   unit_in: .na
-  trait_name: seed_storage_location
+  trait_name: seedbank_location
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
   replicates: .na
-  collection_type: literature
+  basis_of_record: literature
   measurement_remarks: SS data source
-  methods: Excel spreadsheet "AusTraits_jarrah forest" archived in google
-    drive provides full reference details in worksheet 3.
+  methods: Excel spreadsheet "AusTraits_jarrah forest" archived in google drive provides
+    full reference details in worksheet 3.
 - var_in: Life Form
   unit_in: .na
   trait_name: plant_growth_form
@@ -90,8 +90,8 @@ traits:
   entity_type: population
   value_type: mean
   basis_of_value: measurement
-  replicates: .na  
-  collection_type: seed_mass_collection_type
+  replicates: .na
+  basis_of_record: seed_mass_basis_of_record
   measurement_remarks: SM data source
   methods: data from various literature sources or weighed as part of the study; see
     unmapped column "SM data source" in data.csv file; values that are marked as being
@@ -105,7 +105,7 @@ traits:
   value_type: mode
   basis_of_value: expert_score
   replicates: .na
-  collection_type: literature
+  basis_of_record: literature
   measurement_remarks: NAS data source
   methods: data from various literature sources; see unmapped column "NAS data source"
     in data.csv file. Excel spreadsheet "AusTraits_jarrah forest" archived in google
@@ -139,13 +139,19 @@ traits:
     in data.csv file. Excel spreadsheet "AusTraits_jarrah forest" archived in google
     drive provides full reference details in worksheet 3.
 substitutions:
-- trait_name: fire_response
+- trait_name: nitrogen_fixing
+  find: '1'
+  replace: nitrogen_fixer
+- trait_name: nitrogen_fixing
+  find: '0'
+  replace: non_nitrogen_fixer
+- trait_name: resprouting_capacity
   find: SEEDER
   replace: fire_killed
-- trait_name: fire_response
+- trait_name: resprouting_capacity
   find: RESPROUTER
   replace: resprouts
-- trait_name: fire_response
+- trait_name: resprouting_capacity
   find: RESPROUTER
   replace: resprouts
 - trait_name: root_structure
@@ -201,17 +207,27 @@ substitutions:
   replace: graminoid
 - trait_name: plant_growth_form
   find: rush
-  replace: reed
+  replace: graminoid
 - trait_name: plant_growth_form
   find: forb
   replace: herb
+- trait_name: seedbank_location
+  find: canopy
+  replace: canopy_seedbank
+- trait_name: seedbank_location
+  find: soil
+  replace: soil_seedbank 
 taxonomic_updates:
-- find: Cyrtostylis robusta
-  replace: Conostylis robusta
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
 - find: Freesia alba x leichtlinii
-  replace: Freesia leichtliniisubsp. leichtlinii x Freesia leichtlinii subsp. alba
-  reason: Align to APC accepted hybrid (E. Wenk, 2020-05-25
+  replace: Freesia x [Freesia alba x leichtlinii; Standish_2019]
+  reason: match_11. Rewording hybrid species name not in APC or APNI to indicate a
+    genus-level alignment with APC accepted genus (2022-11-10)
+  taxonomic_resolution: genus
+- find: Freesia leichtliniisubsp. leichtlinii x Freesia leichtlinii subsp. alba
+  replace: Freesia leichtlinii subsp. leichtlinii x Freesia leichtlinii subsp. alba
+  reason: match_10_fuzzy. Imprecise fuzzy alignment with accepted canonical name in
+    APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 exclude_observations:
 - variable: taxon_name
   find: Disa bracteata

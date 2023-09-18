@@ -1,3 +1,300 @@
+# AusTraits v4.2.0
+
+This is a minor release of the AusTraits database.
+
+- austraits-4.2.0.zip: contains the compiled dataset and details of the
+  structure
+- austraits-4.2.0.rds: contains a version of the dataset for direct
+  loading in R
+- source code v4.2.0.zip: contains the source materials used to build
+  the compiled dataset
+
+For details on access, structure and usage, please visit:
+<https://doi.org/10.5281/zenodo.3568417>
+
+This release was generated from source materials available at:
+<https://github.com/traitecoevo/austraits.build/releases/tag/v4.2.0> 
+
+A full set of changes in the source can be viewed at:
+<https://github.com/traitecoevo/austraits.build/compare/v4.1.0…v4.2.0>
+
+Compared to the last version, this release contains substantial
+additions of new data and improvement of old data.
+
+| version | dataset_id |  taxa | locations | traits | records |
+|:--------|-----------:|------:|----------:|-------:|--------:|
+| 4.1.0   |        296 | 34017 |      4904 |    464 | 1253250 |
+| 4.2.0   |        363 | 34356 |      5176 |    494 | 1849372 |
+
+This release contains:
+
+- **67 new sources added to the dataset**: ABRS_2023, Auld_2000,
+  Bradshaw_2022, Britton_1994, Brodribb_2000, Burrows_2008,
+  Burrows_2020, Canham_2009, Canham_2023, Collette_2021, Cowling_1987,
+  Crowley_2007, deCampos_2013, Draper_2023, Eamus_2000,
+  eFLOWER_Dun_2022, Ellsworth_2015, Enright_2014, Gosper_2022,
+  Grigg_2008, Groves_1986, Harvey_2017, He_2011, Kocacinar_2003,
+  Kubiak_2009, Lawes_2014, Mesaglio_2022, Mitchell_2008, Morgan_2021,
+  Nano_2011, NHNSW_2023, NTH_2023, Pate_1990, Pate_1998, Pfautsch_2016,
+  Pirralho_2014, Prior_2022, Purdie_1976, RBGV_2023, Richards_2021,
+  Rumman_2018, RussellSmith_2012, SAH_2023, Santini_2012, Santini_2013,
+  Santini_2016, Searson_2004, Simpson_2021, SinghRamesh_2019,
+  SinghRamesh_2023, SmithMartin_2020, Stephens_2023, Sweedman_2006,
+  Togashi_2015, Tolsma_2007, Tsakalos_2020, Tsakalos_2022,
+  vanderMoezel_1987, WAH_2023_1, WAH_2023_2, Wenk_2023, Wenk_2023_2,
+  Wilson_2004, Witkowski_1991, Wooller_2002, Yang_2023, Yunusa_2010
+
+- **56 new contributors:** Alasdair Grigg, Arn Tolsma, Arun Singh
+  Ramesh, Barbara Wilson, Bradley Simpson, Caroline Canham, Catherine
+  Nano, Chris Smith-Martin, David Merritt, David S. Ellsworth, Delny L.
+  Britton, Dun Lily, E. T. F. Witkowski, Emrys Leitch, Ferit
+  Kocacinar, G. Crowley, Henrique Togashi, Holly Bradshaw, Irene
+  Martín-Forés, Isa Yunusa, James Tsakalos, Jeannine Richards, Jenna
+  Draper, Jeremy Russell-Smith, John Pate, Judith Harvey, Julia Cooke,
+  Justin Collette, Kimberley Simpson, Lestrange Catherine, Lily Dun,
+  Luke Sweedman, Mariana de Campos, Marília Pirralho, Matthew J.
+  Searson, Nadia S. Santini, Neal Enright, Neil Burrows, Nele
+  Schmitz, P. J. Kubiak, Patrick J. Mitchell, Paul van der Moezel, R. M.
+  Cowling, Rhys Morgan, Richard Groves, Rizwana Rumman, Roger Fryer,
+  Rosemary Purdie, Russell Barrett, Sam Wood, Sebastian Pfautsch,
+  Setterfield Samantha, Sophie Yang, Susan Wooller, Thomas Mesaglio,
+  Tianhua He
+
+- **0 sources removed**– most replaced by corrected or updated sources
+  above:
+
+- **531367 new or updated records for 212 existing traits**
+
+- **64985 new records for 42 new traits:**
+  fire_time_from_fire_to_50_percent_flowering,
+  fire_time_from_fire_to_50_percent_fruiting,
+  fire_time_from_fire_to_flowering,
+  fire_time_from_fire_to_flowering_decline,
+  fire_time_from_fire_to_fruiting,
+  fire_time_from_fire_to_peak_flowering, flower_diameter, flower_length,
+  flower_orientation, flower_pollen_length, flowering_cues,
+  fruit_colour, hydraulic_safety_margin_88,
+  integrated_plant_transpiration, leaf_arrangement,
+  leaf_chlorophyll_index_modified_ND705,
+  leaf_fluorescence_quantum_yield, leaf_lamina_posture,
+  leaf_specific_hydraulic_conductivity, leaf_turgor_loss_point,
+  life_history_ephemeral_class, perianth_colour, petiole_length,
+  petiole_width,
+  plant_alternative_energy_and_nutrient_acquisition_strategy,
+  post_fire_flowering, recruitment_time, resprouting_capacity,
+  resprouting_capacity_juvenile,
+  resprouting_capacity_proportion_individuals,
+  sapwood_specific_hydraulic_conductivity,
+  sapwood_specific_hydraulic_conductivity_theoretical,
+  seed_germination_time, seed_surface_reflectivity, seedbank_location,
+  seedbank_longevity, seedbank_longevity_class,
+  seedling_establishment_conditions, stem_delta13C, stem_delta15N,
+  stem_specific_hydraulic_conductivity,
+  water_potential_12percent_lost_conductivity
+
+Details on new studies:
+
+| dataset_id        |  taxa | locations | traits | records |
+|:------------------|------:|----------:|-------:|--------:|
+| ABRS_2023         | 14359 |         1 |     33 |  183608 |
+| Auld_2000         |    14 |         7 |      4 |      57 |
+| Bradshaw_2022     |     2 |         8 |      6 |     228 |
+| Britton_1994      |    62 |         1 |      1 |     124 |
+| Brodribb_2000     |    11 |         2 |      4 |      44 |
+| Burrows_2008      |    19 |         8 |      4 |      96 |
+| Burrows_2020      |  1187 |         1 |      9 |    4982 |
+| Canham_2009       |     4 |         1 |      4 |     278 |
+| Canham_2023       |     9 |         1 |     12 |     954 |
+| Collette_2021     |  3978 |         4 |      1 |    3990 |
+| Cowling_1987      |     4 |         1 |     13 |      74 |
+| Crowley_2007      |  2060 |         1 |      2 |    3823 |
+| Draper_2023       |  4068 |         5 |      7 |   12346 |
+| Eamus_2000        |     6 |         3 |      3 |      30 |
+| Ellsworth_2015    |    11 |         6 |     16 |     617 |
+| Enright_2014      |   155 |        33 |      3 |    2315 |
+| Gosper_2022       |     4 |         2 |      7 |      27 |
+| Grigg_2008        |     6 |         2 |     22 |     220 |
+| Groves_1986       |     2 |         1 |     48 |     256 |
+| Harvey_2017       |   180 |         3 |      6 |    1067 |
+| He_2011           |    90 |         1 |      4 |     290 |
+| Kocacinar_2003    |     5 |         1 |      6 |      30 |
+| Kubiak_2009       |   828 |         3 |      8 |    3077 |
+| Lawes_2014        |     9 |         5 |      1 |       9 |
+| Mesaglio_2022     |   303 |         1 |      1 |     593 |
+| Mitchell_2008     |    21 |         3 |     12 |     228 |
+| Morgan_2021       |    10 |        24 |      3 |     165 |
+| NHNSW_2023        |  7984 |         1 |     33 |   96604 |
+| NTH_2023          |  2368 |         1 |     33 |   29412 |
+| Nano_2011         |  1998 |         1 |      8 |    4466 |
+| Pate_1990         |    67 |         1 |      5 |     292 |
+| Pate_1998         |    98 |         4 |      7 |     641 |
+| Pfautsch_2016     |    31 |        21 |      6 |     736 |
+| Pirralho_2014     |     9 |         1 |      7 |      63 |
+| Prior_2022        |    15 |         5 |      3 |     443 |
+| Purdie_1976       |    91 |         1 |      9 |     360 |
+| RBGV_2023         |  5486 |         1 |     33 |   69020 |
+| Richards_2021     |    21 |        10 |     14 |    1510 |
+| Rumman_2018       |    56 |         8 |      4 |     220 |
+| RussellSmith_2012 |  1462 |         1 |      4 |    5976 |
+| SAH_2023          |  3673 |         1 |     33 |   40035 |
+| Santini_2012      |     1 |         1 |      3 |      18 |
+| Santini_2013      |     5 |         4 |      4 |     346 |
+| Santini_2016      |     7 |         1 |      8 |     143 |
+| Searson_2004      |     3 |         1 |      5 |      30 |
+| Simpson_2021      |   288 |         1 |      3 |     608 |
+| SinghRamesh_2019  |    14 |        24 |     17 |     973 |
+| SinghRamesh_2023  |     4 |         1 |     25 |    1775 |
+| SmithMartin_2020  |     8 |         1 |      6 |     115 |
+| Stephens_2023     |   221 |         1 |      2 |     221 |
+| Sweedman_2006     |  2147 |         1 |      2 |    7235 |
+| Togashi_2015      |    37 |        38 |      1 |     226 |
+| Tolsma_2007       |    37 |         1 |      7 |     244 |
+| Tsakalos_2020     |  1280 |         4 |     23 |   22004 |
+| Tsakalos_2022     |   498 |         1 |      3 |    1174 |
+| WAH_2023_1        |   612 |         1 |     24 |    3256 |
+| WAH_2023_2        | 12345 |         1 |     16 |   24568 |
+| Wenk_2023         | 29803 |         1 |      1 |   29803 |
+| Wenk_2023_2       |   245 |         1 |      1 |     278 |
+| Wilson_2004       |    39 |         1 |      2 |      91 |
+| Witkowski_1991    |     3 |         1 |      9 |      30 |
+| Wooller_2002      |     3 |         1 |     11 |      32 |
+| Yang_2023         |  1358 |        11 |     19 |    2635 |
+| Yunusa_2010       |     2 |         2 |      3 |      12 |
+| deCampos_2013     |     8 |         2 |      3 |      24 |
+| eFLOWER_Dun_2022  |  1889 |         1 |     35 |   30769 |
+| vanderMoezel_1987 |   211 |         1 |      6 |     436 |
+
+
+Additionally, the release contains improvements to the trait dictionary:
+
+* Revised trait definitions related to fire response, following trait definitions workshop
+* Trait definitions file synchronised to the first release of the AusTraits Plant Dictionary. Most importantly, uri's added to each trait definition; these are the resolvable w3id.org/APD identifiers
+
+Fixes to taxonomic_updates and taxon_list:
+
+* Ensure (once again) that as many taxon names as possible align to an APC-known or APC-accepted name
+* Continue working to remove duplicate entries that creep into taxon_list.csv
+
+Minor work on the R workflow:
+
+* Update syntax to dplyr 1.10
+* Update tests to pass testthat 3.1.8
+* Edit metadata_create_template to add proper fields for data_collectors
+* Make it possible to add `entity_type` and `value_type` from columns by disallowing values from schema
+
+
+
+# AusTraits v4.1.0
+
+This is major/minor release of the AusTraits database.
+
+  - austraits-4.1.0.zip: contains the compiled dataset and detailed of
+    structure
+  - austraits-4.1.0.rds: contains a version of the dataset for direct
+    loading in R
+  - source code v4.1.0.zip: contains the source materials used to build
+    the compiled dataset
+
+For details on access, structure and usage please visit
+<https://doi.org/10.5281/zenodo.3568417>
+
+This release was generated from source materials available at
+<https://github.com/traitecoevo/austraits.build/releases/tag/v4.1.0> A
+full set of changes in the source can be viewed at:
+<https://github.com/traitecoevo/austraits.build/compare/v4.0.0>…v4.1.0
+
+Compared to the last version, this release contains substantial
+additions of new data and improvement of old data.
+
+| version | dataset\_id |  taxa | locations | traits | records |
+| :------ | ----------: | ----: | --------: | -----: | ------: |
+| 4.0.0   |         296 | 34028 |      2697 |    470 | 1257443 |
+| 4.1.0   |         296 | 34017 |      2697 |    464 | 1253250 |
+
+This release contains:
+
+  - Align units with UCUM standards
+  - Correct small mistakes in plant woodiness and life history in datasets extracted from national and state floras (ABS_2022; WAH_2022_1; WAH_2022_2; NHNSW_2022; RBGV_2022; SAH_2022; NTH_2022)
+  - Remove a small number of duplicate taxa from taxon.csv
+  - Fix mistake in process.R script that was duplicating methods for some dataset by trait combinations
+  - Further standardise trait names
+
+# AusTraits v4.0.0
+
+
+This is major/minor release of the AusTraits database.
+-   austraits-4.0.0.zip: contains the compiled dataset and detailed of
+    structure
+-   austraits-4.0.0.rds: contains a version of the dataset for direct
+    loading in R
+-   source code v4.0.0.zip: contains the source materials used to build
+    the compiled dataset
+
+For details on access, structure and usage please visit
+<https://doi.org/10.5281/zenodo.3568417>
+
+This release was generated from source materials available at <https://github.com/traitecoevo/austraits.build/releases/tag/v4.0.0>. 
+
+A full set of changes in the source can be viewed at: <https://github.com/traitecoevo/austraits.build/compare/v3.0.2…v4.0.0>
+
+Compared to the last version, this release contains substantial additions of new data and improvement of old data.
+
+| version | dataset_id |  taxa | locations | traits | records |
+|:--------|-----------:|------:|----------:|-------:|--------:|
+| 3.0.2   |        283 | 28640 |      4721 |    448 |  997808 |
+| 4.0.0   |        296 | 34028 |      2697 |    470 | 1257443 |
+
+Changes for this release include:
+
+* Established code as a standalone package
+* Align variables (column names) with Darwin Core, Dublin Core, and the Ecological Trait-data Standard
+* Allowing more metadata to be associated with individual trait measurements instead of traits or the dataset (e.g. life stage, replicates, entity type)
+* Rework context, so that multiple context properties can be read in
+* Reworked identifiers, including 5 separate context property identifiers and location id
+* Add source_id, such that individual rows of data can be attributed to a specific source
+* Merge different date fields into `collection_date`
+* Work from two separate vocabulary workshops merged in (`Seed Traits` & `Whole Plant and Leaf Vegetative Traits`). Also some work realigning traits related to fire response.
+* Rename other traits to have more consistent naming
+* Added entity_type, reflecting the entity being measured
+* Added scraped data from online floras for 7 traits related to plant growth form. For `plant_growth_form` and `woodiness` manually gap-filled from the taxonomic literature to have complete data coverage
+* Reworked how taxonomic names are processed, such that submitted taxon names are now aligning to the most specific taxon name possible, with separate columns for `family`; `genus`; `binomial`; `trinomial`, filled in as appropriate.
+* New taxonomic updates added, based on updated algorithms that do a much better job of capturing phrase names and submitted taxon names that include notes. In addition, algorithms automatically identify names that can only be aligned to genus.
+* Removed taxon matching code from austraits.build (to become part of a separate package)
+* Add database metadata into the build process
+
+This release contains:
+
+-   **14 new sources added to the dataset**: ABRS_2022,
+    ATRP_2020, Campbell_2006, Clarke_2009,
+    NHNSW_2022, Nolan_2022, NTH_2022, RBGV_2022, SAH_2022, WAH_2022_1,
+    WAH_2022_2, Wenk_2022, Williams_2012
+-   **12 new contributors:** Alastair Robinson,
+    Andre Messina, Daniel Ohlsen, David Coleman, Elizabeth Wenk,
+    Matthias M. Boer, Monica Campbell, Neville Walsh, Niels Klazenga,
+    Paul R. Williams, Rachael Nolan, Val Stajsic
+-   **3 sources renamed** : Barlow_1981 -> ABRS_1981, RBGSYD_2014 -> NHNSW_2014, RBGSYD_2014_2 -> NHNSW_2014_2
+
+Details on new studies:
+
+| dataset_id    |  taxa | locations | traits | records |
+|:--------------|------:|----------:|-------:|--------:|
+| ABRS_2022     | 13988 |         1 |      7 |   48353 |
+| ATRP_2020     |  1490 |         1 |      8 |    1831 |
+| Campbell_2006 |    65 |         3 |      6 |     390 |
+| Clarke_2009   |   469 |         6 |      7 |    1824 |
+| NHNSW_2022    |  7913 |         1 |      7 |   28354 |
+| Nolan_2022    |    18 |         8 |     10 |     606 |
+| NTH_2022      |  2451 |         1 |      7 |    8183 |
+| RBGV_2022     |  5368 |         1 |      7 |   19060 |
+| SAH_2022      |  3499 |         1 |      7 |   11905 |
+| WAH_2022_1    |   683 |         1 |      7 |    2254 |
+| WAH_2022_2    | 13331 |         1 |      7 |   48703 |
+| Wenk_2022     | 30280 |         1 |      2 |   60309 |
+| Williams_2012 |    79 |         1 |      6 |     206 |
+
+
+**Full Changelog**: https://github.com/traitecoevo/austraits.build/compare/v3.0.2...v4.0.0
+
 
 # AusTraits v3.0.2
 

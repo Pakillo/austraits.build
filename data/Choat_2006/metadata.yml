@@ -35,38 +35,32 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       group_by(Species, Plant) %>%
       mutate(
         rownum = paste0("x",row_number()),
         Plant = as.character(Plant),
-        Plant = ifelse(is.na(Plant), rownum, Plant),
-        population_id = Site
+        Plant = ifelse(is.na(Plant), rownum, Plant)
       ) %>%
       ungroup() %>%
       mutate(
         Site = paste("Many Peaks site",Site), 
-        Site = gsub("Many Peaks site NA","Many Peaks",Site),
+        Site = stringr::str_replace(Site, "Many Peaks site NA","Many Peaks"),
         individual_plant = paste(Species, Plant, sep ="_"),
-      ) %>% 
-      mutate_at(vars(gs),~na_if(.,0)) %>%
-      group_by(individual_plant) %>%
-      mutate(observation = dplyr::row_number()) %>%
-      ungroup() 
+        Time = as.character(Time),
+        across(c(gs),~na_if(.x,0))
+      )
   '
   collection_date: 2000/2001
   taxon_name: Species
-  site_name: Site
-  context_name: context
+  location_name: Site
   individual_id: individual_plant
-  population_id: population_id
-  observation_number: observation
   description: Dataset of diurnal and seasonal patterns of leaf gas exchange and water
     relations in tree species of contrasting leaf phenology growing in a seasonally
     dry tropical rain forest in north-eastern Australia.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: 'STUDY SITE The study was undertaken in 2000 and 2001 at Many
     Peaks Range (19 deg 11min S, 145deg 45min E) on the north-eastern coast of Australia.
     The climate is characterized by marked inter- and intraannual variation in rainfall.
@@ -89,7 +83,7 @@ dataset:
   original_file: collection of 6 files in raw data folder and GoogleDrive
   notes: Data on hydraulic safety margins and water potentials at different "loss
     of conductivity" thresholds are included in Choat_2012
-sites:
+locations:
   Many Peaks site 1:
     latitude (deg): -19.19422
     longitude (deg): 146.764445
@@ -115,79 +109,38 @@ sites:
     precipitation, description: 80% of rainfall usually occurs during the summer wet
       season (December-March)
 contexts:
-  measurements made in the Dry season at 05:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '5:00:00'
-  measurements made in the Dry season at 09:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '9:00:00'
-  measurements made in the Dry season at 11:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '11:00:00'
-  measurements made in the Dry season at 13:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '13:00:00'
-  measurements made in the Dry season at 15:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '15:00:00'
-  measurements made in the Dry season at 17:00:00:
-    sampling season: dry (July-October)
-    sampling time of day: '17:00:00'
-  measurements made in the Late Dry season at 05:00:00:
-    sampling season: late dry (September)
-    sampling time of day: '5:00:00'
-  measurements made in the Late Dry season at 10:00:00:
-    sampling season: late dry (September)
-    sampling time of day: '10:00:00'
-  measurements made in the Late Dry season at 15:00:00:
-    sampling season: late dry (September)
-    sampling time of day: '15:00:00'
-  measurements made in the Late Dry season at 18:00:00:
-    sampling season: late dry (September)
-    sampling time of day: '18:00:00'
-  measurements made in the Wet season at 05:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '5:00:00'
-  measurements made in the Wet season at 09:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '9:00:00'
-  measurements made in the Wet season at 11:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '11:00:00'
-  measurements made in the Wet season at 13:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '13:00:00'
-  measurements made in the Wet season at 15:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '15:00:00'
-  measurements made in the Wet season at 17:00:00:
-    sampling season: wet (November-March)
-    sampling time of day: '17:00:00'
-  measurements made in the Wet/Dry season at 05:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '5:00:00'
-  measurements made in the Wet/Dry season at 09:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '9:00:00'
-  measurements made in the Wet/Dry season at 11:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '11:00:00'
-  measurements made in the Wet/Dry season at 13:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '13:00:00'
-  measurements made in the Wet/Dry season at 15:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '15:00:00'
-  measurements made in the Wet/Dry season at 17:00:00:
-    sampling season: wet/dry (April-June)
-    sampling time of day: '17:00:00'
-  no context given:
-    sampling season: .na.character
-    sampling time of day: .na.character
+- context_property: sampling season
+  category: temporal
+  var_in: Season
+  values:
+  - find: Dry
+    value: dry (July-October)
+    description: Plants sampled during the dry season.
+  - find: Late Dry
+    value: late dry (September)
+    description: Plants sampled at the end of the dry season.
+  - find: Wet
+    value: wet (November-March)
+    description: Plants sampled during the wet season.
+  - find: Wet/Dry
+    value: wet/dry (April-June)
+    description: Plants sampled at end of the wet season/start of the dry season.
+- context_property: sampling time of day
+  category: temporal
+  var_in: Time
+  values:
+  - value: '05:00:00'
+  - value: '09:00:00'
+  - value: '10:00:00'
+  - value: '11:00:00'
+  - value: '13:00:00'
+  - value: '15:00:00'
+  - value: '17:00:00'
+  - value: '18:00:00'
 traits:
 - var_in: A
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_ambient
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_ambient
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -225,8 +178,8 @@ traits:
     the leaf area distal to the branch was measured with a CI-203 leaf area meter
     (CID, Camas, WA).
 - var_in: E
-  unit_in: mmolH2O/m2/s
-  trait_name: leaf_transpiration
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_transpiration_per_area_ambient
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -264,8 +217,8 @@ traits:
     the leaf area distal to the branch was measured with a CI-203 leaf area meter
     (CID, Camas, WA).
 - var_in: gs
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_ambient
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_ambient
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -381,8 +334,8 @@ traits:
     the leaf area distal to the branch was measured with a CI-203 leaf area meter
     (CID, Camas, WA).
 - var_in: Ves Count
-  unit_in: count/mm2
-  trait_name: vessel_density
+  unit_in: '{count}/mm2'
+  trait_name: stem_vessel_density
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -410,7 +363,7 @@ traits:
   methods: expert knowledge
 - var_in: Diameter
   unit_in: um
-  trait_name: vessel_diameter
+  trait_name: stem_vessel_diameter
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -430,7 +383,7 @@ traits:
     the fourth power (Hagan-Poiseuille Law) and summed.
 - var_in: SLA
   unit_in: m2/kg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -445,12 +398,12 @@ traits:
   trait_name: plant_height
   entity_type: species
   value_type: maximum
-  basis_of_value: literature
+  basis_of_value: measurement
   replicates: .na
   methods: sourced from literature
 - var_in: Ks (kg m-1 MPa-1 s-1)
-  unit_in: kg/m/s/MPa
-  trait_name: sapwood_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: sapwood_specific_hydraulic_conductivity
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -481,8 +434,8 @@ traits:
     value (HV) was determined as the ratio of transverse area of sapwood to the distal
     leaf area.
 - var_in: KL (kg m-1 MPa-1 s-1)
-  unit_in: kg/m/s/MPa
-  trait_name: leaf_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: leaf_specific_hydraulic_conductivity
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -500,7 +453,7 @@ traits:
     longer than maximum vessel length, shaved at both ends with a sharp razor blade
     and transferred quickly to the apparatus. The segments were flushed with perfusing
     solution (degassed 10mMKCl, pH 6.7, filtered to 0.22 um) for 30min at 100 kPa.
-    This solutionwas chosen in order to minimise the hydrogel response of angiosperm
+    This solution was chosen in order to minimise the hydrogel response of angiosperm
     pit membranes (Zwieniecki et al. 2001). Measurements of Kh were then made with
     a gravity induced, low pressure (~10 kPa) application of solution from a secondary
     reservoir. Hydraulic conductivity (Kh, kg s-1 MPa-1 m) was calculated from Kh=F/(delta
@@ -513,7 +466,7 @@ traits:
     value (HV) was determined as the ratio of transverse area of sapwood to the distal
     leaf area.
 - var_in: Kh
-  unit_in: kg*m/s/MPa
+  unit_in: kg.m/MPa/s
   trait_name: stem_hydraulic_conductivity
   entity_type: population
   value_type: mean
@@ -545,7 +498,7 @@ traits:
     value (HV) was determined as the ratio of transverse area of sapwood to the distal
     leaf area.
 - var_in: Huber value
-  unit_in: mm2_sapwood/mm2_leaf
+  unit_in: mm2{sapwood}/mm2{leaf}
   trait_name: huber_value
   entity_type: population
   value_type: mean
@@ -599,7 +552,7 @@ traits:
     Law) and summed.
 - var_in: dh mean hydraulic diameter (um)
   unit_in: um
-  trait_name: vessel_diameter_hydraulic
+  trait_name: stem_vessel_diameter_hydraulic
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -630,6 +583,7 @@ substitutions: .na
 taxonomic_updates:
 - find: Cochlospermom gillivraei
   replace: Cochlospermum gillivraei
-  reason: Alignment with existing species identified by TaxonStand (2020-06-04)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

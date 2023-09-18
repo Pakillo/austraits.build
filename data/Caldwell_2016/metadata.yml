@@ -31,11 +31,11 @@ dataset:
   custom_R_code: .na
   collection_date: unknown/2016
   taxon_name: Species
-  site_name: Site
+  location_name: Site
   description: An investigation of the contribution of multiple mechanical traits
     from shear, punch and tear tests to herbivore deterrence across feeding guilds.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Five plants per species were selected at the study sites in February
     (austral summer). On each plant, three leaves or phyllodes that expanded in the
     current growing season were tagged. Since we wished to measure damage to mature
@@ -74,7 +74,7 @@ dataset:
     to feed for 24 h.
   original_file: Caldwell to Austraits.xls
   notes: none
-sites:
+locations:
   Dry:
     latitude (deg): -37.983
     longitude (deg): 145.8
@@ -141,7 +141,7 @@ traits:
     leaf. The leaf was then dried at 105 deg C and reweighed.
 - var_in: SLA (cm2/g)
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -166,15 +166,10 @@ traits:
     (Leco Corp., St Joseph, MI, USA).
 substitutions: .na
 taxonomic_updates:
-- find: Leionema bilobum
-  replace: Leionema bilobum subsp. truncatum
-  reason: Alignment with existing species identified by TaxonStand (2020-06-15)
-- find: Hakea decurrens subsp. Physocarpa
-  replace: Hakea sericea
-  reason: Synonym reported by TaxonStand (2020-06-15)
 - find: Grevillea barkleyana
   replace: Grevillea barklyana
-  reason: Automatic alignment with name in APC list (accepted) (2020-06-26)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: leaf mechanical traits, additional chemical data, to be provided

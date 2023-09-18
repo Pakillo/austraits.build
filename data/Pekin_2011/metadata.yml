@@ -23,13 +23,19 @@ contributors:
   austraits_curators: Rachael Gallagher
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(site_name = "Collis")
+  custom_R_code: '
+    data %>%
+      mutate(
+        site_name = "Collis",
+        resprouting_capacity = `Regeneration strategy`
+      )
+  '
   collection_date: 2007/2007
   taxon_name: Species
-  site_name: site_name
+  location_name: site_name
   description: Longevity, regeneration and mycorrhiza data for 125 species
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Floral surveys were conducted in the spring of 2007 from 4 to
     26 October. A 30x30-m plot was established at each of the 16 sites. The abundance
     of each vascular plant species within each plot was estimated using the following
@@ -43,7 +49,7 @@ dataset:
   original_file: Pekin_2011.pdf
   notes: All data sourced from reference material. The data collected in the study
     were field abundances, which are not included in AusTraits.
-sites:
+locations:
   Collis:
     longitude (deg): 116.7332
     latitude (deg): -34.9759
@@ -102,7 +108,26 @@ traits:
   methods: The life cycle of each species was defined as perennial or annual.
 - var_in: Regeneration strategy
   unit_in: .na
-  trait_name: storage_organ
+  trait_name: bud_bank_location
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: Regeneration strategies were assigned according to the dominant method
+    for regenerating after fire as either from (1) fleshy, underground storage organ
+    (including bulbs, corms, rhizomes and tubers), (2) woody rootstock/lignotuber,
+    or (3) seed, which was derived from the database developed by Burrows et al. (2008).
+    Seeders included both obligate seeders as well as those species that primarily
+    regenerate from seed but may also have the potential to resprout. Although the
+    dominant tree species, E. marginata and C. calophylla, in our study sites often
+    regenerate from seed, they can survive and resprout epicormically even after intense
+    fires that result in full canopy scorch (Bell & Koch 1980). Hence, they were excluded
+    from regeneration strategy classification because their ability to survive fires
+    with their above-ground biomass intact is likely to make them insensitive to a
+    depletion of their seed banks.
+- var_in: resprouting_capacity
+  unit_in: .na
+  trait_name: resprouting_capacity
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
@@ -151,19 +176,28 @@ traits:
 substitutions:
 - trait_name: nitrogen_fixing
   find: 'no'
-  replace: '0'
+  replace: non_nitrogen_fixer
 - trait_name: nitrogen_fixing
   find: 'yes'
-  replace: '1'
-- trait_name: storage_organ
+  replace: nitrogen_fixer
+- trait_name: bud_bank_location
   find: fleshy organ
   replace: fleshy_underground_organ
-- trait_name: storage_organ
+- trait_name: bud_bank_location
   find: woody rootstock
-  replace: woody_rootstock_or_lignotuber
-- trait_name: storage_organ
+  replace: basal_buds
+- trait_name: bud_bank_location
   find: seed
   replace: .na
+- trait_name: resprouting_capacity
+  find: fleshy organ
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: woody rootstock
+  replace: resprouts
+- trait_name: resprouting_capacity
+  find: seed
+  replace: fire_killed
 - trait_name: root_structure
   find: arbuscular mycorrhizal
   replace: arbuscular_mycorrhizal
@@ -180,51 +214,77 @@ substitutions:
   find: proteoid root
   replace: proteoid_root
 taxonomic_updates:
-- find: Stylidium aff. junceum
-  replace: Stylidium junceum
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
-- find: Treemandra diffusa
-  replace: Tremandra diffusa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Treemandra stelligera
-  replace: Tremandra stelligera
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Grevillea pul. subsp. ascendens
-  replace: Grevillea pulchella subsp. ascendens
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
 - find: Astroloma sp. unknown
-  replace: Astroloma sp.
-  reason: Align to genus (E. Wenk, 2020-05-24)
+  replace: Astroloma sp. [Astroloma sp. unknown; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 - find: Caladenia sp. unknown
-  replace: Caladenia sp.
-  reason: Align with genus (E. Wenk, 2020-05-26)
+  replace: Caladenia sp. [Caladenia sp. unknown; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 - find: Conostylis sp. unknown
-  replace: Conostylis sp.
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Conostylis sp. [Conostylis sp. unknown; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
+- find: Grevillea pul. subsp. ascendens
+  replace: Grevillea sp. [Grevillea pul. subsp. ascendens; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 - find: Marianthus sp.Walpole
-  replace: Marianthus sylvaticus
-  reason: Change spelling to Align to APC or ALA species lists (Sam Andrew, 2018-02-07)
+  replace: Marianthus sp. Walpole (A.R.Annels 277)
+  reason: match_14. Automatic alignment with species-level name known by APC when
+    notes are ignored (2022-11-10)
+  taxonomic_resolution: Species
 - find: Orchid sp. unknown 1
-  replace: Orchidaceae sp. 1
-  reason: Align to family (E. Wenk, 2020-05-23)
+  replace: Orchidaceae sp. [Orchid sp. unknown 1; Pekin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
 - find: Orchid sp. unknown 2
-  replace: Orchidaceae sp. 2
-  reason: Align to family (E. Wenk, 2020-05-23)
+  replace: Orchidaceae sp. [Orchid sp. unknown 2; Pekin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
 - find: Orchid sp. unknown 3
-  replace: Orchidaceae sp. 3
-  reason: Align to family (E. Wenk, 2020-05-23)
+  replace: Orchidaceae sp. [Orchid sp. unknown 3; Pekin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
 - find: Orchid sp. unknown 4
-  replace: Orchidaceae sp. 4
-  reason: Align to family (E. Wenk, 2020-05-23)
+  replace: Orchidaceae sp. [Orchid sp. unknown 4; Pekin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
 - find: Pterostylis vittatus
   replace: Pterostylis vittata
-  reason: Align to APNI currently used name within Orchidaceae; not APC accepted (E.
-    Wenk, 2020-05-26)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Stylidium aff. junceum
+  replace: Stylidium sp. [Stylidium aff. junceum; Pekin_2011]
+  reason: match_09. Rewording taxon with term `affinis` preceding species epithet
+    to indicate a genus-level alignment with `APC accepted` genus (2022-11-10)
+  taxonomic_resolution: genus
 - find: Stylidium sp. unknown
-  replace: Stylidium sp.
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Stylidium sp. [Stylidium sp. unknown; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
 - find: Thelymitra sp. unknown
-  replace: Thelymitra sp.
-  reason: Align to genus (E. Wenk, 2020-05-26)
+  replace: Thelymitra sp. [Thelymitra sp. unknown; Pekin_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
+- find: Treemandra diffusa
+  replace: Tremandra diffusa
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Treemandra stelligera
+  replace: Tremandra stelligera
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

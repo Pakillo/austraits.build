@@ -24,21 +24,22 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(
         site_name = "Louth",
-        parasitic = ifelse(`growth form`=="stem parasite","stem_parasitic",NA),
-        parasitic = ifelse(`growth form`=="root parasite","root_parasitic",parasitic)
-      ) %>%
-      mutate_at(vars(`height (cm)_filtered`,`leaf area (mm2)`,`seed mass (mg)`,`diaspore weight (mg)`),~na_if(.,0))
+        parasitic = ifelse(`growth form`=="stem parasite","stem_parasitic", NA),
+        parasitic = ifelse(`growth form`=="root parasite","root_parasitic", parasitic),
+        across(c(`height (cm)_filtered`,`leaf area (mm2)`,`seed mass (mg)`,
+        `diaspore weight (mg)`), ~na_if(.x, 0))
+      )
   '
   collection_date: 1996/1996
   taxon_name: SPECIES
-  site_name: site_name
+  location_name: site_name
   description: western NSW trait data from Michelle Leishman
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: We sought to include all species occurring on de- fined sites,
     in order to avoid bias in favour of species which were easier to collect or characterize.
     A plant species list was collated for four sites (Table 1) within the semi-arid
@@ -71,7 +72,7 @@ dataset:
     half-log classes (14) LOGSWT, log10(SWT) SD, dispersal mode MU, mucilaginous GM,
     seed germinability PH, physiology FM, fire mortality PA, palatability SP, spines
     present SC, secondary compounds
-sites:
+locations:
   Louth:
     longitude (deg): 145.1333
     latitude (deg): -30.5167
@@ -106,7 +107,7 @@ traits:
   value_type: maximum
   basis_of_value: measurement
   replicates: .na
-  collection_type: literature
+  basis_of_record: literature
   methods: Data from published flora. Data on some attributes such as growth form,
     leaf texture and hairiness, flowering characteristics, presence of spines and
     seed dispersal mode could be collected from observations of each species in the
@@ -147,7 +148,7 @@ traits:
   value_type: mode
   basis_of_value: expert_score
   replicates: .na
-  collection_type: literature
+  basis_of_record: literature
   methods: Data from published flora. Data on some attributes such as growth form,
     leaf texture and hairiness, flowering characteristics, presence of spines and
     seed dispersal mode could be collected from observations of each species in the
@@ -189,10 +190,10 @@ substitutions:
   replace: herb
 - trait_name: plant_growth_form
   find: stem parasite
-  replace: parasite
+  replace: .na
 - trait_name: plant_growth_form
   find: root parasite
-  replace: parasite
+  replace: .na
 - trait_name: plant_growth_form
   find: grass
   replace: graminoid
@@ -205,39 +206,56 @@ substitutions:
 taxonomic_updates:
 - find: Capsella bursapastoris
   replace: Capsella bursa-pastoris
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Chenopodium auricomun
   replace: Chenopodium auricomum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Chenopodium desertorum var.anidiophyllum
   replace: Chenopodium desertorum subsp. anidiophyllum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Sporobolus mitchelli
-  replace: Sporobolus mitchellii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Triglochin calcitrapum
-  replace: Triglochin calcitrapa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Solanum ferrocissimum var. ferro.
-  replace: Solanum ferocissimum
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
+- find: Exocarpus aphyllus
+  replace: Exocarpos aphyllus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Gnaphalium calciveps
   replace: Gnaphalium calviceps
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Gnaphalium luteo-album
   replace: Gnaphalium luteoalbum
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with known canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Homopholis (Panicum) proluta
-  replace: Walwhalleya proluta
-  reason: Change spelling to Align to APC or ALA species lists (Sam Andrew, 2018-02-07)
+  replace: Homopholis proluta
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-12)
+  taxonomic_resolution: species
+- find: Leichardtia australis
+  replace: Leichhardtia australis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Ophioglossum lusitanicum/polyphyllum
-  replace: Ophioglossum lusitanicum
-  reason: Align to APC accepted synonym (E. Wenk, 2020-05-25)
+  replace: Ophioglossum sp. [Ophioglossum lusitanicum/polyphyllum; Leishman_1992]
+  reason: match_04. Rewording taxon where `/` indicates uncertain species identification
+    to align with `APC accepted` genus (2022-11-10)
+  taxonomic_resolution: genus
+- find: Solanum ferrocissimum var. ferro.
+  replace: Solanum ferocissimum
+  reason: match_15_fuzzy. Fuzzy match alignment with species-level canonical name
+    in `APC known` when everything except first 2 words ignored (2022-11-10)
+  taxonomic_resolution: Species
+- find: Sporobolus mitchelli
+  replace: Sporobolus mitchellii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Vittadinia triloba/cuneata complex
-  replace: Vittadinia triloba
-  reason: Aligned with APC 1 of 2 synonyms (E. Wenk, 2020-05-25)
+  replace: Vittadinia sp. [Vittadinia triloba/cuneata complex; Leishman_1992]
+  reason: match_04. Rewording taxon where `/` indicates uncertain species identification
+    to align with `APC accepted` genus (2022-11-10)
+  taxonomic_resolution: genus
 exclude_observations: .na
 questions:
   additional_traits: study includes many additional traits

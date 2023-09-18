@@ -25,28 +25,34 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(
         flowering_time = format_flowering_months(flowering_time_start, 
-                                                flowering_time_end),
-        fruit_dehiscence = `Fruit.Type.Specific`) %>%
-      move_values_to_new_trait("Fruit.Type.Specific", "fruit_dehiscence", 
-          c("pod", "capsule", "drupe", "achene", "nut", "samara", "follicle", 
-            "berry", "utricle", "syncarp", "syconium", "schizocarp"), 
-          c("dehiscent", "dehiscent", "indehiscent", "indehiscent", 
+                                                flowering_time_end),        
+        fruit_dehiscence = `Fruit.Type.Specific`,
+      ) %>%
+      move_values_to_new_trait(
+        "Fruit.Type.Specific", "fruit_dehiscence", 
+        c("pod", "capsule", "drupe", "achene", "nut", "samara", "follicle", 
+            "berry", "utricle", "syncarp", "syconium"), 
+        c("dehiscent", "dehiscent", "indehiscent", "indehiscent", 
             "indehiscent", "indehiscent", "dehiscent", "indehiscent", 
-            "indehiscent", "indehiscent", "indehiscent", NA), 
-          c("pod", "capsule", "drupe", "achene", "nut", "samara", "follicle",
-            "berry", "utricle", "syncarp", "syconium", "schizocarp")) %>% 
-      mutate(fruit_dehiscence = if_else(`Adaptive.Trait` %in% 
-        c("indehiscent", "indehiscent, woody"), "indehiscent",fruit_dehiscence))
+            "indehiscent", "indehiscent", "indehiscent"), 
+        c("pod", "capsule", "drupe", "achene", "nut", "samara", "follicle",
+            "berry", "utricle", "syncarp", "syconium")
+      ) %>% 
+      mutate(
+        fruit_dehiscence = if_else(`Adaptive.Trait` %in% 
+        c("indehiscent", "indehiscent, woody"), "indehiscent", fruit_dehiscence),
+        fruit_dehiscence = na_if(fruit_dehiscence, "")
+      )
   '
   collection_date: 2014/2014
   taxon_name: species
   description: angiosperm and gymnosperm dispersal data from Si-Chong Chen PhD
-  collection_type: literature
-  sample_age_class: adult
+  basis_of_record: literature
+  life_stage: adult
   sampling_strategy: A list of Australian plant species was obtained from the 'Flora
     of Australia online database' (Flora of Australia online 2009). Hybrids, aquatic
     species and naturalised species were removed from the dataset. We checked the
@@ -63,7 +69,7 @@ dataset:
     data.
   notes: Original species names assigned follow the species nomenclatures in the Flora
     of Australia Online.
-sites: .na
+locations: .na
 contexts: .na
 traits:
 - var_in: Fruit.Type.Botany
@@ -195,6 +201,9 @@ traits:
   replicates: .na
   methods: literature search
 substitutions:
+- trait_name: fruit_dehiscence
+  find: schizocarp
+  replace: .na.character
 - trait_name: fruit_type
   find: pod
   replace: legume
@@ -256,66 +265,105 @@ substitutions:
   find: fleshy seeds
   replace: .na.character
 taxonomic_updates:
-- find: Acacia verricula
-  replace: Acacia verriculum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
 - find: Dactyliophora novaeguineae
   replace: Dactyliophora novae-guineae
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Goodenia vilmorinae
   replace: Goodenia vilmoriniae
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Grevillea bronwenae
   replace: Grevillea bronweniae
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-12)
+  taxonomic_resolution: Species
+- find: Hakea cygna
+  replace: Hakea cygnus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-12)
+  taxonomic_resolution: Species
+- find: Pimelea neo-anglica
+  replace: Pimelea neoanglica
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-22)
+  taxonomic_resolution: Species
 - find: Platycapnos spicata
   replace: Platycapnos spicatus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Senna alicia
-  replace: Senna artemisioides subsp. alicia
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna filifolia
-  replace: Senna artemisioides subsp. filifolia
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna helmsii
-  replace: Senna artemisioides subsp. helmsii
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna oligophylla
-  replace: Senna artemisioides subsp. oligophylla
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna coriacea
-  replace: Senna artemisioides subsp. x coriacea
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna sturtii
-  replace: Senna artemisioides subsp. x sturtii
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna zygophylla
-  replace: Senna artemisioides subsp. zygophylla
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna gawlerensis
-  replace: Senna cardiosperma subsp. gawlerensis
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna microphylla
-  replace: Senna cardiosperma subsp. microphylla
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna chatelainiana
-  replace: Senna glutinosa subsp. chatelainiana
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna pruinosa
-  replace: Senna glutinosa subsp. pruinosa
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
-- find: Senna luerssenii
-  replace: Senna glutinosa subsp. x luerssenii
-  reason: Change spelling to align with APC or ALA species lists (Sam Andrew, 2018-02-07)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Rhizophora lamarckii
   replace: Rhizophora x lamarckii
-  reason: Align to APC accepted hybrid (E. Wenk, 2020-05-25)
+  reason: match_14. Automatic alignment with species-level canonical name in APC accepted
+    when notes are ignored (2022-11-12)
+  taxonomic_resolution: Species
+- find: Senna alicia
+  replace: Senna artemisioides subsp. alicia
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna chatelainiana
+  replace: Senna glutinosa subsp. chatelainiana
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna coriacea
+  replace: Senna artemisioides subsp. x coriacea
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna filifolia
+  replace: Senna artemisioides subsp. filifolia
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
 - find: Senna form
-  replace: Senna sp. [Senna form]
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Senna sp. [Senna form; Chen_2017]
+  reason: Manual match to genus for taxon that can't be match to species (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Genus
+- find: Senna gawlerensis
+  replace: Senna cardiosperma subsp. gawlerensis
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna helmsii
+  replace: Senna artemisioides subsp. helmsii
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna luerssenii
+  replace: Senna glutinosa subsp. x luerssenii
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna microphylla
+  replace: Senna cardiosperma subsp. microphylla
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna oligophylla
+  replace: Senna artemisioides subsp. oligophylla
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna pruinosa
+  replace: Senna glutinosa subsp. pruinosa
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
 - find: Senna quadrifolia
-  replace: Chamaecrista absus
-  reason: Aligned with APC accepted synonym (E. Wenk, 2020-05-25)
+  replace: Senna artemisioides subsp. quadrifolia
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna sturtii
+  replace: Senna artemisioides subsp. x sturtii
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
+- find: Senna zygophylla
+  replace: Senna artemisioides subsp. zygophylla
+  reason: Manual alignment with canonical name with rank `subspecies` in APC (Elizabeth
+    Wenk, 2022-11-12)
+  taxonomic_resolution: Subspecies
 exclude_observations: .na
 questions:
   contributor: Proteaceae have among the shortest fruit lengths in this study - that

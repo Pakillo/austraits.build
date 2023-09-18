@@ -22,24 +22,36 @@ contributors:
   austraits_curators: Rachael Gallagher
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(site_name = "Woohlpooer State Forest")
+  custom_R_code:        '
+    data %>%
+      mutate(
+        site_name = "Woohlpooer State Forest",
+        stem_growth_habit = NA
+      ) %>%
+      move_values_to_new_trait(
+        "Growth form", "stem_growth_habit",
+        c("erect rosette", "flat rosette", "erect leafy", "cushion"),
+        c("rosette", "rosette", "erect", "cushion-forming"),
+        c("erect rosette", "flat rosette", "erect leafy", "cushion")
+      ) 
+  '
   collection_date: 2010/2010
   taxon_name: Scientific Name
-  site_name: site_name
+  location_name: site_name
   description: Species richness and functional trait diversity response to land use
     in a temperate eucalypt woodland community; sampled in Red Gum forests in western
     Victoria
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Most of the data was collected in Woohlpooer SF, but some data
     were collected in Red Gum forests in two nearby western Victoria locations, Glen
     Isla S.F and Cherrypool S.F
-  original_file: relevent data from the file "2014  updated plant functional trait
+  original_file: relevant data from the file "2014  updated plant functional trait
     database.xls" extracted. Original copy of the excel file located in Google Drive
     in the folder "Morgan_2011_1 Morgan_2011_2 Morgan_2014 Angevin_2010 Briggs_2010
     Cross_2011 Lunt_2012 Roberts_2006 Scott_2010"
   notes: none
-sites:
+locations:
   Woohlpooer State Forest:
     latitude (deg): -37.33
     longitude (deg): 142.15
@@ -51,7 +63,7 @@ contexts: .na
 traits:
 - var_in: SLA (mg/mm2)
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -92,6 +104,14 @@ traits:
   basis_of_value: expert_score
   replicates: .na
   methods: expert observation or literature
+- var_in: stem_growth_habit
+  unit_in: .na
+  trait_name: stem_growth_habit
+  entity_type: species
+  value_type: mode
+  basis_of_value: expert_score
+  replicates: .na
+  methods: expert observation or literature
 - var_in: LDMC (%)
   unit_in: '%'
   trait_name: leaf_dry_matter_content
@@ -112,23 +132,29 @@ traits:
     for all traits.
 substitutions:
 - trait_name: plant_growth_form
+  find: semi_basal
+  replace: herb
+- trait_name: plant_growth_form
+  find: cushion
+  replace: herb
+- trait_name: plant_growth_form
   find: erect leafy
-  replace: erect_leafy
+  replace: herb
 - trait_name: plant_growth_form
   find: erect rosette
-  replace: rosette_erect
+  replace: herb
 - trait_name: plant_growth_form
   find: flat rosette
-  replace: rosette
+  replace: herb
 - trait_name: plant_growth_form
   find: semi basal
-  replace: semi_basal
+  replace: herb
 - trait_name: plant_growth_form
   find: semi-basal
-  replace: semi_basal
+  replace: herb
 - trait_name: plant_growth_form
   find: short basal
-  replace: short_basal
+  replace: herb
 - trait_name: plant_growth_form
   find: dwarf shrub
   replace: subshrub
@@ -157,49 +183,110 @@ substitutions:
   find: Mobile
   replace: barochory
 taxonomic_updates:
+- find: Arthropodium sp.
+  replace: Arthropodium sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Austrostipa sp.
+  replace: Austrostipa sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Avena sp.
+  replace: Avena sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Caladenia sp.
+  replace: Caladenia sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Geranium sp.
+  replace: Geranium sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Juncus sp.
+  replace: Juncus sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Microseris sp.
+  replace: Microseris sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Oxalis sp.
+  replace: Oxalis sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Poa sp.
+  replace: Poa sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Stellaria sp.
+  replace: Stellaria sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Trifolium sp.
+  replace: Trifolium sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Vulpia sp.
+  replace: Vulpia sp. [Angevin_2011]
+  reason: Adding dataset_id to genus-level taxon names. (E. Wenk, 2023-06-16)
+  taxonomic_resolution: Genus
+- find: Austrodanthonia sp.
+  replace: Rytidosperma sp. [Angevin_2011]
+  reason: match_01. Rewording taxon with ending with `sp.` to indicate a genus-level
+    alignment with `APC known` name (2022-11-10)
+  taxonomic_resolution: genus
 - find: Centrolepis fasicularis
   replace: Centrolepis fascicularis
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Drosea aberrans
   replace: Drosera aberrans
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Gonocarpus tetragynous
-  replace: Gonocarpus tetragynus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Opercularia ovaria
-  replace: Opercularia ovata
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Ranunculus pachcarpus
-  replace: Ranunculus pachycarpus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Schoenus apogen
-  replace: Schoenus apogon
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Tricoryne elatoir
-  replace: Tricoryne elatior
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Plantago gaudichaudiana
-  replace: Plantago gaudichaudii
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Droseara peltata. subsp. peltata
   replace: Drosera peltata subsp. peltata
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
+  reason: match_13_fuzzy. Fuzzy match alignment with infraspecific canonical name
+    in APC known when notes are ignored (2022-11-10)
+  taxonomic_resolution: Subspecies
+- find: Gonocarpus tetragynous
+  replace: Gonocarpus tetragynus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Opercularia ovaria
+  replace: Opercularia ovata
+  reason: match_15_fuzzy. Fuzzy match alignment with species-level canonical name
+    in `APC accepted` when everything except first 2 words ignored (2022-11-10)
+  taxonomic_resolution: Species
+- find: Pink orchid
+  replace: Orchidaceae sp. [Pink orchid; Angevin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
+- find: Plantago gaudichaudiana
+  replace: Plantago gaudichaudii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Ranunculus pachcarpus
+  replace: Ranunculus pachycarpus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Schoenus apogen
+  replace: Schoenus apogon
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Thelimytra pauciflora
   replace: Thelymitra pauciflora
-  reason: Change spelling to align with known name (synonym or other) in APC (Daniel
-    Falster, 2020.05.22)
-- find: Pink orchid
-  replace: Orchidaceae sp. [pink]
-  reason: Align to family (E. Wenk, 2020-05-25)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Tricoryne elatoir
+  replace: Tricoryne elatior
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Unknown orchid
-  replace: Orchidaceae sp.
-  reason: Align to family (E. Wenk, 2020-05-23)
-- find: Unknown orchid
-  replace: Orchidaceae sp.
-  reason: Align to family (E. Wenk, 2020-06-24)
-- find: Austrodanthonia sp.
-  replace: Rytidosperma sp.
-  reason: Align to current genus (E. Wenk, 2020-06-25)
+  replace: Orchidaceae sp. [Unknown orchid; Angevin_2011]
+  reason: Manual matched to family for taxon that can't be matcheded to genus (Elizabeth
+    Wenk, 2022-11-22)
+  taxonomic_resolution: family
 exclude_observations: .na
 questions: .na

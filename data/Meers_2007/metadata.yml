@@ -8,7 +8,7 @@ source:
       to land use change on the Delatite Peninsula, Victoria.
     institution: University of Melbourne
     type: PhD
-  secondary:
+  secondary_01:
     key: Meers_2010
     bibtype: Article
     year: '2010'
@@ -58,14 +58,14 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% subset(native_status != "introduced")
+  custom_R_code:      data %>% subset(native_status != "introduced")
   collection_date: 2004/2004
   taxon_name: Species
-  site_name: site
+  location_name: site
   description: A study aimed to determine whether trade-offs in plant design exist
     in sclerophyllous vegetation in Australia.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: The Delatite Peninsula is located on the northern slopes of the
     Great Dividing Range in north-eastern Victoria, Australia (37 deg 8'S, 145 deg
     58'E), and has a steeply dissected topography, with altitude ranging from 300
@@ -89,7 +89,7 @@ dataset:
   notes: Only data from Australian native species have been read into AusTraits. However
     the data.csv file also includes trait data for 52 introduced species growing at
     the field site.
-sites:
+locations:
   Delatite Peninsula:
     latitude (deg): -37.133
     longitude (deg): 145.967
@@ -132,7 +132,7 @@ traits:
     for each species.
 - var_in: SLA_mm2_mg
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -189,8 +189,8 @@ traits:
   basis_of_value: expert_score
   replicates: .na
   methods: Life-form classification followed Raunkiaer (1934) with classification
-    of growth form within hemicryptophytes following McIntyre et al. (1995) based
-    on rosette form (Table 3.1).
+    of growth form within hemicryptophytes following McIntyre et al. (1995) (www.jstor.org/stable/2261148)
+    based on rosette form (Table 3.1).
 - var_in: nutrient_uptake_strategy
   unit_in: .na
   trait_name: root_structure
@@ -255,7 +255,7 @@ traits:
     in July 2004 to determine the presence of clonal growth mechanisms.
 - var_in: vegetative_regeneration
   unit_in: .na
-  trait_name: vegetative_regeneration_ability
+  trait_name: vegetative_reproduction_ability
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
@@ -267,7 +267,7 @@ traits:
     in July 2004 to determine the presence of clonal growth mechanisms.
 - var_in: fire_response
   unit_in: .na
-  trait_name: fire_response
+  trait_name: resprouting_capacity
   entity_type: species
   value_type: mode
   basis_of_value: expert_score
@@ -282,6 +282,12 @@ traits:
     included both native species adapted recurrent fires and introduced species that
     would also killed in the passage of a fire.
 substitutions:
+- trait_name: nitrogen_fixing
+  find: '1'
+  replace: nitrogen_fixer
+- trait_name: nitrogen_fixing
+  find: '0'
+  replace: non_nitrogen_fixer
 - trait_name: dispersal_syndrome
   find: Myrm
   replace: myrmecochory
@@ -317,16 +323,16 @@ substitutions:
   replace: therophyte
 - trait_name: life_form
   find: HE
-  replace: hemicryptophyte_erect_rosette
+  replace: hemicryptophyte
 - trait_name: life_form
   find: HF
-  replace: hemicryptophyte_flat_rosette
+  replace: hemicryptophyte
 - trait_name: life_form
   find: HP
-  replace: hemicryptophyte_partial_rosette
+  replace: hemicryptophyte
 - trait_name: life_form
   find: HPr
-  replace: hemicryptophyte_proto-rosette
+  replace: hemicryptophyte
 - trait_name: root_structure
   find: AM
   replace: arbuscular_mycorrhizal
@@ -365,7 +371,7 @@ substitutions:
   replace: stolon
 - trait_name: clonal_spread_mechanism
   find: C (adventitious root buds)
-  replace: adventitious_root_buds
+  replace: adventitious_roots
 - trait_name: clonal_spread_mechanism
   find: C (rhizome)
   replace: rhizome
@@ -380,7 +386,7 @@ substitutions:
   replace: stem_tuber
 - trait_name: clonal_spread_mechanism
   find: C (rooting at nodes)
-  replace: rooting_at_nodes
+  replace: root_buds
 - trait_name: clonal_spread_mechanism
   find: C (rooting on stems)
   replace: stolon
@@ -390,75 +396,98 @@ substitutions:
 - trait_name: clonal_spread_mechanism
   find: C (corm)
   replace: corm
-- trait_name: fire_response
+- trait_name: resprouting_capacity
   find: R
   replace: resprouts
-- trait_name: fire_response
+- trait_name: resprouting_capacity
   find: U
-  replace: unknown
-- trait_name: fire_response
+  replace: .na
+- trait_name: resprouting_capacity
   find: S
   replace: fire_killed
 taxonomic_updates:
 - find: Acacia paravissima
   replace: Acacia pravissima
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Aceana novae-zelandiae
   replace: Acaena novae-zelandiae
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Arthropodium milliflorum
-  replace: Arthropodium milleflorum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Chelianthes austrotenuifolia
-  replace: Cheilanthes austrotenuifolia
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Cymbonotus pressianus
-  replace: Cymbonotus preissianus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Daucus glocidiatus
-  replace: Daucus glochidiatus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Dichelachne crinata
-  replace: Dichelachne crinita
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Dillwynia junipera
-  replace: Dillwynia juniperina
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Dillwynia phyliciodes
-  replace: Dillwynia phylicoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Lagenophora huegleii
-  replace: Lagenophora huegelii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Melicrus urcheolatus
-  replace: Melichrus urceolatus
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Microleana stipoides
-  replace: Microlaena stipoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Oxalis perrenans
-  replace: Oxalis perennans
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Psuedognaphalium luteoalbum
-  replace: Pseudognaphalium luteoalbum
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Sologyne dominii
-  replace: Solenogyne dominii
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Wahlenbergia muliticaulis
-  replace: Wahlenbergia multicaulis
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Gomopholobium huegleii
-  replace: Gompholobium huegelii
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Aceana ovina
   replace: Acaena x ovina
-  reason: Align with known species (E Wenk, 2020-05-22)
+  reason: match_15_fuzzy. Fuzzy match alignment with species-level canonical name
+    in `APC known` when everything except first 2 words ignored (2022-11-12)
+  taxonomic_resolution: Species
+- find: Arthropodium milliflorum
+  replace: Arthropodium milleflorum
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Chelianthes austrotenuifolia
+  replace: Cheilanthes austrotenuifolia
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Cymbonotus pressianus
+  replace: Cymbonotus preissianus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Daucus glocidiatus
+  replace: Daucus glochidiatus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Dichelachne crinata
+  replace: Dichelachne crinita
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Dillwynia junipera
+  replace: Dillwynia juniperina
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Dillwynia phyliciodes
+  replace: Dillwynia phylicoides
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Gomopholobium huegleii
+  replace: Gompholobium huegelii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Kunzea ericiodes spp. agg.
   replace: Kunzea ericoides
-  reason: Alignment with existing species identified by E. Wenk (2020-05-05)
+  reason: match_15_fuzzy. Fuzzy match alignment with species-level canonical name
+    in `APC accepted` when everything except first 2 words ignored (2022-11-10)
+  taxonomic_resolution: Species
+- find: Lagenophora huegleii
+  replace: Lagenophora huegelii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Melicrus urcheolatus
+  replace: Melichrus urceolatus
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Microleana stipoides
+  replace: Microlaena stipoides
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Microseris scapigera spp. Agg
   replace: Microseris scapigera
-  reason: Align to APC accepted synonym (E. Wenk, 2020-05-25)
+  reason: match_14. Automatic alignment with species-level name known by APC when
+    notes are ignored (2022-11-10)
+  taxonomic_resolution: Species
+- find: Oxalis perrenans
+  replace: Oxalis perennans
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Psuedognaphalium luteoalbum
+  replace: Pseudognaphalium luteoalbum
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Sologyne dominii
+  replace: Solenogyne dominii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Wahlenbergia muliticaulis
+  replace: Wahlenbergia multicaulis
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

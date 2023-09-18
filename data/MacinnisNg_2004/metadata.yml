@@ -39,24 +39,19 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(
-        stem_hydraulic_conductivity = `Hydraulic condictivity`/10,
-        population_id = `Site name expanded`,
-        observation_number = ifelse(context == "summer", 1, 2)
+        stem_hydraulic_conductivity = `Hydraulic condictivity`/10
       )
   '
   collection_date: 2003-01/2003-01
   taxon_name: Species
-  site_name: Site name expanded
-  context: context
-  population_id: population_id
-  observation_number: observation_number
+  location_name: Site name expanded
   description: Study to investigate convergence in hydraulic architecture, water relations
     traits, and gas exchange across the Sydney region.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: VEGETATION ATTRIBUTES, MICROCLIMATE AND SOIL MOISTURE Each 1-ha
     site in each habitat was divided into two plots to provide replication at each
     site. These plots were treated as separate replicates until the analysis stage
@@ -93,7 +88,7 @@ dataset:
   original_file: Hydraulic traits for Austraits.xls
   notes: Adjusted values for sapwood_specific_conductivity to match those in publication
     (10x too big in contributed data vs. publication, although same units provided)
-sites:
+locations:
   Crosslands_mangrove:
     latitude (deg): -33.667
     longitude (deg): 151.167
@@ -119,13 +114,17 @@ sites:
     geology (parent material): Sydney sandstone derived soil
     elevation (m): .na
 contexts:
-  winter:
-    sampling season: measurements made in winter
-  summer:
-    sampling season: measurements made in summer
+- context_property: sampling season
+  category: temporal
+  var_in: context
+  values:
+  - value: winter
+    description: Measurements made in winter.
+  - value: summer
+    description: Measurements made in summer.
 traits:
 - var_in: Hv sapwood
-  unit_in: mm2_sapwood/mm2_leaf
+  unit_in: mm2{sapwood}/mm2{leaf}
   trait_name: huber_value
   entity_type: individual
   value_type: raw
@@ -139,7 +138,7 @@ traits:
     of branch in 0.5% toluidine blue solution. The stained sapwood area was measured
     with a calibrated eyepiece micrometer.
 - var_in: stem_hydraulic_conductivity
-  unit_in: 10^6 x kg*m/s/MPa
+  unit_in: 10^6.kg.m/MPa/s
   trait_name: stem_hydraulic_conductivity
   entity_type: individual
   value_type: raw
@@ -168,8 +167,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per leaf area
-  unit_in: 10^3 x kg/m/s/MPa
-  trait_name: leaf_specific_conductivity
+  unit_in: 10^3.kg/m/MPa/s
+  trait_name: leaf_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -197,8 +196,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per branch TA
-  unit_in: 10^1 x kg/m/s/MPa
-  trait_name: transverse_branch_area_specific_conductivity
+  unit_in: 10^1.kg/m/MPa/s
+  trait_name: stem_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -226,8 +225,8 @@ traits:
     (kg s-1 m MPa-1) was calculated by multiplying the conductance by the branch length
     and was expressed in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per SW area
-  unit_in: 10^1 x kg/m/s/MPa
-  trait_name: sapwood_specific_conductivity
+  unit_in: 10^1.kg/m/MPa/s
+  trait_name: sapwood_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -285,8 +284,8 @@ traits:
     water potential (generally the sample collected between 1200 and 1300 hours) was
     calculated for each species and habitat in summer (January) and winter (July).
 - var_in: Amass
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -306,10 +305,8 @@ substitutions: .na
 taxonomic_updates:
 - find: Eucalypyus haemostoma
   replace: Eucalyptus haemastoma
-  reason: Alignment with existing species identified by TaxonStand (2020-06-16)
-- find: Glochidion ferdinandi
-  replace: Glochidion ferdinandii
-  reason: Alignment with existing species identified by TaxonStand (2020-06-16)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   contributor: I've been struggling with the units for the conductivity measures.

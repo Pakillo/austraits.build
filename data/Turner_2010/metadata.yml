@@ -31,16 +31,16 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(`average%C` = if_else(is.na(`av C% 2.Result`),`av C% 1.Result`,((`av C% 1.Result`+`av C% 2.Result`)/2)), N_percent = if_else(is.na(`N 2.Result`),`N 1.Result`,((`N 1.Result`+`N 2.Result`)/2))) %>% mutate(leaf_count = `Leaf area (cm2)`/`Leaf size [area/Leaf]`, leaf_dry_mass = `Dry matter (g)`/leaf_count) %>%  mutate(collection_type = ifelse(Species == "Eucalyptus leptopoda","field","common garden"))
-  collection_date: 2005-08-19
+  custom_R_code:      data %>% mutate(`average%C` = if_else(is.na(`av C% 2.Result`),`av C% 1.Result`,((`av C% 1.Result`+`av C% 2.Result`)/2)), N_percent = if_else(is.na(`N 2.Result`),`N 1.Result`,((`N 1.Result`+`N 2.Result`)/2))) %>% mutate(leaf_count = `Leaf area (cm2)`/`Leaf size [area/Leaf]`, leaf_dry_mass = `Dry matter (g)`/leaf_count) %>%  mutate(basis_of_record = ifelse(Species == "Eucalyptus leptopoda","field","common garden"))
+  collection_date: '2005-08-19'
   taxon_name: Species
-  site_name: location
+  location_name: location
   description: To try and clarify whether leaf delta13C is inherently stable across
     environments or varies with environment, particularly rainfall, we measured the
     leaf delta13C of a number of Eucalyptus species in two common gardens varying
     in rainfall.
-  collection_type: arboretum
-  sample_age_class: adult
+  basis_of_record: captive_cultivated
+  life_stage: adult
   sampling_strategy: At two common gardens, 10-25 leaves, depending on size, were
     collected from four replicate trees of each species. Leaves were around 1 year
     old when collected.
@@ -48,7 +48,7 @@ dataset:
   notes: Note from data processor - To fill in missing location information for 'Nr.
     Coolgardie arboretum' and 'Nr. Kalgoorlie arboretum', the coordinates of closely
     located sites have been used.
-sites:
+locations:
   Coolgardie arboretum:
     soil type: clay
     elevation (m): 417
@@ -106,7 +106,7 @@ traits:
   replicates: 1
   methods: unknown
 - var_in: av delta C (29.78 per mille VPDB)
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: .na
   entity_type: individual
   value_type: raw
@@ -121,7 +121,7 @@ traits:
     and not as carbon isotope discrimination (Farquhar and Richards 1984) because
     the isotopic composition of carbon dioxide at the sites was not measured.
 - var_in: av d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -158,8 +158,8 @@ traits:
   methods: Leaves finely ground to a powder for the analysis of carbon and nitrogen
     contents with a Vario EL II analyser (Elementar, Hanau, Germany).
 - var_in: Stemnumber
-  unit_in: count
-  trait_name: stem_count_categorical
+  unit_in: '{count}'
+  trait_name: stem_count
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -186,7 +186,7 @@ traits:
     oven. SLA was calculated as area per unit mass.
 - var_in: Specific Leaf Area (m2 kg)
   unit_in: m2/kg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -195,21 +195,25 @@ traits:
     area meter and the dry weight determined after drying at 70 deg C for 48 h in
     a forced-draft oven. SLA was calculated as area per unit mass.
 substitutions:
-- trait_name: stem_count_categorical
+- trait_name: stem_count
   find: multi
   replace: '3'
 taxonomic_updates:
 - find: Eucalyptus calastroides
   replace: Eucalyptus celastroides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Eucalyptus calcogona
   replace: Eucalyptus calycogona
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Eucalyptus straticalyx
   replace: Eucalyptus striaticalyx
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: oldfieldii
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Oldfieldii
   replace: Eucalyptus oldfieldii
-  reason: Name corrected by C. Baxter (2020-02-10)
+  reason: Manual alignment with canonical species name in APC (Elizabeth Wenk, 2022-11-22)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

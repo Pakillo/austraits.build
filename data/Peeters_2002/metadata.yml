@@ -24,17 +24,17 @@ dataset:
   custom_R_code: .na
   collection_date: unknown/2002
   taxon_name: taxon
-  site_name: site
+  location_name: site
   description: field campaigns of Paula Peters for herbivory study via Ian Wright
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: Eighteen shrub species were selected to represent a variety of
     leaf types and to maximize contrasts within families and genera (Table 1). All
     plant species were evergreen, although they varied in the timing and duration
     of new leaf production (Peeters et al., 2001).
   original_file: peeters02.xls
   notes: none
-sites:
+locations:
   BunyipSP:
     longitude (deg): 145.8
     latitude (deg): -37.983
@@ -61,7 +61,7 @@ traits:
     as they were too small to be weighed individually.
 - var_in: LMA (mg cm2)
   unit_in: mg/cm2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -96,8 +96,8 @@ traits:
     3 leaves). Fresh leaf hair density and height was measured using a dissecting
     microscope (N = 3 leaves).
 - var_in: stomate_density (mm-2)
-  unit_in: count/mm2
-  trait_name: stomatal_density_average
+  unit_in: '{count}/mm2'
+  trait_name: leaf_stomatal_density_average
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -120,7 +120,7 @@ traits:
     microscope (N = 3 leaves).
 - var_in: upper cuticle thickness (um)
   unit_in: um
-  trait_name: upper_cuticle_thickness
+  trait_name: leaf_cuticle_thickness_adaxial
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -143,7 +143,7 @@ traits:
     microscope (N = 3 leaves).
 - var_in: lower cuticle thickness (um)
   unit_in: um
-  trait_name: lower_cuticle_thickness
+  trait_name: leaf_cuticle_thickness_abaxial
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -239,10 +239,12 @@ substitutions:
 taxonomic_updates:
 - find: Pultenea muelleri
   replace: Pultenaea muelleri
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Pultenea weindorferi
   replace: Pultenaea weindorferi
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: additional anatomical traits including, surface hair density,

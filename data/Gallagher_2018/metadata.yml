@@ -20,7 +20,7 @@ contributors:
     additional_role: contact
   - last_name: Laugier-Kitchener
     given_name: Bree-Anne
-    ORCID: .na.character
+    ORCID: 0000-0002-5347-1055
     affiliation: Department of Biological Sciences, Macquarie University, Australia
   - last_name: McPherson
     given_name: Hannah
@@ -55,14 +55,14 @@ dataset:
   custom_R_code: .na
   collection_date: 2018/2018
   taxon_name: taxon
-  site_name: site name
+  location_name: site name
   description: Trait campaign with the Royal Botanical Gardens
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: unknown
   original_file: Gallagher_2018
   notes: none
-sites:
+locations:
   MOUNT BANKS:
     latitude (deg): -33.57912
     longitude (deg): 150.36555
@@ -83,7 +83,15 @@ sites:
     longitude (deg): 151.28337
     elevation (m): 119.0
     description: dry sclerophyll vegetation on sandstone substrate
-contexts: .na
+contexts:
+- context_property: leaf sample type
+  category: method_context
+  var_in: replicates of
+  values:
+  - value: leaves
+    description: Measurements on leaves.
+  - value: leaflets
+    description: Measurements on leaflets.
 traits:
 - var_in: leaf_area
   unit_in: mm2
@@ -91,7 +99,7 @@ traits:
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
-  replicates: replicates of
+  replicates: replicates
   methods: the average area of a single leaf, determined from measurements of 3-81
     leaves per individual
 - var_in: leaf_dry_mass
@@ -100,16 +108,16 @@ traits:
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
-  replicates: replicates of
+  replicates: replicates
   methods: the average dry mass of a single leaf, determined from measurements of
     3-81 leaves per individual
 - var_in: specific_leaf_area
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
-  replicates: replicates of
+  replicates: replicates
   methods: the specific leaf area per individual, determined from measurements of
     3-81 leaves per individual
 - var_in: leaf nitrogen content
@@ -134,9 +142,13 @@ substitutions: .na
 taxonomic_updates:
 - find: Banksia spinulosa var.collina
   replace: Banksia spinulosa var. collina
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Varietas
 - find: Banksia spinulosa var.spinulosa
   replace: Banksia spinulosa var. spinulosa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Varietas
 exclude_observations: .na
 questions: .na

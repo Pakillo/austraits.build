@@ -29,10 +29,10 @@ dataset:
   custom_R_code: .na
   collection_date: 2002/2002
   taxon_name: Species
-  site_name: Site
+  location_name: Site
   description: SLA and height data for 28 species from Knox (2011)
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: This research was conducted in the montane WSF and DSF of eastern
     Australia that are juxtaposed on metasedimentary and leucogranite lithologies
     that have soils of contrasting nutrient status (Table 1). The focal area for our
@@ -60,7 +60,7 @@ dataset:
     and ca. 5000 ha of lower-severity burn (Kumar et al. 2008).
   original_file: Knox_2011.pdf
   notes: none
-sites:
+locations:
   nutrient-poor dry sclerophyll forest:
     latitude (deg): -29.35
     longitude (deg): 152.33
@@ -95,7 +95,7 @@ contexts: .na
 traits:
 - var_in: Fire response
   unit_in: .na
-  trait_name: fire_response
+  trait_name: resprouting_capacity
   entity_type: population
   value_type: mode
   basis_of_value: expert_score
@@ -120,7 +120,7 @@ traits:
     were classified as weak resprouters and vice versa.
 - var_in: SLA (cm2 g?1)
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -170,7 +170,7 @@ traits:
     volumes of stems, hence the use of fresh stem volume.
 - var_in: Bark mass area (g cm?2)
   unit_in: g/cm2
-  trait_name: bark_mass_area
+  trait_name: bark_dry_mass_per_surface_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -182,16 +182,20 @@ traits:
     bark area/bark dry weight. Five random measurements of bark thickness were made
     on the dried bark material using calipers to provide a mean value for each individual.
 substitutions:
-- trait_name: fire_response
+- trait_name: resprouting_capacity
   find: Fire-killed
   replace: fire_killed
 taxonomic_updates:
-- find: Zieria sp. aff.smithii
-  replace: Zieria smithii
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
 - find: Phebalium sp. nov
-  replace: Phebalium sp.
-  reason: Align to genus (E. Wenk, 2020-05-25)
+  replace: Phebalium sp. [Phebalium sp. nov; Knox_2011]
+  reason: match_20. Rewording name to be recognised as genus rank, with genus accepted
+    by APC (2022-11-10)
+  taxonomic_resolution: genus
+- find: Zieria sp. aff.smithii
+  replace: Zieria sp. [Zieria sp. aff.smithii; Knox_2011]
+  reason: match_09. Rewording taxon with term `affinis` preceding species epithet
+    to indicate a genus-level alignment with `APC accepted` genus (2022-11-10)
+  taxonomic_resolution: genus
 exclude_observations: .na
 questions:
   contributor: Do you have Latitude and Longitude for the study sites? Right now I

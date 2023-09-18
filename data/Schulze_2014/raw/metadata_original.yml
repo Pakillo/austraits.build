@@ -385,13 +385,20 @@ config:
     taxon_name: species_name
     site_name: site_name
     date: date_sampled
-  custom_R_code: data %>% mutate(date_sampled = date_sampled %>% mdy()) %>% group_by(`species_name`)
-    %>% mutate_at(vars(physical_defence,`leaf type`,leaf_compoundness),funs(replace(.,duplicated(.),NA)))
-    %>% ungroup()
+  custom_R_code: '
+    data %>% 
+      mutate(
+        date_sampled = date_sampled %>% mdy()
+      ) %>%
+      group_by(`species_name`) %>%
+        mutate(across(c(physical_defence,`leaf type`,leaf_compoundness),
+          replace_duplicates_with_NA))) %>%
+      ungroup()
+    '
 traits:
 - var_in: leaf type
   unit_in: .na
-  trait_name: leaf_type
+  trait_name: plant_photosynthetic_organ
   value_type: expert_mean
   replicates: .na
   methods: expert observation
@@ -421,49 +428,49 @@ traits:
     is the area of a leaflet; for these observations, there is a note in the comlumn
     'lab Remarks' in the data.csv file.
 substitutions:
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: phylloids
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: phyloclades
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: small phyllods
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: phylloclades
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: phylloid
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: phylloclad
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: small phylloids
   replace: phyllode
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: scale like
   replace: scale_leaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: leaf scales
   replace: scale_leaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: thorny scale
   replace: scale_leaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: lancelat
   replace: broadleaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: lanceolat
   replace: broadleaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: thorny
   replace: .na
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: leaflet
   replace: broadleaf
-- trait_name: leaf_type
+- trait_name: plant_photosynthetic_organ
   find: needle like
   replace: needle
 taxonomic_updates:

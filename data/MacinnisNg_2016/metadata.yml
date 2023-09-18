@@ -31,25 +31,20 @@ dataset:
       mutate(
         site = "Crookwell",
         stem_hydraulic_conductivity = 10*`Hydraulic condictivity`,
-        population_id = site,
         individual_id = ifelse(is.na(tree),paste0("x",format(row_number(),000)),paste0("tree",format(tree,00))),
-        observation_number = ifelse(season == "winter", 1, 2),
-        collection_date = ifelse(season == "winter", "2003-07", "2004-01")
-      ) %>%
-      mutate_at(vars(`SLA`),replace_duplicates_with_NA) %>% 
-      mutate_at(vars(`Hydraulic condictivity`,`HC per branch TA`,`HC per leaf area`,`HC per SW area`), ~na_if(.,0))
+        collection_date = ifelse(season == "winter", "2003-07", "2004-01"),
+        across(c(`SLA`), replace_duplicates_with_NA),
+        across(c(`Hydraulic condictivity`,`HC per branch TA`,`HC per leaf area`,`HC per SW area`), ~na_if(.x, 0))
+      )
   '
   collection_date: collection_date
   taxon_name: species
-  site_name: site
-  context_name: season
-  population_id: population_id
+  location_name: site
   individual_id: individual_id
-  observation_number: observation_number
   description: An investigation of correlations between soil conditions and plant
     ecophysiological traits and function across seasons.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: 2.1. STUDY SITE AND SPECIES The study sites were located near
     Crookwell, an agricultural and pastoral district in the southern Tablelands of
     New South Wales (34.4572 S, 149.4690 E, elevation 887 m). All sites had open forest
@@ -101,7 +96,7 @@ dataset:
     soil measurements in this project.
   original_file: Hydraulic traits for Austraits MacinnisNg et al 2016 data
   notes: none
-sites:
+locations:
   Crookwell:
     latitude (deg): -34.4572
     longitude (deg): 149.469
@@ -110,13 +105,17 @@ sites:
     notes: coordinates listed are for Crookwell town, but the site was actually about
       7 km out of town on private property
 contexts:
-  winter:
-    sampling season: measurements made in winter
-  summer:
-    sampling season: measurements made in summer
+- context_property: sampling season
+  category: temporal
+  var_in: season
+  values:
+  - value: winter
+    description: Measurements made in winter.
+  - value: summer
+    description: Measurements made in summer.
 traits:
 - var_in: Hv sapwood
-  unit_in: mm2_sapwood/mm2_leaf
+  unit_in: mm2{sapwood}/mm2{leaf}
   trait_name: huber_value
   entity_type: individual
   value_type: raw
@@ -132,7 +131,7 @@ traits:
     toluidine blue solution. The stained sapwood area was measured with a calibrated
     eyepiece micrometer.
 - var_in: stem_hydraulic_conductivity
-  unit_in: 10^6 x kg*m/s/MPa
+  unit_in: 10^6.kg.m/MPa/s
   trait_name: stem_hydraulic_conductivity
   entity_type: individual
   value_type: raw
@@ -161,8 +160,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per leaf area
-  unit_in: kg/m/s/MPa
-  trait_name: leaf_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: leaf_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -190,8 +189,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per branch TA
-  unit_in: kg/m/s/MPa
-  trait_name: transverse_branch_area_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: stem_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -219,8 +218,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: HC per SW area
-  unit_in: kg/m/s/MPa
-  trait_name: sapwood_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: sapwood_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -248,8 +247,8 @@ traits:
     calculated by multiplying the conductance by the branch length and was expressed
     in terms of leaf area, sapwood area and branch transverse area.
 - var_in: Aarea
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -273,8 +272,8 @@ traits:
     rate was measured on three leaves on three plants in each plot, with two plots
     at each site (a total of 18 samples per site).
 - var_in: Amass
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -299,7 +298,7 @@ traits:
     at each site (a total of 18 samples per site).
 - var_in: ETRmax
   unit_in: umol/m2/s
-  trait_name: Jmax_per_area
+  trait_name: leaf_photosynthesis_Jmax_per_area
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -351,7 +350,7 @@ traits:
     Michigan).
 - var_in: SLA
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_lamina_mass_per_area
   entity_type: individual
   value_type: mean
   basis_of_value: measurement
@@ -359,7 +358,7 @@ traits:
   methods: Specific leaf area was calculated for three leaves from each sample tree
     (18 leaves at each site). Samples were transported on ice in a cool box to the
     laboratory. Five 1 cm2 leaf discs were cut with a cork borer and dried at 70 deg
-    C until constant weight (usually 5 days). Each discwas weighed to four decimal
+    C until constant weight (usually 5 days). Each disc was weighed to four decimal
     places and the specific leaf area (SLA) was calculated as the ratio of area to
     dry mass of the disc.
 - var_in: N g m-2

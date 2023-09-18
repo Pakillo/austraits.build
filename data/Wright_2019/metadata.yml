@@ -23,7 +23,7 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>%
       rename(season = date) %>%
       mutate(
@@ -34,51 +34,55 @@ dataset:
         new_date = new_date %>% mdy(quiet=TRUE) %>% as.character(),
         date_WD = date_WD %>% dmy(quiet=TRUE) %>% as.character(),
         date_merged = coalesce(new_date, date_WD, as.character(date_by_month)),
-        pop_id = site_name,
-        observation_number = ifelse(season == "dry season (Sep 2010)", 1, NA),
-        observation_number = ifelse(season == "wet season (May 2011)", 2, observation_number)
+        individual = paste(Species, site_name, age, Rep, sep = "_")
       ) %>%
         select(-date_by_month, -new_date, -date_WD, -sample_date, - notes, -spp, -`Pith diam (mm)`, -context) %>% 
-        group_by(date_merged, site_name, season, pop_id, Species, age, Rep, observation_number) %>% 
-          summarise_at(vars(`WD kg/m3`:`gas_ d13C_leaf`), mean, na.rm = TRUE) %>% 
-        ungroup() 
+        group_by(site_name, season, Species, age, Rep, individual) %>% 
+          summarise(
+            across(c(`WD kg/m3`:`gas_ d13C_leaf`), ~mean(.x, na.rm = TRUE)),
+            date_merged = first(date_merged)
+          ) %>% 
+        ungroup() %>%
+        mutate(
+          across(c(`WD kg/m3`:`gas_ d13C_leaf`), ~as.character(.x)),
+          across(c(`WD kg/m3`:`gas_ d13C_leaf`), ~na_if(.x, "nan")),
+          across(c(`WD kg/m3`:`gas_ d13C_leaf`), ~na_if(.x, "NaN"))
+        )
   '
   collection_date: date_merged
   taxon_name: Species
-  site_name: site_name
-  context_name: season
-  population_id: pop_id
-  observation_number: observation_number
+  location_name: site_name
+  individual_id: individual
   description: traits of NT savannah species
-  collection_type: field
-  sample_age_class: age
-  sampling_strategy: "Deciduous, semi-deciduous and evergreen species are all present
+  basis_of_record: field
+  life_stage: age
+  sampling_strategy: 'Deciduous, semi-deciduous and evergreen species are all present
     in this savanna. Hence, we sampled plant traits at two time points: at the end
     of one dry season (September 2010), when deciduous species are leafless and the
     canopies of semi-deciduous species are at their thinnest; and right at the end
     of the subsequent wet season (early May 2011), when most species still tend to
     have full or nearly-full canopies (Williams et al. 1997). We selected 17 species
     to study, based on available growth rate data and their availability across two
-    nearby sub-sites (12 deg 27'10''S, 131 deg 6'30''E; 12 deg 27'57''S,
-    131 deg 6'51''E). This species-set represents a range of functional types (trees
+    nearby sub-sites (12 deg 27''10''''S, 131 deg 6''30''''E; 12 deg 27''57''''S,
+    131 deg 6''51''''E). This species-set represents a range of functional types (trees
     and shrubs; nitrogen-fixers and non-fixers; deciduous, semi-deciduous and evergreen
-    species; Table 1). We used diameter at breast height (DBH) to identify 'adults'
-    versus 'saplings' for each species, but we use these terms informally (i.e.
+    species; Table 1). We used diameter at breast height (DBH) to identify ''adults''
+    versus ''saplings'' for each species, but we use these terms informally (i.e.
     not necessarily reflecting degree of reproductive maturity), and synonymously
-    with 'small individuals' and 'large individuals' of each species (Prior et
+    with ''small individuals'' and ''large individuals'' of each species (Prior et
     al. 2006). For species that are large trees at maturity we used a DBH cut-off
     of 6 cm to distinguish saplings from adults; for smaller trees and shrub species
     we used a 3 cm cut-off, with the exception of the small, short-lived and fast
     growing species Acacia difficilis, for which we used a cut-off of 1.5 cm DBH (Table
     1). When choosing plants to sample we prioritized individuals of each species
-    which clearly fell into these size-defined 'sapling' and 'adult' categories,
+    which clearly fell into these size-defined ''sapling'' and ''adult'' categories,
     so as to minimize ambiguity in this regard. For each age/size class of each species
-    we aimed to make trait measurements on each of five individuals."
+    we aimed to make trait measurements on each of five individuals.'
   original_file: Wright et al NT traits data (Howard Springs, May 2011) and Wright
     et al NT traits data (Howard Springs, Sept 2010) in raw data folder, each comprised
     on many worksheets
   notes: none
-sites:
+locations:
   Howard_Springs:
     latitude (deg): -12.4528
     longitude (deg): 131.1083
@@ -100,10 +104,22 @@ sites:
       samples (0-20 cm depth) collected in September 2010 were as follows: total C
       = 2.7% (1.8), total N = 0.093% (0.074), total P = 72.7 mg kg_1 (22.6).'
 contexts:
-  dry season (Sep 2010):
-    sampling season: dry season (Septmeber 2010)
-  wet season (May 2011):
-    sampling season: wet season (May 2011)
+- context_property: sampling season
+  category: temporal
+  var_in: season
+  values:
+  - value: dry season (Sep 2010)
+    description: Measurements made during the dry season (Sep 2010).
+  - value: wet season (May 2011)
+    description: Measurements made during the wet season (May 2011).
+- context_property: leaf sample type
+  category: method_context
+  var_in: method_context
+  values:
+  - value: leaf morphology sample
+    description: Measurements made on leaf samples collected for leaf morphology measurements. Five recently-matured, fully-expanded and undamaged leaves (including petioles) were collected from each individual
+  - value: gas exchange sample
+    description: Measurements made on leaf samples collected for gas exchange measurements.
 traits:
 - var_in: WD kg/m3
   unit_in: kg/m3
@@ -123,17 +139,15 @@ traits:
     after oven-drying at 70 deg C for 7 days.
 - var_in: SLAmm2mg
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
-  replicates: 1  
-  method_number: 1
-  measurement_remarks: Leaf samples collected for leaf morphology measurements
-  methods: Five recently-matured, fully-expanded and undamaged leaves (including petioles)
-    were collected from each individual for determination of one-sided projected leaf
-    area (flatbed scanner), oven-dried mass (70 deg C for at least 48 h) and thus
-    SLA (area per dry mass; cm2 g-1).
+  replicates: 1
+  method_context: leaf morphology sample
+  methods: One-sided projected leaf area was determined (flatbed scanner),
+    oven-dried mass (70 deg C for at least 48 h) and thus SLA (area per dry mass;
+    cm2 g-1).
 - var_in: C%
   unit_in: '%'
   trait_name: leaf_C_per_dry_mass
@@ -153,11 +167,7 @@ traits:
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: Total N concentration of leaf and soil samples was measured with a LECO
-    TruSpec CHN analyser; total P by ICP-OES, on nitric acid digests (analyses run
-    at Appleton Lab, University of Queensland). Area-based leaf N and P concentrations
-    were calculated from mass-based concentrations and the mean SLA value for each
-    species/age class.
+  methods: Area-based leaf N calculated from mass-based concentrations. Total N concentration of leaf and soil samples was measured with a LECO TruSpec CHN analyser; total P by ICP-OES, on nitric acid digests (analyses run at Appleton Lab, University of Queensland). Area-based leaf N and P concentrations were calculated from mass-based concentrations and the mean SLA value for each species/age class.
 - var_in: P%
   unit_in: '%'
   trait_name: leaf_P_per_dry_mass
@@ -183,7 +193,7 @@ traits:
     SLA (area per dry mass; cm2 g-1).
 - var_in: LM/SM80
   unit_in: g/g
-  trait_name: leaf_mass_to_stem_mass
+  trait_name: leaf_mass_to_stem_mass_ratio
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -267,8 +277,8 @@ traits:
     per species/age class. Sample volumes were measured using standard procedure (via
     displacement), and dry masses after oven-drying at 70 deg C for 7 days.
 - var_in: Asat_area (micromol/m2/s)
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -284,8 +294,8 @@ traits:
     only loosely controlled, averaging 1.22 kPa across all measurements (standard
     deviation 0.28).
 - var_in: gsw (mol/m2/s)
-  unit_in: mmolH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -301,8 +311,8 @@ traits:
     only loosely controlled, averaging 1.22 kPa across all measurements (standard
     deviation 0.28).
 - var_in: Ci
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Asat
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -318,8 +328,8 @@ traits:
     only loosely controlled, averaging 1.22 kPa across all measurements (standard
     deviation 0.28).
 - var_in: Ca
-  unit_in: umolCO2/mol
-  trait_name: ca
+  unit_in: umol{CO2}/mol
+  trait_name: atmospheric_CO2_concentration
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -335,8 +345,8 @@ traits:
     only loosely controlled, averaging 1.22 kPa across all measurements (standard
     deviation 0.28).
 - var_in: CiCa ratio
-  unit_in: umolCO2 internal/umolCO2 ambient
-  trait_name: ci_over_ca
+  unit_in: umol{CO2_internal}/umol{CO2_ambient}
+  trait_name: leaf_intercellular_CO2_concentration_to_atmospheric_CO2_concentration_ratio
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -376,8 +386,8 @@ traits:
   replicates: 1
   methods: circumference at breast height
 - var_in: Amass
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -394,15 +404,13 @@ traits:
     deviation 0.28).
 - var_in: SLA_photosynthesis_mm2mg
   unit_in: mm2/mg
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  method_number: 2
-  measurement_remarks: Leaf samples from gas exchange measurements
-  methods: Specific leaf area (SLA) measurements made on the leaves on which photosynthesis
-    was measured. One-sided projected leaf area was determined (flatbed scanner),
+  method_context: gas exchange sample
+  methods: One-sided projected leaf area was determined (flatbed scanner),
     oven-dried mass (70 deg C for at least 48 h) and thus SLA (area per dry mass;
     cm2 g-1).
 - var_in: Al
@@ -494,7 +502,7 @@ traits:
   replicates: 1
   methods: P and other elemental results obtained by ICPOES on nitric acid digests
 - var_in: gas_d15N_leaf
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta15N
   entity_type: individual
   value_type: raw
@@ -507,7 +515,7 @@ traits:
     during photosynthesis (Farquhar et al. 1982). We also measured d13C on representative
     whole-leaf (including petiole) samples collected during September 2010 (dry season).
 - var_in: gas_ d13C_leaf
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -538,15 +546,9 @@ traits:
   value_type: raw
   basis_of_value: measurement
   replicates: 1
-  methods: Leaf N associated with isotope samples. Leaf lamina material used in photosynthetic
-    measurements was oven-dried and pooled per species/age class, then analysed for
-    13C/12C and 15N/14N stable isotope composition at the Stable Isotopes Laboratory,
-    Australian National University, Canberra. The d13C provides an integrated measure
-    of the extent of CO2 drawdown during photosynthesis (Farquhar et al. 1982). We
-    also measured d13C on representative whole-leaf (including petiole) samples collected
-    during September 2010 (dry season).
+  methods: Area-based leaf N calculated from mass-based concentrations. Leaf lamina material used in photosynthetic measurements was oven-dried and pooled per species/age class, then analysed for 13C/12C and 15N/14N stable isotope composition at the Stable Isotopes Laboratory, Australian National University, Canberra.
 - var_in: d15N_bark
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: bark_delta15N
   entity_type: individual
   value_type: raw
@@ -555,7 +557,7 @@ traits:
   methods: Bark was analysed for 15N/14N stable isotope composition at the Stable
     Isotopes Laboratory, Australian National University, Canberra.
 - var_in: d13C_bark
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: bark_delta13C
   entity_type: individual
   value_type: raw
@@ -564,7 +566,7 @@ traits:
   methods: Bark was analysed for 13C/12C stable isotope composition at the Stable
     Isotopes Laboratory, Australian National University, Canberra.
 - var_in: d15N_wood
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: wood_delta15N
   entity_type: individual
   value_type: raw
@@ -573,7 +575,7 @@ traits:
   methods: Wood was analysed for 15N/14N stable isotope composition at the Stable
     Isotopes Laboratory, Australian National University, Canberra.
 - var_in: d13C_wood
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: wood_delta13C
   entity_type: individual
   value_type: raw
@@ -622,9 +624,6 @@ traits:
     Isotopes Laboratory, Australian National University, Canberra. These are the simultaneously
     determined %N values.
 substitutions: .na
-taxonomic_updates:
-- find: Erythrophloem chlorostachys
-  replace: Erythrophleum chlorostachys
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+taxonomic_updates: .na
 exclude_observations: .na
 questions: .na

@@ -21,20 +21,20 @@ contributors:
   austraits_curators: Ian Wright
 dataset:
   data_is_long_format: no
-  custom_R_code: data %>% mutate(Kl = Kl*10000)
+  custom_R_code:      data %>% mutate(Kl = Kl*10000)
   collection_date: 2007/2007
   taxon_name: species
-  site_name: site ID
+  location_name: site ID
   description: Hydraulics dataset for species from field sites used in Ian Wright's
     PhD
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: unknown
   original_file: Zanne&WrightNSW.xls
   notes: Site data were extracted from Wright 2011 (doi.org/10.1046/j.0269-8463.2001.00542.x);
     Wright_2002 includes many additional trait measurements for the same 'site by
     species' combinations.
-sites:
+locations:
   Mallee Round Hill Nature Reserve:
     longitude (deg): 146.1458333
     latitude (deg): -32.9763889
@@ -79,14 +79,14 @@ contexts: .na
 traits:
 - var_in: SLA (cm2/g)
   unit_in: cm2/g
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
   replicates: 1
   methods: unknown
 - var_in: LA/SA (cm2/cm2)
-  unit_in: mm2_leaf/mm2_sapwood
+  unit_in: mm2{leaf}/mm2{sapwood}
   trait_name: huber_value
   entity_type: individual
   value_type: raw
@@ -102,7 +102,7 @@ traits:
   replicates: 1
   methods: unknown
 - var_in: Kh (kg*m/Mpa*s)
-  unit_in: kg*m/s/MPa
+  unit_in: kg.m/MPa/s
   trait_name: stem_hydraulic_conductivity
   entity_type: individual
   value_type: raw
@@ -126,8 +126,8 @@ traits:
     of the stem (minus bark; m2) or total leaf area subtending the distal branch end,
     (m2) respectively.
 - var_in: Ks
-  unit_in: kg/m/s/MPa
-  trait_name: sapwood_specific_conductivity
+  unit_in: kg/m/MPa/s
+  trait_name: sapwood_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -150,8 +150,8 @@ traits:
     of the stem (minus bark; m2) or total leaf area subtending the distal branch end,
     (m2) respectively.
 - var_in: Kl
-  unit_in: 10^4 x kg/m/s/MPa
-  trait_name: leaf_specific_conductivity
+  unit_in: 10^4.kg/m/MPa/s
+  trait_name: leaf_specific_hydraulic_conductivity
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -175,14 +175,23 @@ traits:
     (m2) respectively.
 substitutions: .na
 taxonomic_updates:
+- find: Dodonaea viscosa ssp angustissima
+  replace: Dodonaea viscosa subsp. angustissima
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Olearia pimelioides
   replace: Olearia pimeleoides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Pultenea flexilis
   replace: Pultenaea flexilis
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Senna artemisioides var 3lft
   replace: Senna artemisioides
-  reason: Align to APC accepted synonym (E. Wenk, 2020-05-25)
+  reason: match_14. Automatic alignment with species-level canonical name in APC accepted
+    when notes are ignored (2022-11-12)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions: .na

@@ -75,28 +75,28 @@ as_link <- function(link, text, type = "md") {
 
 #' Get SHA link from Github
 #'
-#' Get SHA link using the get_SHA() function. The link generated leads to the latest
+#' Get SHA link using the util_get_SHA() function. The link generated leads to the latest
 #' commit for the Github repository. SHA is the abbreviated SHA-1 40 digit
 #' hexadecimal number which Github uses to track commits and changes made to a repository.
 #'
-#' @param ... arguments passed to the get_SHA()
+#' @param ... arguments passed to the util_get_SHA()
 #'
 #' @return SHA link to a github commit as a character string formatted using markdown syntax
-get_SHA_link <- function(...) {
-  sha <- get_SHA(...)
+util_get_SHA_link <- function(...) {
+  sha <- util_get_SHA(...)
   as_link(sprintf("https://github.com/traitecoevo/austraits/tree/%s", sha), sha)
 }
 
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results="hide"}
-library(austraits.build)
+library(traits.build)
 library(austraits)
 library(knitr)
 library(kableExtra)
 
 
-my_kable_styling <- my_kable_styling_html
+my_kable_styling <- util_kable_styling_html
 
 definitions <- austraits$definitions
 data_study <- extract_dataset(austraits, dataset_id)
@@ -104,10 +104,10 @@ metadata <- read_metadata(file.path("data", dataset_id, "metadata.yml"))
 schema <- austraits$schema
 
 # start notetaker device
-questions <-  austraits.build:::start_notetaker()
+questions <-  traits.build:::notetaker_start()
 
 new_question <- function(txt) {
-  x <- questions( austraits.build:::add_note,  austraits.build:::as_note(txt)) %>%  austraits.build:::print_notes(as_anchor=TRUE)
+  x <- questions( traits.build:::notetaker_add_note,  traits.build:::notetaker_as_note(txt)) %>%  traits.build:::notetaker_print_notes(as_anchor=TRUE)
   writeLines(sprintf("<font color='orange'>**Question:** %s</font>\n\n", paste0(x, collape="")))
 }
 
@@ -168,7 +168,7 @@ To aid your review, we have attached the following files:
 ```{r, results='asis', echo=FALSE}
 # Any additional questions from metadata
 
-if(!is.null(metadata$questions) & !is.na(metadata$questions)) {
+if(!is.null(metadata$questions) & !is.na(metadata$questions[1])) {
 
   x <- names(metadata$questions)[ !(names(metadata$questions) %in% c(
                                       "additional_traits", "austraits") 
@@ -193,7 +193,7 @@ The following people are listed as data collectors in this study:
 
 ```{r, results='asis', echo=FALSE}
 metadata$contributors$data_collectors %>%
-  list_to_df() %>%
+  util_list_to_df2() %>%
   my_kable_styling()
 ```
 
@@ -215,7 +215,7 @@ Primary citation:
 
 ```{r, results='asis', echo=FALSE}
 metadata$source$primary %>%
-  list1_to_df() %>%
+  util_list_to_df1() %>%
   my_kable_styling()
 ```
 
@@ -226,7 +226,7 @@ if(n > 1) {
 
   for(i in 2:n) {
     metadata$source[[i]] %>%
-    list1_to_df() %>%
+    util_list_to_df1() %>%
     my_kable_styling() %>% 
     cat()
     writeLines("\n\n")
@@ -245,7 +245,7 @@ The description we have of the study is as follows:
 
 ```{r, results='asis', echo=FALSE}
 metadata$dataset %>%
-  list1_to_df() %>%
+  util_list_to_df1() %>%
   my_kable_styling()
 ```
 
@@ -255,7 +255,7 @@ new_question("(section `dataset`) Can you provide more detailed information for 
 
 ```{r, results='asis', echo=FALSE}
 missing <- metadata$dataset %>%
- list1_to_df() %>%
+ util_list_to_df1() %>%
  filter(value == "unknown") %>%
  pull(key)
 
@@ -268,7 +268,7 @@ for(v in missing) {
 ```
 
 
-## Sites
+## Locations
 
 Data were collected at the following sites and locations. As a minimum, we are aiming to collect, the variables
 
@@ -280,20 +280,21 @@ create_if_missing <- function(df, var, type=rep(NA_character_, nrow(df))) {
   df
 }
 
-site_main <- c("longitude (deg)","latitude (deg)", "description")
-sites <-
-  full_join(by="site_name",
-            # count of records by site
+location_main <- c("location_name", "longitude (deg)","latitude (deg)", "description")
+locations <-
+  full_join(by="location_id",
+            # count of records by location
             data_study$traits %>%
-              mutate(site_name = ifelse(is.na(site_name), "unknown", site_name)) %>%
-              group_by(site_name) %>%
+              mutate(location_id = ifelse(is.na(location_id), "unknown", location_id)) %>%
+              group_by(location_id) %>%
               summarise(records = n()),
-            # details on sites from metadata
-            data_study$sites %>%
-              filter(site_property %in% site_main) %>%
+            # details on locations from metadata
+            data_study$locations %>%
+              filter(location_property %in% location_main) %>%
               select(-dataset_id) %>%
-              spread(site_property, value) %>%
-              create_if_missing("site_name") %>%
+              spread(location_property, value) %>%
+              create_if_missing("location_id") %>%
+              create_if_missing("location_name") %>%
               create_if_missing("latitude (deg)") %>%
               create_if_missing("longitude (deg)") %>%
               create_if_missing("description")  %>%
@@ -302,53 +303,53 @@ sites <-
                 `longitude (deg)` = as.numeric(`longitude (deg)`)
                 )
   ) %>%
- select(site_name, records, `latitude (deg)`, `longitude (deg)`, description)
+ select(location_id, location_name, records, `latitude (deg)`, `longitude (deg)`, description)
 
- sites %>%
+ locations %>%
    my_kable_styling()
          
 
-if( any(tolower(sites$site_name) %in% c(NA, "unknown") ) ) {
-  new_question("(section `sites`) **Location data incomplete or unknown!** Can you provide location details where your data were sampled? If data are from a National Park, biological reserve, or other location with a name, but not linked to a specific site within the park, the site name should be that national park (or similar), and we will use the park's headquarters as the GPS coordinates. If the data are from herbarium specimens or a taxa monograph it is appropriate to leave this information blank.")
+if( any(tolower(locations$location_name) %in% c(NA, "unknown") ) ) {
+  new_question("(section `locations`) **Location data incomplete or unknown!** Can you provide location details where your data were sampled? If data are from a National Park, biological reserve, or other location with a name, but not linked to a specific site within the park, the site name should be that national park (or similar), and we will use the park's headquarters as the GPS coordinates. If the data are from herbarium specimens or a taxa monograph it is appropriate to leave this information blank.")
 }
 
 ```
 
 ```{r maps, eval= TRUE, echo=FALSE, warning=FALSE, message=FALSE, fig.keep="all"}
 
-# Make a map of study sites using leaflet
-sites <- sites %>% filter(!is.na(`latitude (deg)`) & !is.na(`longitude (deg)`))
-if(nrow(sites) > 0 ) {
+# Make a map of study locations using leaflet
+locations <- locations %>% filter(!is.na(`latitude (deg)`) & !is.na(`longitude (deg)`))
+if(nrow(locations) > 0 ) {
   leaflet::leaflet() %>%
   leaflet::addTiles() %>%
   leaflet::addScaleBar() %>%
   leaflet::addMiniMap(zoomLevelFixed=2) %>%
-  leaflet::addMarkers(lng = sites$`longitude (deg)`, lat = sites$`latitude (deg)`,
-             label = sites$site_name)	
+  leaflet::addMarkers(lng = locations$`longitude (deg)`, lat = locations$`latitude (deg)`,
+             label = locations$location_name)	
 }
 ```
 
 ```{r, results='asis', echo=FALSE}
-new_question("(section `sites`) Do site details look complete and accurate? As a minimum we would like `latitude`, `longitude`, `description`.")
+new_question("(section `locations`) Do site details look complete and accurate? As a minimum we would like `latitude`, `longitude`, `description`.")
 ```
 
-## Additional site data (optional)
+## Additional location data (optional)
 
-The following variables have been recorded for the sites included in the study:
+The following variables have been recorded for the locations included in the study:
 
 ```{r, results='asis', echo=FALSE}
 
-data_study$sites %>%
-  filter(!(site_property %in% site_main)) %>%
+data_study$locations %>%
+  filter(!(location_property %in% location_main)) %>%
   select(-dataset_id) %>%
-  spread(site_property, value) -> sites_extra
+  spread(location_property, value) -> locations_extra
 
-if(nrow(sites_extra) > 0 ) {
-  sites_extra %>%
+if(nrow(locations_extra) > 0 ) {
+  locations_extra %>%
     my_kable_styling() %>%
     writeLines()
 
-  new_question("(section `sites`) Do the additional site details look complete?")
+  new_question("(section `locations`) Do the additional site details look complete?")
   } else{
   writeLines("There is currently no additional site data associated with this dataset.")
 }
@@ -358,24 +359,31 @@ if(nrow(sites_extra) > 0 ) {
 ## Contexts
 
 
-The following contexts have been recorded for the measurements included in this study. The `type` column has been added to easily filter records across many studies.
+The following contexts have been recorded for the measurements included in this study. 
 
 ```{r, results='asis', echo=FALSE}
 data_study$contexts %>%
   select(-dataset_id) %>%
-  spread(context_property, value) -> context
+  group_by(context_property) %>%
+  group_split() -> context_properties
 
-if(nrow(context) > 0 ) {
-  context %>%
-    # make ordering of columns, same as dataframe
-    select(one_of(c("context_name", data_study$contexts$context_property %>% unique()))) %>%
-    my_kable_styling() %>%
-    writeLines()
+if(length(context_properties) > 0 ) {
+    for (i in seq_along(context_properties)) { 
+      var_in <- context_properties[[i]][["var_in"]][1]
 
+      writeLines(paste0("**", context_properties[[i]]$context_property[1], "**:", ifelse(is.null(var_in), "Added ",         
+        paste0("Mapped from the column titled **", var_in, "** in your dataset ")), "with the category *", context_properties[[i]]$category[1], "*."))
+
+      writeLines("\n\nThe following values exist for this context:\n")
+
+      context_properties[[i]] %>% dplyr::select(dplyr::any_of(c("find", "value", "description")))  %>%
+        my_kable_styling() %>%
+        writeLines()
+    }
   new_question("(section `contexts`) Do the context details look complete?")
-  } else{
+  } else {
   writeLines("There is currently no contextual data associated with this dataset.")
-}
+  }
 
 ```
 
@@ -429,7 +437,7 @@ if(nrow(subset(data_study$excluded_data,error!="Missing value")) > 0 ) {
     writeLines()
 
   writeLines(ifelse(nrow(subset(data_study$excluded_data, error == "Unsupported trait value")) > 0,
-    "In particular, the following data points were excluded because the supplied trait value could not be aligned with the allowable values in AusTraits (error = `Unsupported trait value`). The allowable values for each trait are listed in the [definitions file](http://traitecoevo.github.io/austraits.build/articles/definitions.html) and lower in this report.",""))
+    "In particular, the following data points were excluded because the supplied trait value could not be aligned with the allowable values in AusTraits (error = `Unsupported trait value`). The allowable values for each trait are listed in the [definitions file](http://traitecoevo.github.io/austraits.build/articles/trait_definitions.html) and lower in this report.",""))
 
 
   if(nrow(subset(data_study$excluded_data,error == "Unsupported trait value")) > 0 ) {
@@ -449,7 +457,7 @@ if(nrow(subset(data_study$excluded_data,error!="Missing value")) > 0 ) {
 
   if(nrow(subset(data_study$excluded_data,error == "Observation excluded in metadata")) > 0) { 
     metadata$exclude_observations %>%
-      list_to_df() %>%
+      util_list_to_df2() %>%
       my_kable_styling() %>%
       writeLines()
   }
@@ -461,9 +469,10 @@ if(nrow(subset(data_study$excluded_data,error!="Missing value")) > 0 ) {
 ```
 
 ```{r, echo=FALSE, message=FALSE}
-traits <- data_study$traits$trait_name %>% unique() %>% sort()
-traits_numeric <- traits[extract_list_element(traits, definitions, "type") == "numeric"]
-traits_categorical <- traits[extract_list_element(traits, definitions, "type") != "numeric"]
+tmp <- data_study$traits %>% filter(!trait_name %in% c("flowering_time", "fruiting_time", "recruitment_time")) 
+traits <- tmp$trait_name %>% unique() %>% sort()
+traits_numeric <- traits[util_extract_list_element(traits, definitions, "type") == "numeric"]
+traits_categorical <- traits[util_extract_list_element(traits, definitions, "type") != "numeric"]
 ```
 
 ## Numerical traits
@@ -489,7 +498,7 @@ define_variable <- function(var, schema) {
     writeLines("Possible values are:")
 
     schema$value_type$values %>%
-      list1_to_df()  %>%
+      util_list_to_df1()  %>%
       my_kable_styling() %>%
       writeLines()
     }
@@ -512,7 +521,7 @@ for(trait in traits_numeric) {
     filter(trait_name == trait) %>%
     mutate(value = as.numeric(value))
 
-  transforms <- metadata$traits %>% list_to_df() %>% filter(trait_name == trait)
+  transforms <- metadata$traits %>% util_list_to_df2() %>% filter(trait_name == trait)
 
   elements <- definitions[[trait]]
 
@@ -528,8 +537,8 @@ for(trait in traits_numeric) {
     sprintf("- **label**: %s", elements$label ),
     sprintf("- **units**: %s", units ),
     sprintf("- **records**: %s in this study (of %s in AusTraits)", data_trait_study %>% nrow(), data_trait_all %>% nrow() ),
-    sprintf("- **allowable range**: %s - %s %s", elements$values$minimum,
-            elements$values$maximum, units),
+    sprintf("- **allowable range**: %s - %s %s", elements$allowed_values_min,
+            elements$allowed_values_max, units),
     sprintf("- **observed range in this study**: %s - %s %s", data_trait_study %>% dplyr::pull(value) %>% min(),
             data_trait_study %>% dplyr::pull(value) %>% max(), units),
     "", "",
@@ -547,7 +556,7 @@ for(trait in traits_numeric) {
 
 if(nrow(filter(data_study$excluded_data, error == "Value out of allowable range" & trait_name == trait)) > 0 ) {
   data_study$excluded_data %>% filter(error == "Value out of allowable range" & trait_name == trait) %>%
-    select(observation_id, taxon_name, site_name, context_name, value, unit) %>%
+    select(observation_id, taxon_name, location_id, value, unit) %>%
     my_kable_styling() %>%
     writeLines()
 }
@@ -605,8 +614,12 @@ writeLines(
 
 for(trait in traits_categorical) {
  
-  transforms <- metadata$traits %>% list_to_df() %>% filter(trait_name == trait)
-  substitutions_for_trait <- metadata$substitutions %>% list_to_df() %>% filter(trait_name == trait)
+  transforms <- metadata$traits %>% util_list_to_df2() %>% filter(trait_name == trait)
+  if(is.na(metadata$substitutions[1])) {
+    substitutions_for_trait <- tibble
+  } else {
+    substitutions_for_trait <- metadata$substitutions %>% util_list_to_df2() %>% filter(trait_name == trait)
+  }
 
   data_trait_study <- data_study$traits %>%
     filter(trait_name == trait)
@@ -624,7 +637,7 @@ for(trait in traits_categorical) {
     sprintf("We aligned the variable called `%s`in the data you supplied with the trait `%s` in the AusTraits database.\n\nThe contributed data has the following properties:", transforms$var_in, trait),
     "",
     sprintf("- **standardised name**: %s", trait ),
-    sprintf("- **standardised description**: %s", definitions$elements[[trait]]$description ),
+    sprintf("- **standardised description**: %s", elements$description ),
     sprintf("- **label**: %s", elements$label ),
     sprintf("- **records**: %s in this study (of %s in AusTraits)", data_trait_study %>% nrow(), data_trait_all %>% nrow() ),
     "", 
@@ -635,7 +648,7 @@ for(trait in traits_categorical) {
     "",
     "The allowable values for this trait in AusTraits are:",
     "",
-    elements$values %>% unlist() %>% as.data.frame() %>% tibble::rownames_to_column() %>% rename(trait_value = "rowname", definition = ".") %>% arrange(trait_value) %>% my_kable_styling(),
+    elements$allowed_values_levels %>% unlist() %>% as.data.frame() %>% tibble::rownames_to_column() %>% rename(trait_value = "rowname", definition = ".") %>% arrange(trait_value) %>% my_kable_styling(),
     "",
     ifelse(nrow(substitutions_for_trait)>0,
     "The following substitutions have been implemented to align categorical trait values in the submitted data table with allowable trait values specified in the AusTraits traits_definitions file.",
@@ -698,7 +711,7 @@ The table below shows the table of all taxa in this study, where possible using 
 
 ```{r, results='asis', echo=FALSE}
 schema$austraits$elements$taxa$elements %>%
-  list1_to_df() %>%
+  util_list_to_df1() %>%
   my_kable_styling()
 ```
 
@@ -711,8 +724,7 @@ data_study$taxa %>%
 if(nrow(tmp) < 10000 ){
   tmp %>%
   mutate(
-    taxon_name = as_link(acceptedNameUsageID, taxon_name)) %>%
-  select(-acceptedNameUsageID, -ccAttributionIRI) %>%
+    taxon_name = as_link(taxon_id, taxon_name)) %>%
   mutate_all(replace_na, "") %>%
   my_kable_styling()
 } else{
@@ -723,7 +735,6 @@ if(nrow(tmp) < 10000 ){
 }
 ```
 
-## Taxonomic changes
 
 To create the list of aligned taxa, we needed to make some taxonomic changes. This involved two stages. 
 
@@ -738,10 +749,10 @@ data_study$taxonomic_updates %>% select(-dataset_id) %>%
   mutate(
     d1 = purrr::map2_dbl(original_name, cleaned_name, ~adist(.x, .y)) %>% as.character() %>% str_replace("0", ""),
     d2 = purrr::map2_dbl(taxon_name, cleaned_name, ~adist(.x, .y)) %>% as.character() %>% str_replace("0", ""),
-    cleaned_name = as_link(taxonIDClean, cleaned_name),
-    taxon_name = as_link(acceptedNameUsageID, taxon_name),
-    alternativeTaxonomicStatusClean = replace_na(alternativeTaxonomicStatusClean, ""),
-    `status cleaned name` = sprintf("%s %s", taxonomicStatusClean, ifelse(alternativeTaxonomicStatusClean=="", "", paste("(", alternativeTaxonomicStatusClean, ")")))
+    cleaned_name = as_link(cleaned_scientific_name_id, cleaned_name),
+    taxon_name = as_link(taxon_id, taxon_name),
+    cleaned_name_alternative_taxonomic_status = replace_na(cleaned_name_alternative_taxonomic_status, ""),
+    `status cleaned name` = sprintf("%s %s", cleaned_name_taxonomic_status, ifelse(cleaned_name_alternative_taxonomic_status=="", "", paste("(", cleaned_name_alternative_taxonomic_status, ")")))
     ) %>% 
   select(original_name, d1, cleaned_name, d2, taxon_name, `status cleaned name`) %>%
   mutate_all(replace_na, "") %>% 
@@ -754,9 +765,9 @@ We were unable to find taxonomic matches for the following taxa in the data. Whe
 
 ```{r taxa_list3, results='asis', echo=FALSE}
 data_study$taxa %>%
-  filter(is.na(acceptedNameUsageID)) %>%
+  filter(is.na(taxon_id)) %>%
   select(one_of(names(schema$austraits$elements$taxa$elements))) %>%
-  select(-acceptedNameUsageID, -ccAttributionIRI, -taxonDistribution) %>%
+  select(-taxon_id, -scientific_name_id, -taxon_distribution, -establishment_means) %>%
   mutate_all(replace_na, "") %>%
   my_kable_styling()
 ```
@@ -774,7 +785,7 @@ Here is a summary of the questions we would like answers to. Clicking on the lin
 
 
 ```{r, results='asis', echo=FALSE}
-questions() %>% austraits.build:::print_all_notes() %>% writeLines()
+questions() %>% traits.build:::notetaker_print_all() %>% writeLines()
 ```
 
 
@@ -786,7 +797,7 @@ questions() %>% austraits.build:::print_all_notes() %>% writeLines()
 The technical information below may useful for us for the sake of reproducibility, but you don't need to worry about it!
 
 <font color='grey'>
-This report was generated using the data from the commit `r get_SHA_link()`
+This report was generated using the data from the commit `r util_get_SHA_link()`
 
 And the following R environment
 

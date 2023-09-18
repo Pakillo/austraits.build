@@ -12,6 +12,7 @@ temp
 .cache/
 .local/
 .config/
+.vs/
 *.Rproj
 tmp*
 reports
@@ -30,3 +31,5 @@ Meta
 config/APC/*
 config/NSL/*
 _targets/*
+/doc/
+/Meta/

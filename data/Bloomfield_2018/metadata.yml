@@ -20,7 +20,7 @@ contributors:
   data_collectors:
   - last_name: Bloomfield
     given_name: Keith
-    ORCID: .na.character
+    ORCID: 0000-0002-6492-4507
     affiliation: Imperial College, London, United Kingdom
   - last_name: Atkin
     given_name: Owen
@@ -30,10 +30,10 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
-      mutate_at(vars(`Rdark.a`), ~ na_if(., 0)) %>% 
       mutate(
+        across(`Rdark.a`, ~na_if(.x, 0)),
         Date = Date %>% dmy(), 
         context = ifelse(Site %in% c("Calperum mallee", "Great Western Woodlands", "Alice Mulga") & 
                           Visit == "Summer", "Summer_unfavourable", Visit),
@@ -44,36 +44,36 @@ dataset:
         context = ifelse(Site %in% c("Calperum mallee", "Great Western Woodlands") & 
                           Visit == "Winter", "Winter_favourable",context),
         replicate_original = Replicate,
-        Replicate = gsub("-S-","-",Replicate),
-        Replicate = gsub("-W-","-",Replicate),
-        Replicate = gsub("-D-","-",Replicate),
-        Replicate = gsub("-H-","-",Replicate),
-        Replicate = gsub("-B1","",Replicate),
-        Replicate = gsub("-B2","",Replicate),
-        Replicate = gsub("-B3","",Replicate),
+        Replicate = stringr::str_replace(Replicate,"-S-","-"),
+        Replicate = stringr::str_replace(Replicate,"-W-","-"),
+        Replicate = stringr::str_replace(Replicate,"-D-","-"),
+        Replicate = stringr::str_replace(Replicate,"-H-","-"),
+        Replicate = stringr::str_replace(Replicate,"-B1",""),
+        Replicate = stringr::str_replace(Replicate,"-B2",""),
+        Replicate = stringr::str_replace(Replicate,"-B3","")
       ) %>% 
-      select(-Tree.id, -replicate_original, - Branch) %>% 
+      select(-Tree.id, -replicate_original, - Branch) %>%
       group_by(context, Site, Visit, Replicate, Species, Family, Genus, PFT) %>%
-      summarise(across(c(`A400.a_with_Weerasinghe_2014`:`wue1500`), mean, na.rm = TRUE),
+      summarise(across(c(`A400.a_with_Weerasinghe_2014`:`wue1500`), ~mean(.x, na.rm = TRUE)),
                 across(Date, first),
                 count = n()) %>%
-      group_by(Replicate) %>%
-      mutate(observation = dplyr::row_number()) %>%
-      ungroup() %>% 
-      mutate(value_type_column = ifelse(count == 1,"raw","mean"))
+      mutate(
+        value_type_column = ifelse(count == 1,"raw","mean"),
+        across(c(`A400.a_with_Weerasinghe_2014`:`wue1500`), ~as.character(.x)),
+        across(c(`A400.a_with_Weerasinghe_2014`:`wue1500`), ~na_if(.x, "NaN"))
+      ) %>%
+      ungroup()
   '
   collection_date: Date
   taxon_name: Species
-  site_name: Site
+  location_name: Site
   individual_id: Replicate
-  observation_number: observation
-  context_name: context
   description: A field study of leaf trait variation at seven sites spanning a range
     of climates and latitudes across the Australian continent; 80 native plant species
     were included. We measured key traits associated with leaf structure, chemistry
     and metabolism during the favourable and unfavourable growing seasons.
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: 'Our seven study sites are a subset of the Terrestrial Ecosystem
     Research Network (TERN) SuperSites (www.supersites.net.au) (Karan et al., 2016).
     The site locations and key descriptors of dominant vegetation and soil type are
@@ -116,7 +116,7 @@ dataset:
     read into AusTraits through Weerasinghe_2014. In this file, each of the relevant
     columns has been duplicated and in one, the Weerasinghe values have been replaced
     with 'NA'.
-sites:
+locations:
   Alice Mulga:
     latitude (deg): -22.3468
     longitude (deg): 133.3276
@@ -203,27 +203,51 @@ sites:
     temperature, MAT (C): 9.9
     precipitation, MAP (mm): 1591.0
 contexts:
-  Dry:
-    sampling season: dry season
-  Summer_favourable:
-    sampling season: summer in a location where this is the favourable season
-  Summer_unfavourable:
-    sampling season: summer in a location where this is the unfavourable season
-  Wet:
-    sampling season: wet season
-  Winter_favourable:
-    sampling season: winter in a location where this is the favourable season
-  Winter_unfavourable:
-    sampling season: winter in a location where this is the unfavourable season
+- context_property: sampling season
+  category: temporal
+  var_in: context
+  values:
+  - find: Dry
+    value: dry
+    description: Measurements made during the dry season.
+  - find: Summer_favourable
+    value: summer favourable
+    description: Measurements made during summer in a location where this is the favourable
+      season.
+  - find: Summer_unfavourable
+    value: summer unfavourable
+    description: Measurements made during summer in a location where this is the unfavourable
+      season.
+  - find: Wet
+    value: wet season
+    description: Measurements made during the wet season.
+  - find: Winter_favourable
+    value: winter favourable
+    description: Measurements made during winter in a location where this is the favourable
+      season.
+  - find: Winter_unfavourable
+    value: winter unfavourable
+    description: Measurements made during winter in a location where this is the unfavourable
+      season.
+- context_property: measurement CO2
+  category: method_context
+  var_in: method_context
+  values:
+  - find: 400 ppm CO2
+    value: 400 ppm
+    description: Measurement made at ambient CO2 concentrations (400 ppm).
+  - find: 1500 ppm CO2
+    value: 1500 ppm
+    description: Measurement made at an elevated CO2 concentration of 1500 ppm.
 traits:
 - var_in: A400.a
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -237,13 +261,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: A1500.a
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_maximum
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_maximum
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -257,13 +281,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Rdark.a
-  unit_in: umolCO2/m2/s
+  unit_in: umol{CO2}/m2/s
   trait_name: leaf_dark_respiration_per_area
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -277,13 +301,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: E400.a
-  unit_in: mmolH2O/m2/s
-  trait_name: leaf_transpiration_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_transpiration_per_area_at_Asat
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -297,13 +321,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: E1500.a
-  unit_in: mmolH2O/m2/s
-  trait_name: leaf_transpiration_at_Amax
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_transpiration_per_area_at_Amax
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -317,13 +341,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Edark.a
-  unit_in: mmolH2O/m2/s
+  unit_in: mmol{H2O}/m2/s
   trait_name: leaf_dark_transpiration_per_area
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -337,13 +361,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: gs400
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -357,13 +381,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: gs1500
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Amax
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Amax
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -377,13 +401,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Ci.Ca
-  unit_in: umolCO2 internal/umolCO2 ambient
-  trait_name: ci_over_ca
+  unit_in: umol{CO2_internal}/umol{CO2_ambient}
+  trait_name: leaf_intercellular_CO2_concentration_to_atmospheric_CO2_concentration_ratio
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -397,13 +421,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Ci400
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Asat
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Asat
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -417,13 +441,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Ci1500
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Amax
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Amax
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -460,7 +484,7 @@ traits:
     C for a minimum of 48 hours, after which their dry mass was recorded.
 - var_in: LMA
   unit_in: g/m2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
@@ -500,7 +524,7 @@ traits:
     Loveland, Colorado, USA).
 - var_in: RatioNP
   unit_in: g/g
-  trait_name: N_to_P_ratio
+  trait_name: leaf_NP_ratio
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
@@ -510,13 +534,13 @@ traits:
     colorimetric analysis using a flow injection system (QuikChem 8500, Lachat Instruments,
     Loveland, Colorado, USA).
 - var_in: A400.m
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_saturated
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_saturated
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -530,13 +554,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: A1500.m
-  unit_in: nmolCO2/g/s
-  trait_name: photosynthetic_rate_per_dry_mass_maximum
+  unit_in: nmol{CO2}/g/s
+  trait_name: leaf_photosynthetic_rate_per_dry_mass_maximum
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -550,7 +574,7 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: Rdark.m
-  unit_in: nmolCO2/g/s
+  unit_in: nmol{CO2}/g/s
   trait_name: leaf_dark_respiration_per_dry_mass
   entity_type: individual
   value_type: value_type_column
@@ -613,13 +637,13 @@ traits:
     was hot-digested in acid-peroxide before colorimetric analysis using a flow injection
     system (QuikChem 8500, Lachat Instruments, Loveland, Colorado, USA).
 - var_in: A400.N
-  unit_in: umolCO2/gN/s
+  unit_in: umol{CO2}/g{N}/s
   trait_name: leaf_photosynthetic_nitrogen_use_efficiency_saturated
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -633,13 +657,13 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: A400.P
-  unit_in: umolCO2/gP/s
+  unit_in: umol{CO2}/g{P}/s
   trait_name: leaf_photosynthetic_phosphorus_use_efficiency_saturated
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
+  method_context: 400 ppm CO2
   methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
@@ -653,15 +677,14 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: wue400
-  unit_in: umolCO2/mmolH2O
-  trait_name: water_use_efficiency_photosynthetic
+  unit_in: umol{CO2}/mmol{H2O}
+  trait_name: leaf_water_use_efficiency_instantaneous
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 1
-  measurement_remarks: measurement made at 400 ppm CO2 concentration
-  methods: &water_use_efficiency_photosynthetic_method At each visit, we chose young, fully developed leaves from two sun exposed
+  method_context: 400 ppm CO2
+  methods: At each visit, we chose young, fully developed leaves from two sun exposed
     branches of each selected tree. Leaf gas exchange measurements were concentrated
     in the morning. Sun exposed branches were excised and the cut end of the branches
     immediately placed in a bucket and then recut under water to re-establish the
@@ -674,22 +697,37 @@ traits:
     air temperatures to counter the effect of transpirational cooling and to ensure
     leaf and ambient air temperatures were similar.
 - var_in: wue1500
-  unit_in: umolCO2/mmolH2O
-  trait_name: water_use_efficiency_photosynthetic
+  unit_in: umol{CO2}/mmol{H2O}
+  trait_name: leaf_water_use_efficiency_instantaneous
   entity_type: individual
   value_type: value_type_column
   basis_of_value: measurement
   replicates: count
-  method_number: 2
+  method_context: 1500 ppm CO2
   measurement_remarks: measurement made at 1500 ppm CO2 concentration
-  methods: *water_use_efficiency_photosynthetic_method
+  methods: At each visit, we chose young, fully developed leaves from two sun exposed
+    branches of each selected tree. Leaf gas exchange measurements were concentrated
+    in the morning. Sun exposed branches were excised and the cut end of the branches
+    immediately placed in a bucket and then recut under water to re-establish the
+    xylem water column. For each leaf, approximately light-saturated (1500 umol photons
+    m-2 s-1) measures of net photosynthesis were taken at ambient CO2 concentration,
+    400 umol mol-1 (ppm) (A400) and then at 1500 ppm (A1500). The leaf was next wrapped
+    in aluminium foil for 30 minutes before respiration in darkness (Rdark) was measured,
+    still at 400 ppm CO2. Air flow was held constant and a constant chamber block
+    temperature was adopted, set marginally (ca. deg C) higher than expected morning
+    air temperatures to counter the effect of transpirational cooling and to ensure
+    leaf and ambient air temperatures were similar.
 substitutions: .na
 taxonomic_updates:
 - find: Myristica globosa ssp. muelleri
   replace: Myristica globosa subsp. muelleri
-  reason: Automatic alignment with name in APC list (accepted) (2020-06-24)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Senna artemisioides ssp. filifolia
   replace: Senna artemisioides subsp. filifolia
-  reason: Automatic alignment with name in APC list (accepted) (2020-06-24)
+  reason: match_06. Automatic alignment with synonymous term among accepted canonical
+    names in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 exclude_observations: .na
 questions: .na

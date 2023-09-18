@@ -38,29 +38,27 @@ contributors:
   austraits_curators: Elizabeth Wenk
 dataset:
   data_is_long_format: no
-  custom_R_code: '
+  custom_R_code:      '
     data %>% 
       mutate(site = "University of Western Sydney") %>%
       arrange(date_gas_exchange) %>%
-      mutate(individual_id = ifelse(is.na(Potnum),dplyr::row_number(),Potnum)) %>%
-      group_by(Potnum) %>%
-        mutate(observation = row_number()) %>%
+      mutate(individual_id = ifelse(is.na(Potnum),dplyr::row_number()+500,Potnum)) %>%
+      group_by(individual_id) %>%
+        mutate(observation_num = row_number()) %>%
       ungroup()
   '
   collection_date: date_gas_exchange
   taxon_name: Species
   individual_id: individual_id
-  observation_number: observation
-  site_name: site
-  context_name: context
+  location_name: site
   description: Wollemi pine (Wollemia nobilis W.G.Jones, K.D.Hill, & J.M.Allen), formerly
     widespread in Australia, was reduced to a remnant population of fewer than 100
     genetically indistinguishable individuals. Here, we examined the interactive effects
     of three [CO2] (290, 400 and 650 ppm) and two temperature (ambient, ambient +
     4 deg C) treatments on clonally-propagated Wollemi pine grown for 17 months in
     glasshouses under wellwatered and fertilised conditions.
-  collection_type: glasshouse
-  sample_age_class: seedling
+  basis_of_record: lab
+  life_stage: seedling
   sampling_strategy: 'Plant material and growth conditions Wollemi pine (Wollemia
     nobilis W.G.Jones, K.D.Hill & J.M. Allen) plants were obtained as one-year-old,
     clonally propagated, potted plants from the Australian Botanic Garden (Mount Annan,
@@ -108,214 +106,73 @@ dataset:
     GHS30_WollemiTxCO2_Harvest_20100503_L1.csv, GHS30_WollemiTxCO2_Isotopes_20100503_L1.csv,
     GHS30_WollemiTxCO2_LeafAnatomy_2008-2010_L1.csv
   notes: none
-sites:
+locations:
   University of Western Sydney:
     latitude (deg): -33.61
     longitude (deg): 150.7407
     description: naturally sun-lit and C/T-controlled glasshouse
 contexts:
-  Amb_Temp_and_280_ppm_CO2:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_280_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Amb_Temp_and_280_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Amb_Temp_and_280_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_280_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_280_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_400_ppm_CO2:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_400_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Amb_Temp_and_400_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Amb_Temp_and_400_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_400_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_400_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_640_ppm_CO2:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_640_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Amb_Temp_and_640_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Amb_Temp_and_640_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_640_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Amb_Temp_and_640_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: ambient (26/18 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_280_ppm_CO2:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_280_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Elv_Temp_and_280_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Elv_Temp_and_280_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_280_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_280_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 280 ppm (sub-ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_400_ppm_CO2:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_400_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Elv_Temp_and_400_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Elv_Temp_and_400_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_400_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_400_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 400 ppm (ambient) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_640_ppm_CO2_and_measured_at_1000_PAR:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 1000 [manipulated]
-  Elv_Temp_and_640_ppm_CO2_and_measured_at_700_PAR:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): 700 [manipulated]
-  Elv_Temp_and_640_ppm_CO2_at_growth_period_T1:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T1 (leaf anatomy measurements made in February 2009 after 91 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_640_ppm_CO2_at_growth_period_T2:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T2 (leaf anatomy measurements made in April 2009 after 144 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_640_ppm_CO2_at_growth_period_T3:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: T3 (leaf anatomy measurements made in June 2009 after 205 treatment
-      days)
-    irradiance (umol photons m-2 s-1): .na.character
-  Elv_Temp_and_640_ppm_CO2:
-    CO2 treatment: 640 ppm (elevated) [manipulated]
-    temperature treatment: elevated (30/22 deg C (day/night)) [manipulated]
-    growth period: .na.character
-    irradiance (umol photons m-2 s-1): .na.character
+- context_property: CO2 treatment
+  category: treatment
+  var_in: CO2
+  values:
+  - find: 400
+    value: 400 ppm
+    description: Plants grown at ambient CO2 (400 ppm).
+  - find: 280
+    value: 280 ppm
+    description: Plants grown at sub-ambient, pre-industrial CO2 (280 ppm); 120 ppm
+      below ambient.
+  - find: 640
+    value: 640 ppm
+    description: Plants grown at elevated CO2 (640 ppm); 240 ppm above ambient.
+- context_property: temperature treatment
+  category: treatment
+  var_in: Temp
+  values:
+  - find: Amb
+    value: ambient
+    description: Plants grown at ambient temperatures (26/18 deg C (day/night)).
+  - find: Elv
+    value: elevated
+    description: Plants grown at elevated temperatures (30/22 deg C (day/night)).
+- context_property: age at measurement or harvest
+  category: treatment
+  var_in: GrowthPeriod
+  values:
+  - find: T1
+    value: time period 1
+    description: Leaf anatomy measurements made in February 2009 after 91 treatment
+      days.
+  - find: T2
+    value: time period 2
+    description: Leaf anatomy measurements made in April 2009 after 144 treatment
+      days.
+  - find: T3
+    value: time period 3
+    description: Leaf anatomy measurements made in June 2009 after 205 treatment days.
+- context_property: measurement irradiance
+  category: method_context
+  var_in: PAR_round
+  values:
+  - value: 700
+    description: Measurements made at 700 umol photons m-2 s-1 PAR.
+  - value: 1000
+    description: Measurements made at 1000 umol photons m-2 s-1 PAR.
+- context_property: replicate observations
+  category: temporal
+  var_in: observation_num
+  values:
+  - value: 1
+  - value: 2
+  - value: 3
+  - value: 4
+  - value: 5
+  - value: 6
 traits:
 - var_in: Amax
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_maximum
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_maximum
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -331,8 +188,8 @@ traits:
     typically 1-2 min after a stable Ca setpoint had been achieved. Amax (and corresponding
     stomatal conductance) is recorded as the top step in the ACi curve.
 - var_in: gs_at_Amax
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Amax
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Amax
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -348,8 +205,8 @@ traits:
     typically 1-2 min after a stable Ca setpoint had been achieved. Amax (and corresponding
     stomatal conductance) is recorded as the top step in the ACi curve.
 - var_in: Photo (umol m-2 s-1)
-  unit_in: umolCO2/m2/s
-  trait_name: photosynthetic_rate_per_area_saturated
+  unit_in: umol{CO2}/m2/s
+  trait_name: leaf_photosynthetic_rate_per_area_saturated
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -371,8 +228,8 @@ traits:
     of the response of photosynthesis (A) to intercellular [CO2] (Ci) and irradiance
     (Q).
 - var_in: Cond (mol m-2 s-1)
-  unit_in: molH2O/m2/s
-  trait_name: stomatal_conductance_per_area_at_Asat
+  unit_in: mol{H2O}/m2/s
+  trait_name: leaf_stomatal_conductance_per_area_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -394,8 +251,8 @@ traits:
     of the response of photosynthesis (A) to intercellular [CO2] (Ci) and irradiance
     (Q).
 - var_in: Ci (umol mol-1)
-  unit_in: umolCO2/mol
-  trait_name: ci_at_Asat
+  unit_in: umol{CO2}/mol
+  trait_name: leaf_intercellular_CO2_concentration_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -417,8 +274,8 @@ traits:
     of the response of photosynthesis (A) to intercellular [CO2] (Ci) and irradiance
     (Q).
 - var_in: CiCa
-  unit_in: umolCO2 internal/umolCO2 ambient
-  trait_name: ci_over_ca
+  unit_in: umol{CO2_internal}/umol{CO2_ambient}
+  trait_name: leaf_intercellular_CO2_concentration_to_atmospheric_CO2_concentration_ratio
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -440,8 +297,8 @@ traits:
     of the response of photosynthesis (A) to intercellular [CO2] (Ci) and irradiance
     (Q).
 - var_in: Trmmol (mmol m-2 s-1)
-  unit_in: mmolH2O/m2/s
-  trait_name: leaf_transpiration_at_Asat
+  unit_in: mmol{H2O}/m2/s
+  trait_name: leaf_transpiration_per_area_at_Asat
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -475,7 +332,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: leaf_d15N
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta15N
   entity_type: individual
   value_type: raw
@@ -512,7 +369,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: leaf_d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: leaf_delta13C
   entity_type: individual
   value_type: raw
@@ -537,7 +394,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: stem_d15N
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: wood_delta15N
   entity_type: individual
   value_type: raw
@@ -574,7 +431,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: stem_d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: wood_delta13C
   entity_type: individual
   value_type: raw
@@ -599,7 +456,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: root_d15N
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: root_delta15N
   entity_type: individual
   value_type: raw
@@ -636,7 +493,7 @@ traits:
     Serveis Cientifico-Tecnics of the University of Barcelona (Barcelona, Spain) using
     an elemental analyser (EA1108, Series 1; Carbo Erba Instrumentazione).
 - var_in: root_d13C
-  unit_in: per mille
+  unit_in: '{delta}[ppth]'
   trait_name: root_delta13C
   entity_type: individual
   value_type: raw
@@ -650,7 +507,7 @@ traits:
     (Thermo-Finnigan, Dreieich, Germany).
 - var_in: LMA (g m-2)
   unit_in: g/m2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -708,7 +565,7 @@ traits:
     ImageJ (ImageJ 1.41, Wayne Rasband, National Institute of Health, USA).
 - var_in: abaxialEpiT (um)
   unit_in: um
-  trait_name: epidermis_thickness_lower_leaf_surface
+  trait_name: leaf_epidermis_thickness_abaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -729,7 +586,7 @@ traits:
     Health, USA).
 - var_in: adaxialEpiT (um)
   unit_in: um
-  trait_name: epidermis_thickness_upper_leaf_surface
+  trait_name: leaf_epidermis_thickness_adaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -749,8 +606,8 @@ traits:
     were determined using ImageJ (ImageJ 1.41, Wayne Rasband, National Institute of
     Health, USA).
 - var_in: abaxialEpiDen (mm-2)
-  unit_in: count/mm2
-  trait_name: epidermal_cell_density_abaxial
+  unit_in: '{count}/mm2'
+  trait_name: leaf_epidermal_cell_density_abaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -784,8 +641,8 @@ traits:
     by the equation S/[E+S] x 100. Where S = stomata per unit area and E = number
     of epidermal cells per unit area.
 - var_in: abaxialStomDen (mm-2)
-  unit_in: count/mm2
-  trait_name: stomatal_density_abaxial
+  unit_in: '{count}/mm2'
+  trait_name: leaf_stomatal_density_abaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -819,8 +676,8 @@ traits:
     by the equation S/[E+S] x 100. Where S = stomata per unit area and E = number
     of epidermal cells per unit area.
 - var_in: adaxialEpiDen (mm-2)
-  unit_in: count/mm2
-  trait_name: epidermal_cell_density_adaxial
+  unit_in: '{count}/mm2'
+  trait_name: leaf_epidermal_cell_density_adaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement
@@ -854,8 +711,8 @@ traits:
     by the equation S/[E+S] x 100. Where S = stomata per unit area and E = number
     of epidermal cells per unit area.
 - var_in: adaxialStomDen (mm-2)
-  unit_in: count/mm2
-  trait_name: stomatal_density_adaxial
+  unit_in: '{count}/mm2'
+  trait_name: leaf_stomatal_density_adaxial
   entity_type: individual
   value_type: raw
   basis_of_value: measurement

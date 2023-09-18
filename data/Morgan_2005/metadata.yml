@@ -25,14 +25,14 @@ dataset:
   custom_R_code: .na
   collection_date: 2005/2005
   taxon_name: species
-  site_name: site
+  location_name: site
   description: woody and root data from Huw Morgan
-  collection_type: field
-  sample_age_class: adult
+  basis_of_record: field
+  life_stage: adult
   sampling_strategy: unknown
   original_file: height_HUW_all.xls; Huw SRIetc.xls; Huw LS and WD
   notes: none
-sites:
+locations:
   mallee:
     precipitation, MAP (mm): low
     soil texture: coarse
@@ -69,7 +69,7 @@ traits:
   methods: took maximum of many values given in spreadsheet
 - var_in: LMA
   unit_in: g/m2
-  trait_name: specific_leaf_area
+  trait_name: leaf_mass_per_area
   entity_type: population
   value_type: mean
   basis_of_value: measurement
@@ -141,28 +141,37 @@ substitutions: .na
 taxonomic_updates:
 - find: Dodonea triquetra
   replace: Dodonaea triquetra
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Dodonea viscosa
   replace: Dodonaea viscosa
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Dodonea viscosa subsp. angustissima
   replace: Dodonaea viscosa subsp. angustissima
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Dodonea viscosa subsp. cuneata
   replace: Dodonaea viscosa subsp. cuneata
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Dodonea viscosa subsp. spatulata
   replace: Dodonaea viscosa subsp. spatulata
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
-- find: Senna artemisiodes
-  replace: Senna artemisioides
-  reason: Change spelling to align with known name in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Subspecies
 - find: Eremophila desertorum
   replace: Eremophila deserti
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_10_fuzzy. Imprecise fuzzy alignment with accepted canonical name in
+    APC (2022-11-10)
+  taxonomic_resolution: Species
 - find: Glochidion ferdidi
   replace: Glochidion ferdinandi
-  reason: Change spelling to align with known species in APC (Daniel Falster, 2020.05.22)
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
+- find: Senna artemisiodes
+  replace: Senna artemisioides
+  reason: match_07_fuzzy. Fuzzy alignment with accepted canonical name in APC (2022-11-10)
+  taxonomic_resolution: Species
 exclude_observations: .na
 questions:
   additional_traits: additional root measurements, including ratio of steep to shallow
