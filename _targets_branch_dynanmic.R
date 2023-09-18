@@ -11,7 +11,7 @@ tar_config_set(
 
 # Set target options:
 tar_option_set(
-  packages = c("austraits.build"), # packages that your targets need to run
+  packages = c("traits.build"), # packages that your targets need to run
   format = "rds" # default storage format
   # Set other options as needed.
 )

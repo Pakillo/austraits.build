@@ -7,8 +7,13 @@ library(targets)
 library(tarchetypes)
 library(rlang)
 
+library(crew)
+tar_option_set(
+  controller = crew_controller_local(workers = 10)
+)
+
 #library(dplyr)
-options(clustermq.scheduler = "multicore")
+#options(clustermq.scheduler = "multicore")
 
 tar_config_set(
   reporter_make = "summary"
@@ -16,7 +21,7 @@ tar_config_set(
 
 # Set target options:
 tar_option_set(
-  packages = c("austraits.build"), # packages that your targets need to run
+  packages = c("traits.build"), # packages that your targets need to run
   format = "rds" # default storage format
   # Set other options as needed.
 )
@@ -26,42 +31,53 @@ valid_datasets <- function(dataset_ids = dir("data")) {
   dataset_ids[i]
 }
 
-dataset_ids <- valid_datasets()[1:5]
+dataset_ids <- valid_datasets()
 
 file_metadata_symbol <- rlang::syms(sprintf("file_metadata_%s", dataset_ids))
 file_data_symbol <- rlang::syms(sprintf("file_data_%s", dataset_ids))
 config_symbol <- rlang::syms(sprintf("config_%s", dataset_ids))
-data_symbol <- rlang::syms(dataset_ids)
+data_symbol <- rlang::syms(sprintf("data_%s", dataset_ids))
+build_symbol <- rlang::syms(dataset_ids)
 
 list(
-  tar_target(file_DESCRIPTION, "DESCRIPTION", format = "file"),
-  tar_target(version_number, desc_get_version(file_DESCRIPTION)),
-  tar_target(git_SHA, get_SHA()),
+  tar_target(file_DESCRIPTION, "config/metadata.yml", format = "file"),
+  tar_target(version_number, util_get_version(file_DESCRIPTION)),
+  tar_target(git_SHA, util_get_SHA()),
   tar_target(file_traits, "config/traits.yml", format = "file"),
-  tar_target(definitions, load_schema(file_traits, "traits")),
+  tar_target(definitions, get_schema(file_traits, "traits")),
   tar_target(file_unit_conversions, "config/unit_conversions.csv", format = "file"),
-  tar_target(unit_conversions, make_unit_conversion_functions(file_unit_conversions)),
-  tar_target(schema, load_schema()),
+  tar_target(unit_conversions, get_unit_conversions(file_unit_conversions)),
+  tar_target(schema, get_schema()),
   tar_target(file_taxon, "config/taxon_list.csv", format = "file"),
   tar_target(taxon_list, read_csv_char(file_taxon)),
-  
+  tar_target(file_resource_metadata, "config/metadata.yml", format = "file"),
+  tar_target(resource_metadata, get_schema(file_resource_metadata, "metadata")),
+ 
+  # file targets
   tar_eval(
     tar_target(symbol, filename, format = "file"),
     values = list(symbol = file_metadata_symbol, filename = sprintf("data/%s/metadata.yml", dataset_ids))
   ),
-
   tar_eval(
     tar_target(symbol, filename, format = "file"),
     values = list(symbol = file_data_symbol, filename = sprintf("data/%s/data.csv", dataset_ids))
   ), 
 
+  # configure
   tar_eval(
-    tar_target(symbol, subset_config(filename,  definitions,  unit_conversions)),
+    tar_target(symbol, dataset_configure(filename,  definitions,  unit_conversions)),
     values = list(symbol = config_symbol, filename = file_metadata_symbol)
   ), 
 
+  # process
   tar_eval(
-    tar_target(symbol, load_dataset(filename, config, schema)),
+    tar_target(symbol, dataset_process(filename, config, schema, resource_metadata)),
     values = list(symbol = data_symbol, filename = file_data_symbol, config = config_symbol)
+  ),
+
+  # update taxonomy
+  tar_eval(
+    tar_target(symbol, build_update_taxonomy(data, taxon_list)),
+    values = list(symbol = build_symbol, data = data_symbol)
   )
 )
