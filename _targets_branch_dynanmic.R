@@ -2,12 +2,12 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-#library(dplyr)
-options(clustermq.scheduler = "multicore")
+# library(dplyr)
+# options(clustermq.scheduler = "multicore")
 
 tar_config_set(
   reporter_make = "summary"
-  )
+)
 
 # Set target options:
 tar_option_set(
@@ -16,45 +16,49 @@ tar_option_set(
   # Set other options as needed.
 )
 valid_datasets <- function(dataset_ids = dir("data")) {
-  
-  i <- purrr::map_lgl(dataset_ids, ~all(file.exists(sprintf("%s/%s/%s", "data", .x, c("data.csv", "metadata.yml")))))
+  i <- purrr::map_lgl(dataset_ids, ~ all(file.exists(sprintf("%s/%s/%s", "data", .x, c("data.csv", "metadata.yml")))))
   dataset_ids[i]
 }
 
+dataset_ids <- valid_datasets()
+
 list(
-  tar_target(schema, load_schema()),
-  tar_target(file_DESCRIPTION, "DESCRIPTION", format = "file"),
-  tar_target(version_number, desc_get_version(file_DESCRIPTION)),
-  tar_target(git_SHA, get_SHA()),
+  tar_target(schema, get_schema()),
+  tar_target(file_DESCRIPTION, "config/metadata.yml", format = "file"),
+  tar_target(version_number, util_get_version(file_DESCRIPTION)),
+  tar_target(git_SHA, util_get_SHA()),
   tar_target(file_traits, "config/traits.yml", format = "file"),
-  tar_target(definitions, load_schema(file_traits, "traits")),
+  tar_target(definitions, get_schema(file_traits, "traits")),
   tar_target(file_unit_conversions, "config/unit_conversions.csv", format = "file"),
-  tar_target(unit_conversions, make_unit_conversion_functions(file_unit_conversions)),
+  tar_target(unit_conversions, get_unit_conversions(file_unit_conversions)),
+  tar_target(schema, get_schema()),
   tar_target(file_taxon, "config/taxon_list.csv", format = "file"),
   tar_target(taxon_list, read_csv_char(file_taxon)),
-
-  tar_target(dataset_id, valid_datasets()),
   tar_target(
-    file_meta,
+    file_metadata,
     sprintf("data/%s/metadata.yml", dataset_id),
-    format= "file",
+    format = "file",
     pattern = map(dataset_id)
   ),
   tar_target(
     file_data,
     sprintf("data/%s/data.csv", dataset_id),
-    format= "file",
+    format = "file",
     pattern = map(dataset_id)
   ),
   tar_target(
     config,
-    subset_config(file_meta, definitions, unit_conversions),
-    pattern = map(file_meta)
+    dataset_configure(file_metadata, definitions, unit_conversions),
+    pattern = map(file_metadata)
   ),
   tar_target(
     data,
-    load_dataset(file_data, config, schema),
+    dataset_process(file_data, config, schema, resource_metadata),
     pattern = map(file_data, config)
+  ),
+  tar_target(
+    data,
+    build_update_taxonomy(data, taxon_list),
+    pattern = map(data)
   )
 )
-
