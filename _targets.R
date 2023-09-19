@@ -12,12 +12,12 @@ tar_option_set(
   controller = crew_controller_local(workers = 10)
 )
 
-#library(dplyr)
-#options(clustermq.scheduler = "multicore")
+# library(dplyr)
+# options(clustermq.scheduler = "multicore")
 
 tar_config_set(
   reporter_make = "summary"
-  )
+)
 
 # Set target options:
 tar_option_set(
@@ -26,18 +26,19 @@ tar_option_set(
   # Set other options as needed.
 )
 valid_datasets <- function(dataset_ids = dir("data")) {
-  
-  i <- purrr::map_lgl(dataset_ids, ~all(file.exists(sprintf("%s/%s/%s", "data", .x, c("data.csv", "metadata.yml")))))
+  i <- purrr::map_lgl(dataset_ids, ~ all(file.exists(sprintf("%s/%s/%s", "data", .x, c("data.csv", "metadata.yml")))))
   dataset_ids[i]
 }
 
 dataset_ids <- valid_datasets()
 
-file_metadata_symbol <- rlang::syms(sprintf("file_metadata_%s", dataset_ids))
-file_data_symbol <- rlang::syms(sprintf("file_data_%s", dataset_ids))
-config_symbol <- rlang::syms(sprintf("config_%s", dataset_ids))
-data_symbol <- rlang::syms(sprintf("data_%s", dataset_ids))
-build_symbol <- rlang::syms(dataset_ids)
+file_metadata <- rlang::syms(sprintf("file_metadata_%s", dataset_ids))
+file_data <- rlang::syms(sprintf("file_data_%s", dataset_ids))
+config <- rlang::syms(sprintf("config_%s", dataset_ids))
+data <- rlang::syms(sprintf("data_%s", dataset_ids))
+build <- rlang::syms(dataset_ids)
+
+f <- function(..., d = list(...)) {d}
 
 list(
   tar_target(file_DESCRIPTION, "config/metadata.yml", format = "file"),
@@ -52,32 +53,59 @@ list(
   tar_target(taxon_list, read_csv_char(file_taxon)),
   tar_target(file_resource_metadata, "config/metadata.yml", format = "file"),
   tar_target(resource_metadata, get_schema(file_resource_metadata, "metadata")),
- 
+
   # file targets
   tar_eval(
-    tar_target(symbol, filename, format = "file"),
-    values = list(symbol = file_metadata_symbol, filename = sprintf("data/%s/metadata.yml", dataset_ids))
+    tar_target(file_metadata, filename, format = "file"),
+    values = list(file_metadata = file_metadata, filename = sprintf("data/%s/metadata.yml", dataset_ids))
   ),
   tar_eval(
-    tar_target(symbol, filename, format = "file"),
-    values = list(symbol = file_data_symbol, filename = sprintf("data/%s/data.csv", dataset_ids))
-  ), 
+    tar_target(file_data, filename, format = "file"),
+    values = list(file_data = file_data, filename = sprintf("data/%s/data.csv", dataset_ids))
+  ),
 
   # configure
   tar_eval(
-    tar_target(symbol, dataset_configure(filename,  definitions,  unit_conversions)),
-    values = list(symbol = config_symbol, filename = file_metadata_symbol)
-  ), 
+    tar_target(config, dataset_configure(filename, definitions, unit_conversions)),
+    values = list(config = config, filename = file_metadata)
+  ),
 
   # process
   tar_eval(
-    tar_target(symbol, dataset_process(filename, config, schema, resource_metadata)),
-    values = list(symbol = data_symbol, filename = file_data_symbol, config = config_symbol)
+    tar_target(data, dataset_process(filename, config, schema, resource_metadata)),
+    values = list(data = data, filename = file_data, config = config)
   ),
 
   # update taxonomy
   tar_eval(
-    tar_target(symbol, build_update_taxonomy(data, taxon_list)),
-    values = list(symbol = build_symbol, data = data_symbol)
-  )
+    tar_target(build, build_update_taxonomy(data, taxon_list)),
+    values = list(build = build, data = data)
+  ),
+  tar_target(combine, build_combine(d = list(Falster_2005_1, Falster_2005_2))) # works
+#  tar_target(combine, build_combine(Falster_2005_1, Falster_2005_2)) # works
+#  tar_target(combine, build_combine(!!!build)) # fails - segfault
+#   tar_target(combine, build_combine(d = !!build)) # fails - segfault
+
+  #tar_target(combine3, build_combine(d = !!build))
+  #tar_target(combine, f(!!!build)),
+  # tar_combine(                                  # fails -- can't find targets Falster_2005_1
+  #      austraits_raw,
+  #      Falster_2005_1,
+  #      Falster_2005_2,
+  #      command = build_combine(!!!.x)
+  #  )#,
+  # #tar_target(combine, purrr::map(build, ~!!!.x))
 )
+
+
+# x <- purrr::map(dataset_ids, ~ targets::tar_read_raw(glue::glue("{.x}")))
+
+# # join
+# tar_eval(
+#   tar_combine(
+#     austraits_raw,
+#     symbol,
+#     command = build_combine(d = !!!.x)
+#   ),
+#   values = list(symbol = build_symbol)
+# )
